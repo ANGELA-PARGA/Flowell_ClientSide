@@ -36,10 +36,16 @@ export default function AddPhoneForm({resourceType}) {
         router.push("/account/profile/contact_inf");
     };
 
+    const onCancel = async () => {      
+        reset()
+        router.push("/account/profile/contact_inf");    
+    };
+
 
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
+            <h2>Add new contact information</h2>
             <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('phone')} type="text" name="phone" id="phone" placeholder='phone number' onBlur={() => {
@@ -49,7 +55,8 @@ export default function AddPhoneForm({resourceType}) {
                         <p className={styles.error_updating_info}>{errors.phone?.message}</p>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button}>Update</button>
+                        <button type="submit" className={styles.update_button}>Add</button>
+                        <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        
             </div>

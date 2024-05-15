@@ -38,10 +38,16 @@ export default function AddPaymentForm({resourceType}) {
         router.push("/account/profile/payment_inf");
     };
 
+    const onCancel = async () => {      
+        reset()
+        router.push("/account/profile/payment_inf");
+    };
+
 
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
+            <h2>Add new credit card information</h2>
             <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('credit_card')} type="text" name="credit_card" id="credit_card" placeholder='credit card number' onBlur={() => {
@@ -66,6 +72,7 @@ export default function AddPaymentForm({resourceType}) {
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button}>Update</button>
+                        <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        
             </div>

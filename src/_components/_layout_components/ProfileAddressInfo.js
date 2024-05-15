@@ -3,19 +3,32 @@
 import styles from './components.module.css'
 import Link from 'next/link';
 import AddAddressForm from './AddAddressForm';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { deletePersonalInfo } from '@/_utilities/userRequests';
 
 
 export default function ProfileAddressInfo({userData, resourceType}) {
-    const [showForm, setShowForm] = useState(false);
+    const searchParams = useSearchParams();
+    const add = searchParams.get('add') === 'true';
+
+    const onDelete = async (resourceId, event) => {
+        event.preventDefault();
+        try {
+            await deletePersonalInfo(resourceType, resourceId);
+        } catch (error) {
+            console.log(error)
+            setupdateError(error.message)
+        }             
+    };
     
     return (
         <>
+        { !add ? 
         <section className={styles.profile_info_container}>
             <div className={styles.profile_info_subcontainer}>
                 <h3>Addresses</h3>
                 <div className={styles.profile_addresses_subcontainer}>
-                    {userData.user.addresses.length > 0 ? (
+                    {userData.user.addresses && userData.user.addresses.length > 0 ? (
                         <ul className={styles.subcontainer_info_details}>
                             {userData.user.addresses.map((address) => (
                                 <li key={address.addressID} className={styles.profile_info_details_container}>
@@ -27,7 +40,7 @@ export default function ProfileAddressInfo({userData, resourceType}) {
                                     </div>
                                     <div className={styles.profile_info_edition_buttons}>
                                         <Link href={`/account/profile/address_inf/${address.addressID}`}><button>edit address</button></Link>
-                                        <button>delete address</button>
+                                        <button onClick={(event)=> onDelete(address.addressID, event)}>delete address</button>
                                     </div>
                                 </li>
                             ))}
@@ -35,23 +48,17 @@ export default function ProfileAddressInfo({userData, resourceType}) {
                     ) : (
                         <p className={styles.notUserInfoMessage}>You don't have any addresses, please add an address</p>
                     )}
-                    { !showForm ? 
-                        <div>
-                            <button onClick={() => setShowForm(true)}>Add address</button>
-                        </div> : <></>
-                    }
+                    <div>
+                        <Link href={`/account/profile/address_inf?add=true`}><button >Add address</button></Link>
+                    </div>
                 </div>
             </div>
-            { showForm ? 
-            <div>
-                <AddAddressForm resourceType={resourceType}/>
-                <div>
-                    <button onClick={() => setShowForm(false)}>Cancel</button>
-                </div> 
-            </div>                     
-            : <></>
-            }
-        </section>
+        </section>        
+        :
+        <div>
+            <AddAddressForm resourceType={resourceType}/>
+        </div>
+        }
         </>
     );        
 }

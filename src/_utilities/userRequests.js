@@ -2,6 +2,7 @@
 require('dotenv').config({ path: 'api.env' });
 
 import { cookies } from "next/headers"
+import { revalidatePath } from 'next/cache'
 
 export async function fetchAllUserInfo(){
     try {
@@ -50,6 +51,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         } 
 
         const responseObject = await response.json()
+        revalidatePath(`/account/profile/${resourceType}`, "page")
         return responseObject;
         
     } catch (error) {
@@ -114,19 +116,18 @@ export async function addNewPersonalInfo(newdata, resourceType){
         } 
 
         const responseObject = await response.json()
+        revalidatePath(`/account/profile/${resourceType}`, "page")
         return responseObject;
         
     } catch (error) {
         console.error('Network error adding personal info:', error);
         return null        
     }
-
 }
 
 
 export async function deletePersonalInfo(resourceType,resourceId){
     try {
-        console.log('calling deletePersonalInfo fetch:')
         const allCookies = cookies();
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
@@ -142,9 +143,8 @@ export async function deletePersonalInfo(resourceType,resourceId){
             console.log(`deleteing personal user info failed`);
         } 
 
-        const responseObject = await response.json()
-        return responseObject;
-        
+        revalidatePath(`/account/profile/${resourceType}`, "page")
+    
     } catch (error) {
         console.error('Network error deleting personal info:', error);
         return null        

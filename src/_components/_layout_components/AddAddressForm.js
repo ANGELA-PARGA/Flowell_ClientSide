@@ -41,10 +41,16 @@ export default function AddAddressForm({resourceType}) {
         router.push("/account/profile/address_inf");
     };
 
+    const onCancel = async () => {      
+        reset()
+        router.push("/account/profile/address_inf");
+    };
+
 
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
+                <h2>Add new address information</h2>
                 <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('address')} type="text" name="address" id="address" placeholder='address' onBlur={() => {
@@ -76,6 +82,7 @@ export default function AddAddressForm({resourceType}) {
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button}>Add</button>
+                        <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        
             </div>

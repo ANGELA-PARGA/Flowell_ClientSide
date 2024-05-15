@@ -18,7 +18,7 @@ const MenuAuthCart = ({_cartItems}) => {
                 <div className={styles.dropdown_menu_unauthenticated_options}>
                     <p>Your cart is empty</p>
                     <div>
-                        <Link href='/account/cart'><button className={styles.button_sign_in} disabled>View cart</button></Link>
+                        <Link href='/account/cart'><button className={styles.button_sign_in}>View cart</button></Link>
                     </div>
                 </div>   
             </div>
