@@ -1,0 +1,13 @@
+.banner{
+    margin-top: 73px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media screen and (max-width: 692px) {
+    .banner_flower_care{
+        width: 100%;        
+    }
+}
+

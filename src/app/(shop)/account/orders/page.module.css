@@ -1,0 +1,7 @@
+.orders_container{
+    display: flex;
+    gap: 1rem;
+}
+.notUserOrdersMessage{
+    color: #424242;
+}

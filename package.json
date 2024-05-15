@@ -1,0 +1,29 @@
+{
+  "name": "flowell-client-side",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "dotenv": "^16.4.5",
+    "embla-carousel-autoplay": "^8.0.2",
+    "embla-carousel-class-names": "^8.0.2",
+    "embla-carousel-react": "^8.0.2",
+    "express": "^4.19.2",
+    "next": "^14.2.2",
+    "next-auth": "^4.24.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.3",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.2"
+  }
+}
