@@ -1,4 +1,5 @@
 'use server'
+require('dotenv').config({ path: 'api.env' });
 
 import { cookies } from "next/headers"
 
@@ -8,7 +9,7 @@ export async function fetchAllUserInfo(){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch('http://localhost:8000/api/profile', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`, {
             headers : {cookie: cookieForServer}
         })
 
@@ -33,7 +34,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch(`http://localhost:8000/api/profile/${resourceType}/${resourceId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'PATCH',
             body: JSON.stringify({
                 ...data
@@ -64,7 +65,7 @@ export async function updatePassword(password){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch('http://localhost:8000/api/profile/mine', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/mine`, {
             method: 'PATCH',
             body: JSON.stringify({
                 ...password
@@ -97,7 +98,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch(`http://localhost:8000/api/profile/${resourceType}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}`, {
             method: 'POST',
             body: JSON.stringify({
                 ...newdata
@@ -130,7 +131,7 @@ export async function deletePersonalInfo(resourceType,resourceId){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch(`http://localhost:8000/api/profile/${resourceType}/${resourceId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'DELETE',
             headers : {
                 cookie: cookieForServer

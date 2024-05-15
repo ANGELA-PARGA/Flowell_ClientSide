@@ -1,12 +1,12 @@
 // pages/api/logout.js
 'use server'
+require('dotenv').config({ path: 'api.env' });
 
 import { cookies } from "next/headers"
 import { redirect } from 'next/navigation'
 
 export default async function handleLogOut() {
-    console.log('calling logout handler')  
-
+    console.log('calling logout handler')
         try {
             const allCookies = cookies();
             console.log('cookies in handler', allCookies)
@@ -15,7 +15,7 @@ export default async function handleLogOut() {
             const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
             console.log('cookie for server', cookieForServer)
 
-            const response = await fetch('http://localhost:8000/api/auth/logout', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
                 method: 'POST',
                 headers: {
                     cookie: cookieForServer 
@@ -26,7 +26,6 @@ export default async function handleLogOut() {
                 const responsefailed = response.json()  
                 console.log('bad response', response.status, response.text, response.statusText)
                 console.log(`log out failed on server failed`, responsefailed);
-                return 
             } 
 
             const responseObject = await response.json()
@@ -35,7 +34,7 @@ export default async function handleLogOut() {
             
         } catch (error) {
             console.error('Network error:', error);
-            return
+            return null
         }
     console.log('DONE LOG OUT FROM SERVER!') 
     redirect('/');

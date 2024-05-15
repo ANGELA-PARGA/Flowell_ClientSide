@@ -1,3 +1,6 @@
+'use server'
+require('dotenv').config({ path: 'api.env' });
+
 import { cookies } from "next/headers"
 
 export async function fetchAllOrdersByUser(){
@@ -6,12 +9,11 @@ export async function fetchAllOrdersByUser(){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch('http://localhost:8000/api/orders', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
             headers : {cookie: cookieForServer}
         })
         if (!response.ok) {        
             console.log(`fetch failed: ${response}`);
-            return null
         } 
 
         const responseObject = await response.json()
@@ -29,12 +31,11 @@ export async function fetchOrdersById(id){
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
 
-        const response = await fetch(`http://localhost:8000/api/orders/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders/${id}`, {
             headers : {cookie: cookieForServer}
         })
         if (!response.ok) {        
             console.log(`fetch failed: ${response}`);
-            return null
         } 
 
         const responseObject = await response.json()
