@@ -2,7 +2,7 @@
 
 import styles from './components.module.css'
 import Link from 'next/link';
-import AddAddressForm from './AddAddressForm';
+import AddAddressForm from './information_forms/AddAddressForm';
 import { useSearchParams } from 'next/navigation';
 import { deletePersonalInfo } from '@/_utilities/userRequests';
 

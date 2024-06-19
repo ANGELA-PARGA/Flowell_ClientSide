@@ -1,8 +1,6 @@
-'use client'
-
 import styles from './components.module.css'
 import Image from 'next/image';
-import image1 from '../../../public/banner_care_flowers.png'
+import image1 from '../../../../public/banner_care_flowers.png'
 import Link from 'next/link';
 
 export default function BannerInformative() {

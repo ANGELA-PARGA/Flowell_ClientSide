@@ -1,48 +1,64 @@
-import UpdateAddressInfo from '@/_components/_layout_components/UpdateAddressInfo';
-import UpdateProfileInfo from '@/_components/_layout_components/UpdateProfileInfo';
-import UpdatePhoneInfo from '@/_components/_layout_components/UpdatePhoneInfo';
-import UpdateCreditInfo from '@/_components/_layout_components/UpdateCreditInfo';
+import UpdateAddressInfo from '@/_components/_layout_components/information_forms/UpdateAddressInfo';
+import UpdateProfileInfo from '@/_components/_layout_components/information_forms/UpdateProfileInfo';
+import UpdatePhoneInfo from '@/_components/_layout_components/information_forms/UpdatePhoneInfo';
+import UpdateCreditInfo from '@/_components/_layout_components/information_forms/UpdateCreditInfo';
 
 import { fetchAllUserInfo } from '@/_utilities/userRequests';
 
-export default async function FormToUpdatePersonalInfo({params}) {
-    const data = await fetchAllUserInfo()   
-
-    if(params.resourceType === 'personal_inf') {
-        const firstName = data.user.first_name;
-        const lastName = data.user.last_name;
-        return (
-            <>
-            <UpdateProfileInfo resourceType={params.resourceType} resourceId={params.resourceId} name={{firstName, lastName}}/>
-            </>
-        );
+export default async function FormToUpdatePersonalInfo({ params }) {
+    let data;
+    try {
+        data = await fetchAllUserInfo();
+    } catch (error) {
+        console.error("Failed to fetch user info:", error);
+        return <div>Error loading profile information.</div>;
     }
 
-    if(params.resourceType === 'address_inf') {
-        const addressToUpdate = data.user.addresses.filter((address) => address.addressID === parseInt(params.resourceId))
-        return (
-            <>
-            <UpdateAddressInfo resourceType={params.resourceType} resourceId={params.resourceId} address={addressToUpdate}/>
-            </>
-        );
-    }
+    const components = {
+        personal_inf: UpdateProfileInfo,
+        address_inf: UpdateAddressInfo,
+        contact_inf: UpdatePhoneInfo,
+        payment_inf: UpdateCreditInfo,
+    };
 
-    if(params.resourceType === 'contact_inf') {
-        const phoneToUpdate = data.user.phones.filter((phone) => phone.phoneID === parseInt(params.resourceId))
-        return (
-            <>
-            <UpdatePhoneInfo resourceType={params.resourceType} resourceId={params.resourceId} phone={phoneToUpdate}/>
-            </>
-        );
-    }
+    const propsForComponent = {
+        personal_inf: {
+            resourceType: params.resourceType,
+            resourceId: params.resourceId,
+            name: {
+                firstName: data.user.first_name,
+                lastName: data.user.last_name,
+            },
+        },
+        address_inf: {
+            resourceType: params.resourceType,
+            resourceId: params.resourceId,
+            address: (data.user.addresses || []).filter(
+                (address) => address.addressID === parseInt(params.resourceId)
+            ),
+        },
+        contact_inf: {
+            resourceType: params.resourceType,
+            resourceId: params.resourceId,
+            phone: (data.user.phones || []).filter(
+                (phone) => phone.phoneID === parseInt(params.resourceId)
+            ),
+        },
+        payment_inf: {
+            resourceType: params.resourceType,
+            resourceId: params.resourceId,
+            creditCard: (data.user.credit_cards || []).filter(
+                (creditc) => creditc.creditcardID === parseInt(params.resourceId)
+            ),
+        },
+    };
 
-    if(params.resourceType === 'payment_inf') {
-        const ccardToUpdate = data.user.credit_cards.filter((creditc) => creditc.creditcardID === parseInt(params.resourceId))
-        return (
-            <>
-            <UpdateCreditInfo resourceType={params.resourceType} resourceId={params.resourceId} creditCard={ccardToUpdate}/>
-            </>
-        );
+    const Component = components[params.resourceType];
+
+    if (Component) {
+        return <Component {...propsForComponent[params.resourceType]} />;
+    } else {
+        return <div>Invalid resource type.</div>;
     }
-            
 }
+

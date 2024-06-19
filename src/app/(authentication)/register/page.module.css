@@ -102,3 +102,9 @@
     background-color:#0f80bd;
 }
 
+@media (max-width: 400px) {
+    .signup_main_container{
+        width: 90vw;
+    }
+}
+

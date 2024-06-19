@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link';
-import styles from '../_layout_components/components.module.css'
+import styles from './components.module.css'
 
-const MenuAuthCart = ({_cartItems}) => {
+const MenuAuthCart = ({_cartItems= 5}) => {
     return (
         _cartItems> 0 ? 
             <div className={styles.dropdown_menu_authenticated}>

@@ -1,8 +1,7 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Navigation from "../_components/_layout_components/Navbar"
+import Navigation from "../_components/_layout_components/navigation_bar/Navigation"
 import SessionAuthProvider from "@/context/SessionAuthProvider";
-
 const monserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata = {
@@ -18,7 +17,7 @@ export default function RootLayout({ children }) {
           <header>
             <Navigation/>
           </header>
-          <div>{children}</div>
+          <main>{children}</main>
           <footer>          
           </footer>
         </SessionAuthProvider>       

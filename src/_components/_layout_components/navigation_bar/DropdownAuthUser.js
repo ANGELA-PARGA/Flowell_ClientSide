@@ -1,8 +1,8 @@
 import styles from './components.module.css'
-import ButtonLogOut from '../_elements/ButtonLogOut';
-import MenuAuthSignIn from '../_elements/MenuAuthSignIn';
-import MenuAuthCart from '../_elements/MenuAuthCart';
-import MenuAuthPhone from '../_elements/MenuAuthPhone';
+import ButtonLogOut from '../../_elements/ButtonLogOut';
+import MenuAuthSignIn from './MenuAuthSignIn';
+import MenuAuthCart from './MenuAuthCart';
+import MenuAuthPhone from './MenuAuthPhone';
 
 const DropdownAuthUser = ({linkActive, _cartItems}) => {
 

@@ -6,42 +6,26 @@ import ProfilePaymentInfo from "@/_components/_layout_components/ProfilePaymentI
 import { fetchAllUserInfo } from "@/_utilities/userRequests";
 
 export default async function Profile({params}) {    
-    const data = await fetchAllUserInfo()
-    console.log(data)
-
-    if(params.resourceType === 'personal_inf'){
-        return (
-            <>
-            <ProfilePersonalInfo userData={data} resourceType={params.resourceType}/>
-            </> 
-        );
-
+    let data;
+    try {
+        data = await fetchAllUserInfo();
+    } catch (error) {
+        console.error("Failed to fetch user info:", error);
+        return <div>Error loading profile information.</div>;
     }
 
-    if(params.resourceType === 'address_inf'){
-        return (
-            <>
-            <ProfileAddressInfo userData={data} resourceType={params.resourceType}/>
-            </> 
-        );
+    const components = {
+        personal_inf: ProfilePersonalInfo,
+        address_inf: ProfileAddressInfo,
+        contact_inf: ProfilePhoneInfo,
+        payment_inf: ProfilePaymentInfo,
+    };
 
-    }
+    const Component = components[params.resourceType];
 
-    if(params.resourceType === 'contact_inf'){
-        return (
-            <>
-            <ProfilePhoneInfo userData={data} resourceType={params.resourceType}/>
-            </> 
-        );
-
-    }
-
-    if(params.resourceType === 'payment_inf'){
-        return (
-            <>
-            <ProfilePaymentInfo userData={data} resourceType={params.resourceType}/>
-            </> 
-        );
-
+    if (Component) {
+        return <Component userData={data} resourceType={params.resourceType} />;
+    } else {
+        return <div>Invalid resource type.</div>;
     }
 }
