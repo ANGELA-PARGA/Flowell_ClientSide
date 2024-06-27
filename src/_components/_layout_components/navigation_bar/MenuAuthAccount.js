@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import styles from './components.module.css'
 
-const MenuAuthSignIn = () => {
+const MenuAuthAccount = () => {
     return (        
         <div className={styles.dropdown_menu_unauthenticated_options}>
             <ul>
                 <li className={styles.dropdown_menu_unauthenticated_options_list}>
-                    <Link href='/account/profile/personal_inf'>Account information</Link>
+                    <Link href='/account/profile/personal_inf'>Account</Link>
                 </li>
                 <li className={styles.dropdown_menu_unauthenticated_options_list}>
                     <Link href='/account/orders'>Orders</Link>
@@ -17,4 +17,4 @@ const MenuAuthSignIn = () => {
     );
 };
 
-export default MenuAuthSignIn;
+export default MenuAuthAccount;

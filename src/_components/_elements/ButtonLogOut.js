@@ -1,7 +1,7 @@
 'use client'
 
 import styles from '../_layout_components/navigation_bar/components.module.css'
-import handleLogOut from '@/_utilities/logout'
+import handleLogOut from '@/actions/logout'
 
 import { signOut } from "next-auth/react";
 

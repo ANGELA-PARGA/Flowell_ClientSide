@@ -4,7 +4,7 @@ import styles from './components.module.css'
 import Link from 'next/link';
 import AddAddressForm from './information_forms/AddAddressForm';
 import { useSearchParams } from 'next/navigation';
-import { deletePersonalInfo } from '@/_utilities/userRequests';
+import { deletePersonalInfo } from '@/actions/userRequests';
 
 
 export default function ProfileAddressInfo({userData, resourceType}) {

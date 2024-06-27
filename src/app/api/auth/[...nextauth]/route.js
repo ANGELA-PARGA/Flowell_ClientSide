@@ -1,6 +1,6 @@
+require('dotenv').config({ path: 'api.env' });
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-require('dotenv').config({ path: 'api.env' });
 import { cookies } from "next/headers";
 
 
@@ -13,6 +13,7 @@ const handler = NextAuth({
                 password: { label: "password", type: "password", placeholder: "**********"  },
             },
             async authorize(credentials) {
+                    try {
                         const response = await fetch(
                             `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
                             {
@@ -25,13 +26,11 @@ const handler = NextAuth({
                             }
                         );
                         if(!response.ok){
-                            console.log(response)
                             const parsedError = await response.json();
                             throw new Error(parsedError.error)
                             
                         }
                         if(response.ok){
-                            console.log('response ok')
                             const userRetrieved = await response.json();
                             
                             /*setting the cookie manually to the browser*/
@@ -61,11 +60,15 @@ const handler = NextAuth({
                                 id: userRetrieved.user.id,
                                 email: userRetrieved.user.email,
                                 username: `${userRetrieved.user.first_name} ${userRetrieved.user.last_name}`,
+                                cart_id: userRetrieved.user.cart_id
                             }  
                             console.log('user for session:', user)        
-                            return user
-                            
-                        }
+                            return user 
+                        }                            
+                    } catch (error) {
+                        console.error('Authorization error:', error);
+                        throw new Error(error);                        
+                    }
             },
         }),
     ],
@@ -74,8 +77,26 @@ const handler = NextAuth({
     },
     session: {
         jwt: true,
-        maxAge: 24 * 60 * 60 * 1000, 
-    }
+        maxAge: 24 * 60 * 60, 
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+                token.username = user.username;
+                token.cart_id = user.cart_id;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            session.user.id = token.id;
+            session.user.email = token.email;
+            session.user.username = token.username;
+            session.user.cart_id = token.cart_id;
+            return session;
+        }
+    },
 });
 
 export { handler as GET, handler as POST };

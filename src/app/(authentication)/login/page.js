@@ -7,12 +7,14 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { StoreContext } from "@/context";
 
 
 export default function Login() {
   const [loginError, setLoginError] = useState();
   const router = useRouter();
+  const { populateCartData } = useContext(StoreContext);
 
   const schema = yup.object({
     email: yup.string().email('Email format is not valid').required('The email is required'),
@@ -32,12 +34,12 @@ const onSubmit = async (data, e) => {
       password: data.password,
       redirect: false,
     });
-    console.log(responseNextAuth)
     if (responseNextAuth?.error) {
       setLoginError(responseNextAuth.error);
       return;
     }   
     reset()
+    await populateCartData();
     router.push("/");
   };
 
@@ -45,13 +47,14 @@ const onSubmit = async (data, e) => {
     <main className={styles.login_main_container}>
       <div className={styles.login_form_container}>
         <h2>Sign in to your account</h2>
-        <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>          
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>          
           <div>
             <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
                 trigger('email'); 
               }} />
-            <label htmlFor="email">Enter your email</label>
+            <label htmlFor="email">Enter your email</label> 
             <p className={styles.error_login_form}>{errors.email?.message}</p>
+            
           </div>
           <div>
             <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {

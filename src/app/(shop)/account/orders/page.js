@@ -1,5 +1,5 @@
 import OrderCard from "@/_components/_layout_components/OrderCard";
-import { fetchAllOrdersByUser } from "@/_utilities/ordersRequest"; 
+import { fetchAllOrdersByUser } from "@/actions/ordersRequest"; 
 import styles from './page.module.css'
 
 
@@ -16,7 +16,7 @@ export default async function Orders() {
             <OrderCard order={order} key={order.id}/>
           ))}
           </ul>
-          ):(<p className={styles.notUserOrdersMessage}>The user doesn't have any orders</p>)}          
+          ):(<p className={styles.notUserOrdersMessage}>You don't have any orders. Go ahead and place one!</p>)}          
     </section>
   )
 }

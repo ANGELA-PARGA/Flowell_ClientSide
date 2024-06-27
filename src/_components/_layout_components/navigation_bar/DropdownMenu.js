@@ -26,7 +26,7 @@ const categoryData = [
     { src: mini_image8, href: '/products/categories/8', alt: 'bouquet of purple alstroemerias', name: 'Alstroemerias' },
     { src: mini_image9, href: '/products/categories/9', alt: 'bouquet of white gerberas', name: 'Gerberas' },
     { src: mini_image10, href: '/products/categories/10', alt: 'bouquet of blue hydrangeas', name: 'Hydrangeas' },
-    { src: mini_image11, href: '/products', alt: 'bouquet of multiple kinds of flowers', name: 'See all products' }
+    { src: mini_image11, href: '/products', alt: 'bouquet of multiple kinds of flowers', name: 'All products' }
 ];
 
 const DropdownMenu = ({linkActive}) => {
@@ -38,7 +38,7 @@ const DropdownMenu = ({linkActive}) => {
                 <ul className={styles.dropdown_menu_category_list}>
                     {categoryData.map((category, index) => (
                         <li key={index}>
-                            <div className={styles.dropdown_menu_category_box}>
+                            <Link href={category.href} className={styles.dropdown_menu_category_box}>
                                 <Image
                                     src={category.src}
                                     width={60}
@@ -46,8 +46,8 @@ const DropdownMenu = ({linkActive}) => {
                                     style={{ borderRadius: '50%' }}
                                     alt={category.alt}
                                 />
-                                <Link href={category.href}>{category.name}</Link>
-                            </div>
+                                {category.name}
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -70,7 +70,7 @@ const DropdownMenu = ({linkActive}) => {
                     </li>
                     <li className={styles.dropdown_menu_flowell_list}>
                         <PlantIcon width={40} height={40} weight={2}/>
-                        <Link href='/floral-care'>How to care your product</Link>
+                        <Link href='/floral-care'>Handling flowers</Link>
                     </li>
                 </ul>
             </div>
@@ -91,7 +91,7 @@ const DropdownMenu = ({linkActive}) => {
                     </li>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <PlantIcon width={20} height={20} weight={2}/>
-                        <Link href='/floral-care'>How to care your product</Link>
+                        <Link href='/floral-care'>Handling your flowers</Link>
                     </li>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <LeafIcon width={20} height={20} weight={2}/>

@@ -3,25 +3,95 @@
 import styles from './components.module.css'
 import Image from 'next/image';
 import mini_image1 from '../../../public/mini_image1.jpeg'
+import { TrashIcon } from '../../../public/svgIcons';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from 'react-toastify';
+import { useState, useContext, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { addProductToCart } from '@/actions/productRequests';
+import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
+import { StoreContext } from '@/context';
 
-const ProductInfo = ({data}) => {
+const ProductInfo = ({data, id}) => {
+    const [updateError, setupdateError] = useState();
+    const [itemQty, setItemQty] = useState(false);
+    const { data: session } = useSession();
+    const { cartData, populateCartData, getProductQtyInCart } = useContext(StoreContext);
+    const productId = parseInt(id); 
+
+    useEffect(() => {
+        console.log('use effect #1');
+        if (session?.user?.email) {
+            const savedCartData = localStorage.getItem('cartData');
+            const parsedCartData = savedCartData ? JSON.parse(savedCartData) : null;
+            if (parsedCartData) {
+                setItemQty(getProductQtyInCart(parsedCartData, productId));
+            }
+        }
+    }, [session, productId, cartData]);
+
 
     const schema = yup.object().shape({
         qty: yup.number().required("Please select a quantity")
     });
     
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
     
     const onSubmit = async (data, e) => {
-        console.log(data);
         e.preventDefault()
         await schema.validate(data)
-        reset()
+        const productToAdd = {
+            ...data,
+            product_id:productId,
+        }
+        try {
+            await addProductToCart(productToAdd);
+            await populateCartData();
+            toast.success(`Added ${productToAdd.qty} cases to the cart`)
+        } catch (error) {
+            console.log(error)
+            setupdateError(error.message)
+            toast.error('Failed to add to cart')
+        }
+        
+    };
+
+    const handleUpdate = async (data, e) => {
+        e.preventDefault()
+        const productToUpdate = {
+            ...data,
+            product_id:productId,
+        }
+        console.log('handle update:', productToUpdate)
+        try {
+            await updateCartItem(productToUpdate);
+            await populateCartData();
+            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`)
+        } catch (error) {
+            console.log(error)
+            setupdateError(error.message)
+            toast.error('Failed to update item in cart')
+        }
+        
+    };
+
+    const handleDelete = async (e) => {
+        e.preventDefault()
+        console.log('handle delete:', productId)        
+        try {
+            await deleteCartItem(productId);
+            await populateCartData();
+            toast.success(`Deleted product to the cart`)
+        } catch (error) {
+            console.log(error)
+            setupdateError(error.message)
+            toast.error(`Failed to delete product in cart`)
+        }
+        
     };
     
 
@@ -76,7 +146,7 @@ const ProductInfo = ({data}) => {
             <div className={styles.product_info_container}>
                 <div className={styles.product_title_container}>
                     <h1>{data.product_found.name}</h1>
-                    <p id={styles.price_presentation}>${data.product_found.price_per_case}</p>
+                    <p id={styles.price_presentation}>${data.product_found.price_per_case.toFixed(2)}</p>
                     <p>{data.product_found.description}</p>
                 </div> 
                 <div className={styles.product_presentation_container}>
@@ -93,18 +163,35 @@ const ProductInfo = ({data}) => {
                         <li><h4>Blooms size:</h4> between {data.product_found.bloom_size_cm-0.5} and {data.product_found.bloom_size_cm+0.5} cm</li>
                     </ul>
                 </div>
-                <div className={styles.add_to_cart_container}>
-                    <form className={styles.add_to_cart_form} onSubmit={handleSubmit(onSubmit)}>
-                        <select {...register("qty")}>
+                {session?.user?.email ? 
+                    <div className={styles.add_to_cart_container}>
+                    {!itemQty ? 
+                        <form className={styles.add_to_cart_form} onSubmit={handleSubmit(onSubmit)}>                       
+                            <select {...register("qty")}>
                             {[...Array(30)].map((_, index) => (
                             <option key={index + 1} value={index + 1}>
                                 {index + 1}
                             </option>
                             ))}
-                        </select>
-                        {errors.quantity && <p>{errors.quantity.message}</p>}
-                        <button className={styles.add_to_cart_button} type="submit">Add to Cart</button>
-                    </form>
+                            </select>
+                            <button className={styles.add_to_cart_button} type="submit">Add to Cart</button>
+                            {errors.quantity && <p>{errors.quantity.message}</p>}
+                        </form> :
+                        <div className={styles.product_cart_buttons_container}>
+                            <div className={styles.product_cart_button_minicontainer}>
+                                {itemQty > 1 ? <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : itemQty-1}, e)}> - </button> : <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={16} height={16} weight={2}/></button>}
+                                <p>{itemQty}</p>
+                                <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : itemQty+1}, e)}> + </button>
+                            </div>
+                            <div>
+                                {itemQty === 1 ? <></>:<button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={16} height={16} weight={2}/></button>}
+                            </div>                                
+                        </div>
+                    }                    
+                    </div> : <button className={styles.add_to_cart_button} type="submit">Log in to buy</button>
+                }
+                <div>
+                    <p className={styles.error_updating_info}>{updateError}</p>
                 </div>                    
             </div>
         </div>

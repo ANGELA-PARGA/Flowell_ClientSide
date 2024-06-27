@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import { revalidatePath } from 'next/cache'
 
 export async function fetchAllUserInfo(){
+
     try {
         const allCookies = cookies();
         const connectSidCookie = allCookies.getAll('connect.sid');

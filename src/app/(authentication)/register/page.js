@@ -5,7 +5,7 @@ import styles from './page.module.css'
 import {useForm} from 'react-hook-form'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerUser } from "@/_utilities/registerUser";
+import { registerUser } from "@/actions/registerUser";
 
 export default function Singup() {  
   const schema = yup.object({

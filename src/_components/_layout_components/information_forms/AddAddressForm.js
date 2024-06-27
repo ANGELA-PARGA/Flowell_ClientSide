@@ -6,13 +6,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { addNewPersonalInfo } from '@/_utilities/userRequests';
+import { addNewPersonalInfo } from '@/actions/userRequests';
 
 
 export default function AddAddressForm({resourceType}) {
     const [updateError, setupdateError] = useState();
     const router = useRouter();
-    console.log('add form with url data', resourceType)
 
     const schema = yup.object({
         address: yup.string().required('The address is required'),
@@ -23,7 +22,7 @@ export default function AddAddressForm({resourceType}) {
         } ),
     })
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -51,7 +50,7 @@ export default function AddAddressForm({resourceType}) {
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
                 <h2>Add new address information</h2>
-                <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('address')} type="text" name="address" id="address" placeholder='address' onBlur={() => {
                             trigger('address'); 
@@ -81,7 +80,7 @@ export default function AddAddressForm({resourceType}) {
                         <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button}>Add</button>
+                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
                         <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        

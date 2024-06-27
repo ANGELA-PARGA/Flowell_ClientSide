@@ -4,7 +4,7 @@ import styles from './components.module.css'
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import AddPhoneForm from './information_forms/AddPhoneForm';
-import { deletePersonalInfo } from '@/_utilities/userRequests';
+import { deletePersonalInfo } from '@/actions/userRequests';
 
 export default function ProfilePhoneInfo({userData, resourceType}) {
     const searchParams = useSearchParams();

@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { addNewPersonalInfo } from '@/_utilities/userRequests';
+import { addNewPersonalInfo } from '@/actions/userRequests';
 
 
 export default function AddPaymentForm({resourceType}) {
@@ -20,7 +20,7 @@ export default function AddPaymentForm({resourceType}) {
         expiration_date: yup.date().required('The expiration date is required')
     })
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -71,7 +71,7 @@ export default function AddPaymentForm({resourceType}) {
                         <p className={styles.error_updating_info}>{errors.expiration_date?.message}</p>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button}>Update</button>
+                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
                         <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        

@@ -1,7 +1,8 @@
 import styles from './page.module.css'
 import ProductCard from '@/_components/_layout_components/ProductCard';
-import { fetchAllProducts } from '@/_utilities/productRequests';
-import { ChevronDown, LeafIcon } from '../../../../public/svgIcons';
+import { fetchAllProducts } from '@/actions/productRequests';
+import { ChevronDown } from '../../../../public/svgIcons';
+import { notFound } from 'next/navigation';
 
 export default async function AllProducts(){
     const data = await fetchAllProducts();
@@ -9,11 +10,7 @@ export default async function AllProducts(){
     return (
         <>
         { data.products_and_categories.length === 0 ? 
-            <div className={styles.category_empty_container}>
-                <p className={styles.category_empty_message}>{responseObject.error.message}</p>
-                <LeafIcon width={150} height={150} weight={2}/>
-                <p className={styles.category_empty_message}>Flowell</p>
-            </div> :
+            notFound() :
             <>
             <section className={styles.main_container}>
                 <h2>All Products <span>{data.products_and_categories[0].length} Results</span></h2>

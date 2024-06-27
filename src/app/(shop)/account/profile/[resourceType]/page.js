@@ -3,7 +3,7 @@ import ProfilePersonalInfo from "@/_components/_layout_components/ProfilePersona
 import ProfileAddressInfo from "@/_components/_layout_components/ProfileAddressInfo";
 import ProfilePhoneInfo from "@/_components/_layout_components/ProfilePhoneInfo";
 import ProfilePaymentInfo from "@/_components/_layout_components/ProfilePaymentInfo";
-import { fetchAllUserInfo } from "@/_utilities/userRequests";
+import { fetchAllUserInfo } from "@/actions/userRequests";
 
 export default async function Profile({params}) {    
     let data;

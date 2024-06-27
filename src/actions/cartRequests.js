@@ -28,9 +28,9 @@ export async function fetchCartInfoByUser(){
 }
 
 
-export async function updateCartItem({cart_id, product_id, qty}){
+export async function updateCartItem({product_id, qty}){
     try {
-        console.log('update cart item fetch:', {cart_id, product_id, qty})
+        console.log('update cart item fetch:', {product_id, qty})
         const allCookies = cookies();
         const connectSidCookie = allCookies.getAll('connect.sid');
         const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
@@ -38,7 +38,6 @@ export async function updateCartItem({cart_id, product_id, qty}){
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart`, {
             method: 'PATCH',
             body: JSON.stringify({
-                cart_id,
                 product_id,
                 qty
             }),
@@ -56,10 +55,36 @@ export async function updateCartItem({cart_id, product_id, qty}){
         revalidatePath(`/account/cart`, "page")
         return responseObject;        
     } catch (error) {
-        
+        console.error('Network error:', error);
+        return null         
     }
 }
 
-export async function deleteCartItem(){
 
+
+export async function deleteCartItem(id){
+    try {
+        console.log('delete cart item fetch:', id)
+        const allCookies = cookies();
+        const connectSidCookie = allCookies.getAll('connect.sid');
+        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/${id}`, {
+            method: 'DELETE',
+            headers : {
+                cookie: cookieForServer
+            }
+        })
+
+        if (!response.ok) {       
+            console.log(` delete item in cart fetch failed`);
+        } 
+
+        const responseObject = await response.json()
+        revalidatePath(`/account/cart`, "page")
+        return responseObject;        
+    } catch (error) {
+        console.error('Network error:', error);
+        return null         
+    }
 }

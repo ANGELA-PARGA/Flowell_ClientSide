@@ -1,15 +1,14 @@
 import styles from './components.module.css'
 import ButtonLogOut from '../../_elements/ButtonLogOut';
-import MenuAuthSignIn from './MenuAuthSignIn';
+import MenuAuthAccount from './MenuAuthAccount';
 import MenuAuthCart from './MenuAuthCart';
-import MenuAuthPhone from './MenuAuthPhone';
 
-const DropdownAuthUser = ({linkActive, _cartItems}) => {
+const DropdownAuthUser = ({linkActive}) => {
 
     if(linkActive === 'sign_in'){
         return (
             <div className={styles.dropdown_menu_authenticated}>
-                <MenuAuthSignIn/>
+                <MenuAuthAccount/>
                 <ButtonLogOut/>          
             </div>
         );
@@ -18,16 +17,7 @@ const DropdownAuthUser = ({linkActive, _cartItems}) => {
     if(linkActive === 'cart'){
         return (
             <div>
-                <MenuAuthCart _cartItems={_cartItems}/>                        
-            </div>
-        );
-    }
-
-    if(linkActive === 'auth'){
-        return (
-            <div className={`${styles.dropdown_menu_unauthenticated} ${styles.dropdown_menu_unauthenticated_phone}`}>
-                <MenuAuthPhone/>
-                <ButtonLogOut/>                 
+                <MenuAuthCart />                        
             </div>
         );
     }

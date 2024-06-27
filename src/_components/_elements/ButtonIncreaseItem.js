@@ -1,17 +1,14 @@
 'use client'
 
-import styles from '../_layout_components/components.module.css'
-import { updateCartItem } from '@/_utilities/cartRequests';
+import styles from '../_layout_components/navigation_bar/components.module.css'
 
-
-function onClickUpdateItem(){
-    console.log('calling onclick update item with')
-    updateCartItem({})
+function onClickIncrease(){
+    console.log('calling onclick increase item')
 }
 
 
-export default function ButtonLogOut(){
+export default function ButtonIncreaseItem(){
     return (
-        <button className={styles.button_sign_in} onClick={()=> onClickUpdateItem()}> + </button>
+        <button className={styles.button_sign_in} onClick={()=> onClickIncrease()}> + </button>
     )
 }

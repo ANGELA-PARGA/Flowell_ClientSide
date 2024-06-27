@@ -1,5 +1,7 @@
-import { fetchCartInfoByUser } from '@/_utilities/cartRequests'
+import { fetchCartInfoByUser } from '@/actions/cartRequests'
 import styles from './page.module.css'
+import ProductCartInfo from '@/_components/_layout_components/ProductCartInfo'
+
 
 export default async function Cart() {
   const response = await fetchCartInfoByUser()
@@ -9,36 +11,16 @@ export default async function Cart() {
   return (
     <section className={styles.cartContainer}>
       <h2>Cart</h2>
-      {data.items.length === 0 ? (
+      {!data.items[0].product_id ? (
         <p>There aren't products in your cart</p>
       ) : (
-        <table className={styles.cartTable}>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Quantity</th>
-              <th>Price Per Case</th>
-              <th>Subtotal</th>
-              <th>Edit Qty</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.items.map((item) => (
-              <tr key={item.product_id}>
-                <td>{item.name}</td>
-                <td>{item.qty}</td>
-                <td>${item.price_per_case.toFixed(2)}</td>
-                <td>${(item.qty * item.price_per_case).toFixed(2)}</td>
-                <td className={styles.table_button_container}>
-                  <button>+</button>
-                  <button>-</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div>
+          {data.items.map((item) => (
+            <ProductCartInfo data={item} id={item.product_id} key={item.product_id} />          
+        ))}
+        </div>
       )}
-      <p>Total: ${data.total.toFixed(2)}</p>
+      <h3>Total: ${data.total.toFixed(2)}</h3>
       <button className={styles.place_order_button}>Place Order</button>
     </section>
   );

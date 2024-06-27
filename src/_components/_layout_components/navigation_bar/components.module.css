@@ -1,4 +1,5 @@
 /*Small and Large screen navigation styles*/
+
 .navbar{
     position: fixed;
     top: 0;
@@ -9,7 +10,7 @@
     padding: 0 0.5rem;
 }
 .logo_container{
-    border-right: 2px solid rgb(255, 255, 255);
+    border-right: 1px solid rgb(255, 255, 255);
 }
 .navbar_options{
     gap: 1rem;
@@ -46,7 +47,7 @@
     transition: transform 0.8s;
 }
 
-.menu_button_li:hover #arrow_down svg  {
+.menu_button:hover #arrow_down svg  {
     transform: rotate(180deg); 
 }
 
@@ -54,9 +55,12 @@
     display: none;    
 }
 
+.searchBar_container{
+    flex-basis: 40%
+}
+
 .search_container{
     width: 100%;
-    flex-basis: 40%;
     display: flex;
     background-color: white;
     align-items: center;
@@ -85,32 +89,59 @@
 }
 
 /* menu dropdown styles */
-
-.dropdown_menu_display_show{
-    display: block;
-}
-
-.dropdown_menu{
-    background-color: rgb(245, 245, 245);
+.dropdown_menu, .search_dropdown_menu{
     position: absolute;
     top: 73px;
     left:80px;
+}
+
+.dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
+    position: absolute;
+    top: 73px;
+    right:5px;
+    gap: 0.5rem;
+}
+
+.dropdown_menu, .dropdown_menu_unauthenticated, .dropdown_menu_authenticated, .search_dropdown_menu{
+    background-color: rgb(245, 245, 245);
     z-index: 100;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     width: fit-content;
     height: fit-content;
     padding: 1rem;
     border-radius: 0.5rem;
+    box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
+    -webkit-box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
+    -moz-box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
 }
+
+.dropdown_menu_authenticated{
+    width: 250px;
+}
+
+.search_dropdown_menu{
+    width: 60vw;
+    left: 20vw;
+    right: 20vw;
+    align-items: self-start;
+}
+
+.searchResults{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
 
 .dropdown_menu_category_list{
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     grid-template-rows: repeat(3, auto); 
     gap: 1rem; 
-    padding: 1rem;   
 }
 
 .dropdown_menu_category_box{
@@ -120,9 +151,9 @@
     gap: 1rem; 
 }
 
-.dropdown_menu h3, .dropdown_menu_unauthenticated_options h3{
+.dropdown_menu h3{
     color: rgb(58, 57, 57);
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1rem;
     padding: 1rem 0;        
 }
@@ -131,8 +162,7 @@
 .dropdown_menu_phone_version_options a:hover,
 .dropdown_menu_flowell_list a:hover,
 .dropdown_menu_unauthenticated_options_list a:hover{
-    color: #2b2a2a;  
-    font-weight: 500;
+    color: #1b1b1b;
     text-decoration: underline;    
 }
 
@@ -149,31 +179,12 @@
 
 .dropdown_menu_phone_version_options a, 
 .dropdown_menu_category_list, 
-.dropdown_menu_unauthenticated_options a
+.dropdown_menu_unauthenticated_options a,
+.searchResults a
 {
     color: #646363;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     line-height: 1.5rem;         
-}
-
-.dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
-    background-color: rgb(245, 245, 245);
-    position: absolute;
-    top: 73px;
-    right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    width: fit-content;
-    max-width: 320px;
-    height: fit-content;
-    padding: 1rem;
-    border-radius: 0.5rem;    
-}
-
-.dropdown_menu_authenticated{
-    width: 250px;
 }
 
 .dropdown_menu_unauthenticated_phone{
@@ -215,6 +226,10 @@
     background-color:#0f80bd;
 }
 
+.itemNumber{
+    font-size: 0.8rem;
+}
+
 @media screen and (max-width: 790px) {    
     .menu_button_secondary{
         height: 100%;
@@ -231,19 +246,19 @@
         display: flex;
         justify-content: space-between;
     }
-    .dropdown_menu{      
+    .dropdown_menu, .search_dropdown_menu{      
         left: 0;
         width: 100%;
+        align-items: flex-start;
     }
     .dropdown_menu_unauthenticated{
         right: 0;
         z-index: 100;
         display: flex;
         flex-direction: column;
-        align-items: center;   
+        align-items: center;
+        width: 50vw;   
     }  
 }
 
-
-/**/
 

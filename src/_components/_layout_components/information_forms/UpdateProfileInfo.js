@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { updatePersonalInfo } from '@/_utilities/userRequests';
+import { updatePersonalInfo } from '@/actions/userRequests';
 
 
 export default function UpdateProfileInfo({resourceType, resourceId, name}) {
@@ -18,7 +18,7 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
         last_name: yup.string().required('The last name is required'),
     })
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -60,7 +60,7 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
                         <p className={styles.error_updating_info}>{errors.last_name?.message}</p>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button}>Update</button>
+                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Update</button>
                         <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        

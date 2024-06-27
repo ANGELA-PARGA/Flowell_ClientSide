@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { addNewPersonalInfo } from '@/_utilities/userRequests';
+import { addNewPersonalInfo } from '@/actions/userRequests';
 
 
 export default function AddPhoneForm({resourceType}) {
@@ -18,7 +18,7 @@ export default function AddPhoneForm({resourceType}) {
         phone: yup.string().required('The phone is required and must be valid'),
     })
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -55,7 +55,7 @@ export default function AddPhoneForm({resourceType}) {
                         <p className={styles.error_updating_info}>{errors.phone?.message}</p>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button}>Add</button>
+                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
                         <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>
                     </div>
                 </form>        

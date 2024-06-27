@@ -3,7 +3,7 @@ import styles from './components.module.css'
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import AddPaymentForm from './information_forms/AddPaymentForm';
-import { deletePersonalInfo } from '@/_utilities/userRequests';
+import { deletePersonalInfo } from '@/actions/userRequests';
 
 export default function ProfilePaymentInfo({userData, resourceType}) {
     const searchParams = useSearchParams();

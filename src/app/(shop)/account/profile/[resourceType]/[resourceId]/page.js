@@ -3,7 +3,7 @@ import UpdateProfileInfo from '@/_components/_layout_components/information_form
 import UpdatePhoneInfo from '@/_components/_layout_components/information_forms/UpdatePhoneInfo';
 import UpdateCreditInfo from '@/_components/_layout_components/information_forms/UpdateCreditInfo';
 
-import { fetchAllUserInfo } from '@/_utilities/userRequests';
+import { fetchAllUserInfo } from '@/actions/userRequests';
 
 export default async function FormToUpdatePersonalInfo({ params }) {
     let data;

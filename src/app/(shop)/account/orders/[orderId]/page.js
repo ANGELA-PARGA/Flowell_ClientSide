@@ -1,5 +1,5 @@
 import OrderInfo from "@/_components/_layout_components/OrderInfo";
-import { fetchOrdersById } from "@/_utilities/ordersRequest";
+import { fetchOrdersById } from "@/actions/ordersRequest";
 
 export default async function OrderById({params}) {
   const data = await fetchOrdersById(params.orderId)

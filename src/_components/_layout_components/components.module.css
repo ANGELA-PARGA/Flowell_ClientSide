@@ -8,9 +8,12 @@
 
 #price_presentation{
     padding-top: 1rem;
+    color: #0067a0;
+    font-weight: 600;
+    font-size: 1.5rem; 
 }
 
-.main_info_container h1, #price_presentation{
+.main_info_container h1{
     font-size: 1.5rem; 
     color: #424242;
     font-weight: 600;   
@@ -255,4 +258,51 @@
 .orderInfo_subcontainer p{
     font-size: 0.875rem; 
     color: #2b2a2a;    
+}
+
+/*styles for product Cart information*/
+.product_cart_maincontainer{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    gap: 0.5rem;
+}
+.product_cart_small_img{
+    flex: 0 0 75px;
+}
+.product_cart_details_info{
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.product_cart_buttons_container{
+    flex: 0 0 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product_cart_button_minicontainer{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.update_cart_items_button{
+    width: fit-content;
+    padding: 0.5rem;
+    margin: 5px;
+    background-color:#2783b4;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.update_cart_items_button:hover{
+    background-color:#0067a0;
+    
 }
