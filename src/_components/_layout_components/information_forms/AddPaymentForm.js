@@ -7,18 +7,43 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { addNewPersonalInfo } from '@/actions/userRequests';
+import { toast } from 'react-toastify';
+
+const luhnCheck = (cardNumber) => {
+    let arr = (cardNumber + '').split('').reverse().map(x => parseInt(x));
+    let lastDigit = arr.splice(0, 1)[0];
+    let sum = arr.reduce(
+      (acc, val, i) => (i % 2 !== 0) ? acc + val : acc + ((val * 2) % 9) || 9,
+        0
+    );
+    sum += lastDigit;
+    return sum % 10 === 0;
+};
+
+const schema = yup.object({
+    credit_card: yup.string().required('The credit card number is required')
+    .matches(/^[0-9]+$/, 'Credit card number must contain only digits')
+    .test('valid-luhn', 'Credit card number is invalid', value => luhnCheck(value))
+    .min(13, 'Credit card number is too short')
+    .max(19, 'Credit card number is too long'),
+    holder: yup.string().required('The card holder name is required')
+    .matches(/^[a-zA-Z\s]+$/, 'Card holder name must contain only letters and spaces')
+    .min(2, 'Card holder name is too short')
+    .max(50, 'Card holder name is too long'),
+    expiration_date: yup.string().required('The expiration date is required') 
+    .matches(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, 'Expiration date format must be MM/YY')
+    .test('valid-date', 'Expiration date is invalid', value => {
+        const [month, year] = value.split('/');
+        const expiryDate = new Date(`20${year}-${month}-01`);
+        const today = new Date();
+        return expiryDate > today;
+    })
+})
 
 
 export default function AddPaymentForm({resourceType}) {
     const [updateError, setupdateError] = useState();
     const router = useRouter();
-    console.log('add form with url data', resourceType)
-
-    const schema = yup.object({
-        credit_card: yup.string().required('The credit card number is required'),
-        holder: yup.string().required('The holder is required'),
-        expiration_date: yup.date().required('The expiration date is required')
-    })
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
@@ -26,16 +51,17 @@ export default function AddPaymentForm({resourceType}) {
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
-        console.log('data to add', data)
         await schema.validate(data);
         try {
             await addNewPersonalInfo(data, resourceType);
+            reset()
+            router.push("/account/profile/payment_inf");
+            toast.success(`Payment information added succesfully`)
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
-        }             
-        reset()
-        router.push("/account/profile/payment_inf");
+            toast.error('Failed to add payment information')
+        } 
     };
 
     const onCancel = async () => {      
@@ -48,7 +74,7 @@ export default function AddPaymentForm({resourceType}) {
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
             <h2>Add new credit card information</h2>
-            <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('credit_card')} type="text" name="credit_card" id="credit_card" placeholder='credit card number' onBlur={() => {
                             trigger('credit_card'); 
@@ -64,7 +90,7 @@ export default function AddPaymentForm({resourceType}) {
                         <p className={styles.error_updating_info}>{errors.holder?.message}</p>
                     </div>
                     <div className={styles.update_form_input_container}>
-                        <input {...register('expiration_date')} type="date" name="expiration_date" id="expiration_date" onBlur={() => {
+                        <input {...register('expiration_date')} type="text" name="expiration_date" id="expiration_date" placeholder='MM/YY' onBlur={() => {
                             trigger('expiration_date');
                         }} />
                         <label htmlFor="expiration_date">Enter expiration date</label>

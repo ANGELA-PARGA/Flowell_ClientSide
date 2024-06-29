@@ -13,7 +13,9 @@ export async function fetchAllOrdersByUser(){
             headers : {cookie: cookieForServer}
         })
         if (!response.ok) {        
-            console.log(`fetch failed: ${response}`);
+            const errorResponse = await response.json();
+            console.log(`fetching all orders by user failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -21,7 +23,7 @@ export async function fetchAllOrdersByUser(){
         
     } catch (error) {
         console.error('Network error:', error);
-        return null
+        throw error;
     }
 }
 
@@ -35,7 +37,9 @@ export async function fetchOrdersById(id){
             headers : {cookie: cookieForServer}
         })
         if (!response.ok) {        
-            console.log(`fetch failed: ${response}`);
+            const errorResponse = await response.json();
+            console.log(`fetching order by id failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -43,7 +47,7 @@ export async function fetchOrdersById(id){
         
     } catch (error) {
         console.error('Network error:', error);
-        return null
+        throw error
     }
 }
 

@@ -4,6 +4,7 @@ require('dotenv').config({ path: 'api.env' });
 import { cookies } from "next/headers"
 import { revalidatePath } from 'next/cache'
 
+
 export async function fetchAllUserInfo(){
 
     try {
@@ -16,7 +17,9 @@ export async function fetchAllUserInfo(){
         })
 
         if (!response.ok) {       
-            console.log(`fetching user personal information failed`);
+            const errorResponse = await response.json();
+            console.log(`getting user info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -24,11 +27,11 @@ export async function fetchAllUserInfo(){
         
     } catch (error) {
         console.error('Network error:', error);
-        return null        
+        throw error;        
     }
 }
 
-/*it requieres an url param string indicating the resourceType and an ID param indicating the resource to update */
+/*it requires an url param string indicating the resourceType and an ID param indicating the resource to update */
 export async function updatePersonalInfo(data, resourceType, resourceId){
     try {
         console.log('calling updatePersonalInfo fetch:', data)
@@ -48,7 +51,9 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         })
 
         if (!response.ok) {       
-            console.log(`updating personal user info failed`);
+            const errorResponse = await response.json();
+            console.log(`updating personal user info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -57,7 +62,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         
     } catch (error) {
         console.error('Network error updating personal info:', error);
-        return null        
+        throw error;        
     }    
 }
 
@@ -80,7 +85,9 @@ export async function updatePassword(password){
         })
 
         if (!response.ok) {       
-            console.log(`updating password failed`);
+            const errorResponse = await response.json();
+            console.log(`updating password info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -88,7 +95,7 @@ export async function updatePassword(password){
         
     } catch (error) {
         console.error('Network error updating password:', error);
-        return null        
+        throw error;        
     } 
 
 }
@@ -113,16 +120,18 @@ export async function addNewPersonalInfo(newdata, resourceType){
         })
 
         if (!response.ok) {       
-            console.log(`adding personal user info failed`, response);
+            const errorResponse = await response.json();
+            console.log(`adding personal user info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
         revalidatePath(`/account/profile/${resourceType}`, "page")
-        return responseObject;
+        return responseObject
         
     } catch (error) {
         console.error('Network error adding personal info:', error);
-        return null        
+        throw error;       
     }
 }
 
@@ -141,14 +150,16 @@ export async function deletePersonalInfo(resourceType,resourceId){
         })
 
         if (!response.ok) {       
-            console.log(`deleteing personal user info failed`);
+            const errorResponse = await response.json();
+            console.log(`deleting personal user info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         revalidatePath(`/account/profile/${resourceType}`, "page")
     
     } catch (error) {
         console.error('Network error deleting personal info:', error);
-        return null        
+        throw error;       
     } 
 
 }

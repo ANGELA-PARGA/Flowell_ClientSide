@@ -6,17 +6,20 @@ import {useForm} from 'react-hook-form'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUser } from "@/actions/registerUser";
+import { signIn } from "next-auth/react";
+import { toast } from 'react-toastify';
+
+const schema = yup.object({
+  first_name: yup.string().required('The first name is required').min(1,'must be at least 1 character long').max(40, 'must be max 40 character long').matches(/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s@!#$%^*()_+{}\[\]:;,.?/|\\'-]{1,30}$/, 'The name must not contain special characters ! # < % >'),
+  last_name: yup.string().required('The last name is required').min(1, 'must be at least 1 character long').max(40, 'must be max 40 character long').matches(/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s@!#$%^*()_+{}\[\]:;,.?/|\\'-]{1,30}$/, 'The name must not contain special characters ! # < % >'),
+  email: yup.string().email('Email format is not valid').required('The email is required'),
+  password: yup.string().required('The password is required').
+    matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/, 
+    'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
+  confirmationPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Please re-type your password')
+})
 
 export default function Singup() {  
-  const schema = yup.object({
-    first_name: yup.string().required('The first name is required').min(1,'must be at least 1 character long').max(40, 'must be max 40 character long').matches(/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s@!#$%^*()_+{}\[\]:;,.?/|\\'-]{1,30}$/, 'The name must not contain special characters ! # < % >'),
-    last_name: yup.string().required('The last name is required').min(1, 'must be at least 1 character long').max(40, 'must be max 40 character long').matches(/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s@!#$%^*()_+{}\[\]:;,.?/|\\'-]{1,30}$/, 'The name must not contain special characters ! # < % >'),
-    email: yup.string().email('Email format is not valid').required('The email is required'),
-    password: yup.string().required('The password is required').
-      matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/, 
-      'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
-    confirmationPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Please re-type your password')
-  })
 
   const { register, handleSubmit, formState: { errors }, reset, trigger } = useForm({
       resolver: yupResolver(schema)
@@ -25,8 +28,25 @@ export default function Singup() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
     await schema.validate(data);
-    await registerUser(data)
-    reset()
+    try {      
+      await registerUser(data)
+      const responseNextAuth = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      if (responseNextAuth?.error) {
+        console.log(responseNextAuth)
+        throw new Error(responseNextAuth.error)
+      }   
+      reset()
+      await populateCartData();
+      router.push("/"); 
+      toast.success(`Account succesfully created!`)     
+    } catch (error) {
+      setLoginError(error.message);
+      toast.error('Failed to register the user account, try again')      
+    }
   };
 
 

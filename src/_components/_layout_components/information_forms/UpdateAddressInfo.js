@@ -7,20 +7,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
+import { toast } from 'react-toastify';
+
+const schema = yup.object({
+    address: yup.string().required('The address is required'),
+    city: yup.string().required('The city is required'),
+    state: yup.string().required('The state is required'),
+    zip_code: yup.string().required('The zip code is required').test('valid_zip_code','The zip code must be valid', (value) => {
+        return /^[0-9]{5}$/.test(value); 
+    } ),
+})
 
 
 export default function UpdateAddressInfo({resourceType, resourceId, address}) {
     const [updateError, setupdateError] = useState();
     const router = useRouter();
-
-    const schema = yup.object({
-        address: yup.string().required('The address is required'),
-        city: yup.string().required('The city is required'),
-        state: yup.string().required('The state is required'),
-        zip_code: yup.string().required('The zip code is required').test('valid_zip_code','The zip code must be valid', (value) => {
-            return /^[0-9]{5}$/.test(value); 
-        } ),
-    })
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
@@ -31,12 +32,14 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
         await schema.validate(data);
         try {
             await updatePersonalInfo(data, resourceType, resourceId);
+            reset()
+            router.push("/account/profile/address_inf");
+            toast.success(`Address information updated succesfully`)
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
+            toast.error('Failed to update address information')
         }             
-        reset()
-        router.push("/account/profile/address_inf");
     };
 
     const onCancel = async () => {      

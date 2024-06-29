@@ -15,7 +15,9 @@ export async function fetchCartInfoByUser(){
         })
 
         if (!response.ok) {       
-            console.log(`fetch failed`);
+            const errorResponse = await response.json();
+            console.log(`getting cart info failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -23,7 +25,7 @@ export async function fetchCartInfoByUser(){
         
     } catch (error) {
         console.error('Network error:', error);
-        return null        
+        throw error;      
     }
 }
 
@@ -48,15 +50,18 @@ export async function updateCartItem({product_id, qty}){
         })
 
         if (!response.ok) {       
-            console.log(` update item in cart fetch failed`);
+            const errorResponse = await response.json();
+            console.log(`updating cart item failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
         revalidatePath(`/account/cart`, "page")
-        return responseObject;        
+        return responseObject; 
+               
     } catch (error) {
         console.error('Network error:', error);
-        return null         
+        throw error         
     }
 }
 
@@ -77,7 +82,9 @@ export async function deleteCartItem(id){
         })
 
         if (!response.ok) {       
-            console.log(` delete item in cart fetch failed`);
+            const errorResponse = await response.json();
+            console.log(`deleting cart item failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -85,6 +92,6 @@ export async function deleteCartItem(id){
         return responseObject;        
     } catch (error) {
         console.error('Network error:', error);
-        return null         
+        throw error;        
     }
 }

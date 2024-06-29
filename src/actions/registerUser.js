@@ -1,6 +1,7 @@
 'use server'
 require('dotenv').config({ path: 'api.env' });
 
+
 export async function registerUser(data){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
@@ -10,15 +11,16 @@ export async function registerUser(data){
             },
             body: JSON.stringify(data)
         });
-        if (response.ok) {   
-            console.log(response);     
-            console.log(`register successful with ${data}`);
-        } else {
-            console.log(response);
-            console.error(`Login failed: ${error}`);
-        }
+        if (!response.ok) {       
+            const errorResponse = await response.json();
+            console.log(`registering user failed`, errorResponse);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+        } 
+        const responseObject = await response.json()
+        return responseObject;
+
     } catch (error) {
         console.error('Network error:', error);
-        return null
+        throw error
     }
 }

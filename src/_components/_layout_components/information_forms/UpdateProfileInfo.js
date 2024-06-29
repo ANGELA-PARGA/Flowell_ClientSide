@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
+import { toast } from 'react-toastify';
 
 
 export default function UpdateProfileInfo({resourceType, resourceId, name}) {
@@ -27,12 +28,14 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
         await schema.validate(data);
         try {
             await updatePersonalInfo(data, resourceType, resourceId);
+            reset()
+            router.push("/account/profile/personal_inf");
+            toast.success(`Personal information updated succesfully`)
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
+            toast.error('Failed to update personal information')
         }             
-        reset()
-        router.push("/account/profile/personal_inf");
     };
 
     const onCancel = async () => {        
@@ -44,7 +47,7 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
         <main className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
                 <h2>Edit your personal information</h2>
-                <form action="." onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('first_name')} type="text" name="first_name" id="first_name" defaultValue={name.firstName} onBlur={() => {
                             trigger('first_name'); 

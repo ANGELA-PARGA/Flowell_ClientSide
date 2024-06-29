@@ -9,38 +9,46 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useContext } from "react";
 import { StoreContext } from "@/context";
+import { toast } from 'react-toastify';
 
+
+const schema = yup.object({
+  email: yup.string().email('Email format is not valid').required('The email is required'),
+  password: yup.string().required('The password is required')
+})
 
 export default function Login() {
   const [loginError, setLoginError] = useState();
   const router = useRouter();
   const { populateCartData } = useContext(StoreContext);
 
-  const schema = yup.object({
-    email: yup.string().email('Email format is not valid').required('The email is required'),
-    password: yup.string().required('The password is required')
-  })
-
   const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
     resolver: yupResolver(schema)
   });
 
-const onSubmit = async (data, e) => {
-    e.preventDefault();
-    console.log(data)
-    await schema.validate(data);
-    const responseNextAuth = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
-    if (responseNextAuth?.error) {
-      setLoginError(responseNextAuth.error);
-      return;
-    }   
-    reset()
-    await populateCartData();
-    router.push("/");
+  const onSubmit = async (data, e) => {
+      e.preventDefault();
+      console.log(data)
+      await schema.validate(data);
+      try {
+        const responseNextAuth = await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+        if (responseNextAuth?.error) {
+          console.log(responseNextAuth)
+          throw new Error(responseNextAuth.error)
+        }
+        reset()
+        await populateCartData();
+        router.push("/");  
+        toast.success(`Login succesfull!`)   
+      } catch (error) {
+        console.log('error catched:', error.message)
+        setLoginError(error.message);
+        toast.error('Failed to login to the account, try again')         
+      }
   };
 
   return (    

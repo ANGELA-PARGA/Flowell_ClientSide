@@ -22,7 +22,6 @@ const ProductInfo = ({data, id}) => {
     const productId = parseInt(id); 
 
     useEffect(() => {
-        console.log('use effect #1');
         if (session?.user?.email) {
             const savedCartData = localStorage.getItem('cartData');
             const parsedCartData = savedCartData ? JSON.parse(savedCartData) : null;
@@ -37,7 +36,7 @@ const ProductInfo = ({data, id}) => {
         qty: yup.number().required("Please select a quantity")
     });
     
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(schema)
     });
     
@@ -174,7 +173,7 @@ const ProductInfo = ({data, id}) => {
                             </option>
                             ))}
                             </select>
-                            <button className={styles.add_to_cart_button} type="submit">Add to Cart</button>
+                            <button className={styles.add_to_cart_button} type="submit" disabled={isSubmitting}>Add to Cart</button>
                             {errors.quantity && <p>{errors.quantity.message}</p>}
                         </form> :
                         <div className={styles.product_cart_buttons_container}>

@@ -27,6 +27,7 @@ const handler = NextAuth({
                         );
                         if(!response.ok){
                             const parsedError = await response.json();
+                            console.log('error in login', parsedError)
                             throw new Error(parsedError.error)
                             
                         }
