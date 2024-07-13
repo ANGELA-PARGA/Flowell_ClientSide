@@ -1,11 +1,14 @@
 import styles from './page.module.css'
-import ProductCard from '@/_components/_layout_components/ProductCard';
-import { fetchProductsByCategory } from '@/actions/productRequests';
+import ProductCard from '@/components/product/ProductCard';
+import { fetchProductsByCategory } from '@/lib/fetchingRequests';
 import { ChevronDown } from '../../../../../../public/svgIcons';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import LoadMore from '@/UI/LoadMore';
 
 export default async function CategoryProducts({params}){
   const data = await fetchProductsByCategory(params.categoryId);
+  console.log('categories info in CategoryProducts component', data) 
   
   return (
     <>
@@ -21,10 +24,12 @@ export default async function CategoryProducts({params}){
             </button>
           </div>
         </section>
-        <section className={styles.products_main_container}>
-          {data.products_by_category.map(product => (
-            <ProductCard key={product.id} data={product} />
-          ))}
+        <section className={styles.products_main_container}>          
+            {data.products_by_category.map(product => (
+              <Suspense key={product.id} fallback={<LoadMore/>}>
+              <ProductCard key={product.id} data={product} />
+              </Suspense>
+            ))}          
         </section>
         </>}
     </>

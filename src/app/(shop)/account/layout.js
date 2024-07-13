@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from './page.module.css'
-import ButtonLogOut from "@/_components/_elements/ButtonLogOut";
+import ButtonLogOut from "@/UI/ButtonLogOut";
 import { UserIcon, CartIcon, OrdersIcon, PhonesIcon, AddressIcon, CreditCardIcon } from "../../../../public/svgIcons";
 
 export default function AccountLayout({ children }) {

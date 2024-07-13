@@ -1,17 +1,19 @@
 import styles from './page.module.css'
-import ProductCard from '@/_components/_layout_components/ProductCard';
-import { fetchAllProducts } from '@/actions/productRequests';
+import ProductCard from '@/components/product/ProductCard';
+import { fetchAllProducts } from '@/lib/fetchingRequests';
 import { ChevronDown } from '../../../../public/svgIcons';
-import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import LoadMore from '@/UI/LoadMore';
+import PaginationButton from '@/UI/PaginationButton';
+
 
 export default async function AllProducts(){
     const data = await fetchAllProducts();
+    const pages = data.pagination.totalPages
+    console.log('all products info in AllProducts component', data, pages) 
         
     return (
         <>
-        { data.products_and_categories.length === 0 ? 
-            notFound() :
-            <>
             <section className={styles.main_container}>
                 <h2>All Products <span>{data.products_and_categories[0].length} Results</span></h2>
                 <div className={styles.filter_sort_buttons_container}>
@@ -20,14 +22,18 @@ export default async function AllProducts(){
                         <ChevronDown width={16} height={16} weight={3}/>
                     </button>
                 </div>
-            </section>
-            <section className={styles.products_main_container}>
-                {data.products_and_categories[0].map(product => (
-                <ProductCard key={product.id} data={product} />
-                ))}
-            </section>
-            </>
-        }
-        </>    
+                
+                <section className={styles.products_main_container}>
+                    {data.products_and_categories[0].map(product => (
+                        <Suspense key={product.id} fallback={<LoadMore/>}>
+                            <ProductCard key={product.id} data={product} />
+                        </Suspense>
+                    ))}
+                </section>                
+                <div className={styles.loaderSpinner}>
+                    
+                </div>
+            </section>                 
+        </>   
     );
 }

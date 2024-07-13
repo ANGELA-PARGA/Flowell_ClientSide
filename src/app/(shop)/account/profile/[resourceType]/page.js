@@ -1,18 +1,13 @@
-
-import ProfilePersonalInfo from "@/_components/_layout_components/ProfilePersonalInfo";
-import ProfileAddressInfo from "@/_components/_layout_components/ProfileAddressInfo";
-import ProfilePhoneInfo from "@/_components/_layout_components/ProfilePhoneInfo";
-import ProfilePaymentInfo from "@/_components/_layout_components/ProfilePaymentInfo";
-import { fetchAllUserInfo } from "@/actions/userRequests";
+import ProfilePersonalInfo from "@/components/profile/ProfilePersonalInfo";
+import ProfileAddressInfo from "@/components/profile/ProfileAddressInfo";
+import ProfilePhoneInfo from "@/components/profile/ProfilePhoneInfo";
+import ProfilePaymentInfo from "@/components/profile/ProfilePaymentInfo";
+import { fetchAllUserInfo } from "@/lib/fetchingUserInfo";
+import { Suspense } from "react";
 
 export default async function Profile({params}) {    
-    let data;
-    try {
-        data = await fetchAllUserInfo();
-    } catch (error) {
-        console.error("Failed to fetch user info:", error);
-        return <div>Error loading profile information.</div>;
-    }
+    const data = await fetchAllUserInfo();
+    console.log('user info in Profile component', data)
 
     const components = {
         personal_inf: ProfilePersonalInfo,
@@ -24,7 +19,11 @@ export default async function Profile({params}) {
     const Component = components[params.resourceType];
 
     if (Component) {
-        return <Component userData={data} resourceType={params.resourceType} />;
+        return (
+            <Suspense>
+                <Component userData={data} resourceType={params.resourceType} />
+            </Suspense>
+        )
     } else {
         return <div>Invalid resource type.</div>;
     }

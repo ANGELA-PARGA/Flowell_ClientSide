@@ -1,12 +1,11 @@
-import OrderCard from "@/_components/_layout_components/OrderCard";
-import { fetchAllOrdersByUser } from "@/actions/ordersRequest"; 
+import OrderCard from "@/components/orders/OrderCard";
+import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo"; 
 import styles from './page.module.css'
 
 
 export default async function Orders() {
   const orders = await fetchAllOrdersByUser()
-  console.log(orders)
-
+  console.log('orders in Order component', orders) 
 
   return (
     <section>

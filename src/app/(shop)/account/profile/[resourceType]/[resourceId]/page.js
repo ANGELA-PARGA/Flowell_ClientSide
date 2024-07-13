@@ -1,18 +1,12 @@
-import UpdateAddressInfo from '@/_components/_layout_components/information_forms/UpdateAddressInfo';
-import UpdateProfileInfo from '@/_components/_layout_components/information_forms/UpdateProfileInfo';
-import UpdatePhoneInfo from '@/_components/_layout_components/information_forms/UpdatePhoneInfo';
-import UpdateCreditInfo from '@/_components/_layout_components/information_forms/UpdateCreditInfo';
-
-import { fetchAllUserInfo } from '@/actions/userRequests';
+import UpdateAddressInfo from '@/components/forms/UpdateAddressInfo';
+import UpdateProfileInfo from '@/components/forms/UpdateProfileInfo';
+import UpdatePhoneInfo from '@/components/forms/UpdatePhoneInfo';
+import UpdateCreditInfo from '@/components/forms/UpdateCreditInfo';
+import { fetchAllUserInfo } from '@/lib/fetchingUserInfo';
 
 export default async function FormToUpdatePersonalInfo({ params }) {
-    let data;
-    try {
-        data = await fetchAllUserInfo();
-    } catch (error) {
-        console.error("Failed to fetch user info:", error);
-        return <div>Error loading profile information.</div>;
-    }
+    const data = await fetchAllUserInfo();
+    console.log('user info in FormToUpdatePersonalInfo component', data)
 
     const components = {
         personal_inf: UpdateProfileInfo,

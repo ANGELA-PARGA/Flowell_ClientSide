@@ -1,7 +1,7 @@
 import styles from './page.module.css'
-import Banner from '../_components/_layout_components/banners/Banner'
-import Category from '@/_components/_layout_components/banners/Category';
-import BannerInformative from '@/_components/_layout_components/banners/BannerInformative';
+import Banner from '@/components/banners/Banner'
+import Category from '@/components/banners/Category';
+import BannerInformative from '@/components/banners/BannerInformative';
 
 export default function Home() {
   return (

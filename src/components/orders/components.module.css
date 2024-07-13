@@ -1,0 +1,63 @@
+/*order card component styles*/
+.order_details_subcontainer{
+    display: flex;
+    flex-direction: column;
+    gap:0.5rem
+}
+
+.order_details_subcontainer p{
+    font-size: 0.875rem; 
+    color: #2b2a2a;    
+}
+.order_details_subcontainer span{
+    font-weight: 700;    
+}
+
+.order_details_subcontainer button{
+    width: 100px;
+    background-color: #0068a0cc;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+.order_details_subcontainer button:hover{
+    background-color:#0067a0;
+}
+
+/*Order Info*/
+.orderInfo_container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.orderInfo_container button{
+    width: 100px;
+    background-color: #0068a0cc;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+.orderInfo_container button:hover{
+    background-color:#0067a0;
+}
+.orderInfo_container button[disabled] {
+    background-color: rgb(190, 189, 189);
+}
+.orderInfo_subcontainer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.orderInfo_subcontainer p{
+    font-size: 0.875rem; 
+    color: #2b2a2a;    
+}

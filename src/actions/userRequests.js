@@ -1,44 +1,15 @@
 'use server'
 require('dotenv').config({ path: 'api.env' });
-
-import { cookies } from "next/headers"
-import { revalidatePath } from 'next/cache'
-
-
-export async function fetchAllUserInfo(){
-
-    try {
-        const allCookies = cookies();
-        const connectSidCookie = allCookies.getAll('connect.sid');
-        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`, {
-            headers : {cookie: cookieForServer}
-        })
-
-        if (!response.ok) {       
-            const errorResponse = await response.json();
-            console.log(`getting user info failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
-        } 
-
-        const responseObject = await response.json()
-        return responseObject;
-        
-    } catch (error) {
-        console.error('Network error:', error);
-        throw error;        
-    }
-}
+import { revalidatePath } from 'next/cache';
+import { cookies } from "next/headers";
 
 /*it requires an url param string indicating the resourceType and an ID param indicating the resource to update */
 export async function updatePersonalInfo(data, resourceType, resourceId){
+    const allCookies = cookies();
+    const connectSidCookie = allCookies.getAll('connect.sid');
+    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
     try {
-        console.log('calling updatePersonalInfo fetch:', data)
-        const allCookies = cookies();
-        const connectSidCookie = allCookies.getAll('connect.sid');
-        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
-
+        console.log('calling updatePersonalInfo fetch:', data, resourceType, resourceId)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -53,7 +24,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         if (!response.ok) {       
             const errorResponse = await response.json();
             console.log(`updating personal user info failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -67,12 +38,11 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
 }
 
 export async function updatePassword(password){
+    const allCookies = cookies();
+    const connectSidCookie = allCookies.getAll('connect.sid');
+    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
     try {
         console.log('calling updatePassword fetch:', password)
-        const allCookies = cookies();
-        const connectSidCookie = allCookies.getAll('connect.sid');
-        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
-
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/mine`, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -87,7 +57,7 @@ export async function updatePassword(password){
         if (!response.ok) {       
             const errorResponse = await response.json();
             console.log(`updating password info failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -97,17 +67,15 @@ export async function updatePassword(password){
         console.error('Network error updating password:', error);
         throw error;        
     } 
-
 }
 
 
 export async function addNewPersonalInfo(newdata, resourceType){
+    const allCookies = cookies();
+    const connectSidCookie = allCookies.getAll('connect.sid');
+    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
     try {
         console.log('calling addNewPersonalInfo fetch:', newdata, resourceType)
-        const allCookies = cookies();
-        const connectSidCookie = allCookies.getAll('connect.sid');
-        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
-
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}`, {
             method: 'POST',
             body: JSON.stringify({
@@ -122,7 +90,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
         if (!response.ok) {       
             const errorResponse = await response.json();
             console.log(`adding personal user info failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -137,11 +105,11 @@ export async function addNewPersonalInfo(newdata, resourceType){
 
 
 export async function deletePersonalInfo(resourceType,resourceId){
+    const allCookies = cookies();
+    const connectSidCookie = allCookies.getAll('connect.sid');
+    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
     try {
-        const allCookies = cookies();
-        const connectSidCookie = allCookies.getAll('connect.sid');
-        const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
-
+        console.log('calling deletePersonalInfo fetch:', resourceType, resourceId)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'DELETE',
             headers : {
@@ -152,7 +120,7 @@ export async function deletePersonalInfo(resourceType,resourceId){
         if (!response.ok) {       
             const errorResponse = await response.json();
             console.log(`deleting personal user info failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         revalidatePath(`/account/profile/${resourceType}`, "page")

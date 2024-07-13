@@ -61,14 +61,18 @@
     font-weight: 600;
 }
 
-.products_main_container{   
-    padding: 1rem 2rem;
+.products_main_container{
+    align-self: center;
+    flex: 1 1 1000px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-@media (max-width: 750px) {
+@media (max-width: 350px) {
     .main_container {
         padding: 1rem;
+    }
+    .products_main_container{   
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 }

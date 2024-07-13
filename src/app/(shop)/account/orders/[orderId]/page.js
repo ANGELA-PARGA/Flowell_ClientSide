@@ -1,10 +1,11 @@
-import OrderInfo from "@/_components/_layout_components/OrderInfo";
-import { fetchOrdersById } from "@/actions/ordersRequest";
+import OrderInfo from "@/components/orders/OrderInfo";
+import { fetchOrdersById } from "@/lib/fetchingUserInfo";
+
 
 export default async function OrderById({params}) {
+  
   const data = await fetchOrdersById(params.orderId)
-  console.log(data)
-
+  console.log('order in OrderById component', data)
 
   const userOrder = {
     id: 1,
