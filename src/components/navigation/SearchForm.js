@@ -15,12 +15,13 @@ import mini_image11 from '../../../public/mini_image11.jpeg'
 export const SearchForm = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const { replace } = useRouter();
+    const { replace, push, prefetch } = useRouter();
     const [updateError, setUpdateError] = useState();
     const [results, setResults] = useState([]);
+    const [notFound, setNotFound] = useState(null);
     
     const schema = yup.object({
-        search: yup.string().required('The search term is required').max(50, "max 50 characters allowed")
+        search: yup.string().required('The search term is required').max(25, "max 25 characters allowed")
     });
 
     const { register, trigger } = useForm({
@@ -32,10 +33,17 @@ export const SearchForm = () => {
             if(searchTerm){
                 const result = await fetchProductsBySearch(searchTerm);
                 const itemsList = result.product_found;
-                console.log('Items list:', itemsList); 
-                setResults(itemsList);
-
-            }            
+                if(itemsList.length === 0){
+                    setNotFound('No results');
+                    setResults([])                    
+                } else {
+                    setResults(itemsList);
+                    setNotFound(null)
+                    prefetch(`/products/search?t=${searchTerm}`);
+                }                
+            } else {
+                setResults([]);
+            }         
         }, 300),
         [] 
     );
@@ -45,11 +53,12 @@ export const SearchForm = () => {
         const searchTerm = event.target.value;
         const params = new URLSearchParams(searchParams);
         if (searchTerm) {
-            params.set('term', searchTerm);
+            params.set('q', searchTerm);
         } else {
-            params.delete('term');
+            params.delete('q');
             replace(`${pathname}`);
             setResults([])
+            setNotFound(null)
         }
         replace(`${pathname}?${params.toString()}`);
         try {
@@ -61,23 +70,34 @@ export const SearchForm = () => {
         }
     };
 
-    useEffect(() => {    
-        console.log('Results updated:', results);
-    }, [results]);
+    const handleOnKeyDown = async (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const searchTerm = event.target.value.trim();
+            if (searchTerm) {
+                setResults([])
+                push(`/products/search?t=${searchTerm}`);
+            }
+        }
+        
+    };
 
     return (
         <>
-            <form className={styles.search_container}>
+            <form className={styles.search_container} onKeyDown={handleOnKeyDown}>
                 <input
                     type="text"
                     placeholder="Search..."
-                    {...register("search", { onChange: handleChange })}
-                    onBlur={() => {
-                        trigger('search'); 
-                    }} 
-                    defaultValue={searchParams.get('term')?.toString()}
+                    {...register("search", { onChange: handleChange })} 
+                    defaultValue={searchParams.get('q')?.toString()}
                 />
             </form>
+            {notFound && (
+                <div className={styles.search_dropdown_menu}>
+                    <p>No results</p>
+                </div>
+            )
+            }
             {results?.length > 0 && 
             <div className={styles.search_dropdown_menu}>
                 <h4>Best results</h4>
@@ -97,6 +117,9 @@ export const SearchForm = () => {
                     </li>                    
                 ))}
                 </ul>
+                {updateError && (
+                    <p>{updateError}</p>
+                )}
             </div>
             }
         </>

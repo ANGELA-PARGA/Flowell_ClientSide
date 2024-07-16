@@ -63,9 +63,14 @@
 
 .products_main_container{
     align-self: center;
-    flex: 1 1 1000px;
+    flex: 1 1;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.paginationContainer{
+    display: flex;
+    margin: 0 auto;
 }
 
 @media (max-width: 350px) {

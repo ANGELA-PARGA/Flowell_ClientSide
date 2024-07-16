@@ -1,7 +1,7 @@
 
 require('dotenv').config({ path: 'api.env' });
 
-export async function fetchAllProducts(page=1){
+export async function fetchAllProducts(page){
     try {
         console.log('calling fetch all products', page)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products?page=${page}`) 

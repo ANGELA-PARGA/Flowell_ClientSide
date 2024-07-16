@@ -24,12 +24,12 @@ export default async function CategoryProducts({params}){
             </button>
           </div>
         </section>
-        <section className={styles.products_main_container}>          
-            {data.products_by_category.map(product => (
-              <Suspense key={product.id} fallback={<LoadMore/>}>
-              <ProductCard key={product.id} data={product} />
-              </Suspense>
-            ))}          
+        <section className={styles.products_main_container}>
+        <Suspense key={`category_${params.categoryId}`} fallback={<LoadMore/>}>          
+            {data.products_by_category.map(product => (              
+              <ProductCard key={product.id} data={product} />              
+            ))}
+        </Suspense>          
         </section>
         </>}
     </>

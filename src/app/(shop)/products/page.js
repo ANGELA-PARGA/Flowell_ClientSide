@@ -7,8 +7,11 @@ import LoadMore from '@/UI/LoadMore';
 import PaginationButton from '@/UI/PaginationButton';
 
 
-export default async function AllProducts(){
-    const data = await fetchAllProducts();
+export default async function AllProducts({searchParams}){
+    const page = Number(searchParams?.p) || 1;
+
+    const data = await fetchAllProducts(page);
+
     const pages = data.pagination.totalPages
     console.log('all products info in AllProducts component', data, pages) 
         
@@ -24,14 +27,16 @@ export default async function AllProducts(){
                 </div>
                 
                 <section className={styles.products_main_container}>
-                    {data.products_and_categories[0].map(product => (
-                        <Suspense key={product.id} fallback={<LoadMore/>}>
-                            <ProductCard key={product.id} data={product} />
-                        </Suspense>
-                    ))}
+                    <Suspense key={`products_${page}p`} fallback={<LoadMore/>}>
+                        {data.products_and_categories[0].map(product => (                        
+                            <ProductCard key={product.id} data={product} />                       
+                        ))}
+                    </Suspense>
                 </section>                
-                <div className={styles.loaderSpinner}>
-                    
+                <div className={styles.paginationContainer}>
+                    {Array.from({ length: pages }, (_, index) => (
+                        <PaginationButton key={index + 1} number={index + 1} url={`?p=${index + 1}`} />
+                    ))}                    
                 </div>
             </section>                 
         </>   
