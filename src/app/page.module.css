@@ -4,10 +4,21 @@
     flex-direction: column;
     gap: 2rem;
 }
+.bannerGrid{
+    margin: 1rem auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    align-items: center;
+    
+}
 
-@media screen and (max-width: 692px) {
-    .banner_flower_care{
-        width: 100%;        
+@media screen and (max-width: 768px) {
+    .bannerGrid{
+        grid-template-columns: 1fr; 
+        gap: 1.5rem;
+        
     }
 }
+
 

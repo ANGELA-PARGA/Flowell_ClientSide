@@ -8,25 +8,14 @@ import image3 from '../../../public/banner_complete3.png'
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { useCallback } from 'react';
-import { ChevronLeft, ChevronRight, LeafIcon } from '../../../public/svgIcons';
+import { useDotButton, DotButton } from './BannerDotButtons';
 
 export default function Banner() {
     const [emblaRef, emblaApi] = useEmblaCarousel({loop:true}, [Autoplay({delay:5000,  speed:1})])
-
-    const scrollPrev = useCallback(() => {
-        if (emblaApi) emblaApi.scrollPrev()
-    }, [emblaApi])
-    
-    const scrollNext = useCallback(() => {
-        if (emblaApi) emblaApi.scrollNext()
-    }, [emblaApi])
+    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
     
     return (
         <div className={styles.banner_container}>
-            <div className={styles.embla_button} onClick={scrollPrev}>
-                <ChevronLeft width={34} height={34} weight={1.5}/>
-            </div>
             <div className={styles.embla}>
                 <div className={styles.embla_viewport} ref={emblaRef}>
                     <div className={styles.embla_container}>
@@ -37,8 +26,7 @@ export default function Banner() {
                                         sizes="100vw"
                                         style={{
                                             width: '100%',
-                                            height: 'auto',
-                                            borderRadius: '0.5rem'
+                                            height: 'auto'
                                         }} 
                                         priority                               
                                         alt="Picture of a floral shop with multiple kinds of flowers"/>
@@ -73,20 +61,18 @@ export default function Banner() {
                                 </Link>
                             </div>
                         </div>
-                    
-                        <div className={styles.embla_slide}>
-                            <div className={styles.banner_text_image}>
-                                <div className={styles.banner_logo}>
-                                    <LeafIcon width={150} height={150} weight={2}/>
-                                    <h2>Flowell</h2>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>         
             </div>
-            <div className={styles.embla_button} onClick={scrollNext}>
-                <ChevronRight width={34} height={34} weight={1.5}/>
+            <div className={styles.emblaDots}>
+                {scrollSnaps.map((_, index) => (
+                    <DotButton
+                    key={index}
+                    index={index}
+                    selectedIndex ={selectedIndex}
+                    onClick={() => onDotButtonClick(index)}
+                    />
+                ))}
             </div>
         </div>
     );

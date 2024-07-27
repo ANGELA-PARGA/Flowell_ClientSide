@@ -1,7 +1,7 @@
 
 export const TrashIcon = ({width, height, weight}) =>{
     return (
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash" width={width} height={height} viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash" width={width} height={height} viewBox="0 0 24 24" strokeWidth={weight} stroke="#2783b4" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M4 7l16 0" />
         <path d="M10 11l0 6" />
@@ -77,6 +77,16 @@ export const OrdersIcon = ({width, height, weight}) =>{
         <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
         <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
         <path d="M3 9l4 0" />
+    </svg>
+    )
+}
+
+export const FlightIcon = ({width, height, weight}) =>{
+    return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plane-inflight" width={width} height={height} viewBox="0 0 24 24" strokeWidth={weight} stroke="#0067a0" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M15 11.085h5a2 2 0 1 1 0 4h-15l-3 -6h3l2 2h3l-2 -7h3l4 7z" />
+        <path d="M3 21h18" />
     </svg>
     )
 }
@@ -245,4 +255,36 @@ export const SearchIconNavBar = ({width, height, weight}) =>{
     </svg>
     )
 }
+
+export const InstagramIcon = ({width, height, weight}) =>{
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-instagram" width={width} height={height} viewBox="0 0 24 24" strokeWidth={weight} stroke="#0067a0" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
+        <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+        <path d="M16.5 7.5l0 .01" />
+        </svg>
+    
+    )
+}
+
+export const TiktokIcon = ({width, height, weight}) =>{
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-tiktok" width={width} height={height} viewBox="0 0 24 24" strokeWidth={weight} stroke="#0067a0" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z" />
+        </svg>
+    )
+}
+
+export const XIcon = ({width, height, weight}) =>{
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-x" width={width} height={height} viewBox="0 0 24 24" strokeWidth={weight} stroke="#0067a0" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+        </svg>
+    )
+}
+
 

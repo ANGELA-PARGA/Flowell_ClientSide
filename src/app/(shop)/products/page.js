@@ -24,8 +24,7 @@ export default async function AllProducts({searchParams}){
                     <button className={styles.button_sort_and_filter}>Sort by  
                         <ChevronDown width={16} height={16} weight={3}/>
                     </button>
-                </div>
-                
+                </div>                
                 <section className={styles.products_main_container}>
                     <Suspense key={`products_${page}p`} fallback={<LoadMore/>}>
                         {data.products_and_categories[0].map(product => (                        

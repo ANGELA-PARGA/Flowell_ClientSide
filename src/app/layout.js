@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navigation/Navigation";
+import Footer from "@/components/footer/Footer";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
 import StoreProvider from "@/provider";
 import { ToastContainer } from "react-toastify";
@@ -23,7 +24,8 @@ export default function RootLayout({ children }) {
             </header>
             <main>{children}</main>
           </StoreProvider>
-            <footer>          
+            <footer> 
+              <Footer/>         
             </footer>
         </SessionAuthProvider>
         <ToastContainer

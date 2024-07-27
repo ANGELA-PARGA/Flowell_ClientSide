@@ -6,6 +6,7 @@ import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useContext } from "react";
 import { StoreContext } from "@/context";
@@ -18,6 +19,7 @@ const schema = yup.object({
 })
 
 export default function Login() {
+  const { data: session, status } = useSession();
   const [loginError, setLoginError] = useState();
   const router = useRouter();
   const { populateCartData } = useContext(StoreContext);
@@ -28,7 +30,6 @@ export default function Login() {
 
   const onSubmit = async (data, e) => {
       e.preventDefault();
-      console.log(data)
       await schema.validate(data);
       try {
         const responseNextAuth = await signIn("credentials", {

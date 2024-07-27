@@ -14,8 +14,8 @@ import mini_image8 from '../../../public/mini_image8.jpeg'
 import mini_image9 from '../../../public/mini_image9.jpeg'
 import mini_image10 from '../../../public/mini_image10.jpeg'
 import useEmblaCarousel from 'embla-carousel-react'
-import { useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from '../../../public/svgIcons';
+import Autoplay from 'embla-carousel-autoplay'
+import { useDotButton, DotButton } from './BannerDotButtons';
 
 
 export default function Category() {
@@ -72,30 +72,11 @@ export default function Category() {
     }
 ]
 
-const [emblaRef, emblaApi] = useEmblaCarousel({loop:true})
-
-    const scrollPrev = useCallback(() => {
-        if (emblaApi) emblaApi.scrollPrev()
-    }, [emblaApi])
-    
-    const scrollNext = useCallback(() => {
-        if (emblaApi) emblaApi.scrollNext()
-    }, [emblaApi])
-
+    const [emblaRef, emblaApi] = useEmblaCarousel({loop:true}, [Autoplay({delay:5000,  speed:1})])
+    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
 
 return (
     <section className={styles.categories_container}>
-        <div className={styles.title_categories_container}>
-            <h2>Categories </h2>
-            <div className={styles.categories_buttons_container}>
-                <div className={styles.embla_button_category} onClick={scrollPrev}>
-                    <ChevronLeft width={34} height={34} weight={1.5}/>
-                </div>
-                <div className={styles.embla_button_category} onClick={scrollNext}>
-                    <ChevronRight width={34} height={34} weight={1.5}/>
-                </div>
-            </div>
-        </div>
         <div className={styles.banner_container}>
             <div className={styles.embla}>
                 <div className={styles.embla_viewport} ref={emblaRef}>
@@ -109,16 +90,26 @@ return (
                                         style={{
                                             width: '100%',
                                             height: 'auto',
-                                            borderRadius: '0.5rem'
+                                            borderRadius: '50%'
                                         }}                                
                                         alt={`Picture of the ${item.name} category`}/>
-                                    <Link href={`/products/categories/${item.id}`}><h4>{item.name}</h4></Link>
+                                    <Link href={`/products/categories/${item.id}`}>{item.name}</Link>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>         
             </div>
+        </div>
+        <div className={styles.emblaDots}>
+            {scrollSnaps.map((_, index) => (
+                <DotButton
+                key={index}
+                index={index}
+                selectedIndex ={selectedIndex}
+                onClick={() => onDotButtonClick(index)}
+                />
+            ))}
         </div>        
     </section>   
     );

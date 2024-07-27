@@ -7,9 +7,15 @@ export default function Home() {
   return (
     <section>
       <div className={styles.banner}>
-        <Banner></Banner>
+        <div className={styles.bannerGrid}>
+          <div className={styles.bannerCarrousel}>
+            <Banner/>
+          </div>
+          <div className={styles.bannerInformative}>
+            <BannerInformative/>            
+          </div>
+        </div>
         <Category></Category>
-        <BannerInformative/>
       </div>
     </section>
   );

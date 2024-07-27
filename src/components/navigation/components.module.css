@@ -121,6 +121,13 @@
     width: 250px;
 }
 
+.dropdown_menu_authenticated_cart{
+    width: 300px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+
 .search_dropdown_menu{
     width: 60vw;
     left: 20vw;
@@ -228,6 +235,11 @@
 
 .itemNumber{
     font-size: 0.8rem;
+}
+
+.dropdown_menu_total_cart {
+    font-size: 1rem;
+    color:#0067a0;
 }
 
 @media screen and (max-width: 790px) {    

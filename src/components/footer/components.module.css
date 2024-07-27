@@ -1,0 +1,41 @@
+.footer_main_container{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    padding: 2.5rem;
+    background-color: rgba(243, 242, 242, 0.849);
+}
+
+.footer_main_container h3{
+    font-size: 1.25rem;
+}
+
+.footer_products, .footer_contact, .footer_resources{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 2rem;
+    font-size: 0.85rem;
+    color: rgb(65, 64, 64);
+    gap: 1rem;
+}
+
+.footer_products a:hover, .footer_contact a:hover, .footer_resources a:hover{
+    text-decoration: underline;
+}
+
+.social_icons,.logo_icon{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.logo_icon{
+    gap: 0.25rem;
+}
+
+.logo_icon p{
+    font-size: 1.25rem;
+    color: rgb(65, 64, 64);
+    font-weight: 600;
+}

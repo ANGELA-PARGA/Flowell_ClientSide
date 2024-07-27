@@ -83,7 +83,7 @@ const DropdownMenu = ({linkActive}) => {
                 <ul className={styles.dropdown_menu_phone_version}>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <CategoryIcon width={20} height={20} weight={2}/>
-                        <Link href='/products/all/1'>All Products</Link>
+                        <Link href='/products'>All Products</Link>
                     </li>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <ShoppingBagIcon width={20} height={20} weight={2} />       

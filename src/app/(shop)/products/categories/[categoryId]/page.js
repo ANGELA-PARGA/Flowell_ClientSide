@@ -16,21 +16,21 @@ export default async function CategoryProducts({params}){
         notFound() : 
         <>
         <section className={styles.main_container}>
-          <h2>{data.products_by_category[0].category_name} <span>{data.products_by_category.length} Results</span></h2>
+          <h2>All {data.products_by_category[0].category_name} <span>{data.products_by_category.length} Results</span></h2>
           <div className={styles.filter_sort_buttons_container}>
             <button className={styles.button_sort_and_filter}>Filter by</button>
             <button className={styles.button_sort_and_filter}>Sort by  
               <ChevronDown width={16} height={16} weight={3}/>
             </button>
           </div>
-        </section>
-        <section className={styles.products_main_container}>
-        <Suspense key={`category_${params.categoryId}`} fallback={<LoadMore/>}>          
-            {data.products_by_category.map(product => (              
-              <ProductCard key={product.id} data={product} />              
-            ))}
-        </Suspense>          
-        </section>
+          <section className={styles.products_main_container}>
+            <Suspense key={`category_${params.categoryId}`} fallback={<LoadMore/>}>          
+                {data.products_by_category.map(product => (              
+                  <ProductCard key={product.id} data={product} />              
+                ))}
+            </Suspense>          
+          </section>
+        </section>        
         </>}
     </>
   );

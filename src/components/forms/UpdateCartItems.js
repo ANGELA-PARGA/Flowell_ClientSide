@@ -18,7 +18,6 @@ const UpdateCartItems = ({data, id}) => {
             ...dataToUpdate,
             product_id:productId,
         }
-        console.log('handle update:', productToUpdate)
         try {
             await updateCartItem(productToUpdate);
             await populateCartData();
@@ -32,8 +31,7 @@ const UpdateCartItems = ({data, id}) => {
     };
 
     const handleDelete = async (e) => {
-        e.preventDefault()
-        console.log('handle delete:', productId)        
+        e.preventDefault()      
         try {
             await deleteCartItem(productId);
             await populateCartData();
@@ -52,11 +50,11 @@ const UpdateCartItems = ({data, id}) => {
                 {data.qty > 1 ? (
                     <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> 
                 )
-                : <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={16} height={16} weight={2}/></button>}
-                <p>{data.qty}</p>
+                : <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>}
+                <p className={styles.dataQty}>{data.qty}</p>
                 <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)}> + </button>
                 <div>
-                    {data.qty === 1 ? <></>:<button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={16} height={16} weight={2}/></button>}
+                    {data.qty === 1 ? <></>:<button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>}
                 </div>
             </div>                                                
         </div>

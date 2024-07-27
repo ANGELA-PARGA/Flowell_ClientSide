@@ -10,8 +10,8 @@ export default function ButtonLogOut(){
 
     const onClickLogOut = async () => {
         console.log('calling onclick log out')
+        await signOut();
         await handleLogOut();
-        signOut();         
     }
     return (
         <button className={styles.button_sign_in} onClick={()=> onClickLogOut()}> Log Out </button>

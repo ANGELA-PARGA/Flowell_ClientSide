@@ -31,4 +31,5 @@ export default async function handleLogOut() {
     }
     cookies().delete('connect.sid')
     console.log('DONE LOG OUT FROM SERVER!') 
+    
 }
