@@ -6,29 +6,33 @@ import { useState, useContext } from 'react';
 import { StoreContext } from '@/context';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { TrashIcon } from '../../../public/svgIcons';
+import { debounce } from "lodash";
 
 const UpdateCartItems = ({data, id}) => {
     const [updateError, setupdateError] = useState();
-    const { populateCartData } = useContext(StoreContext);
+    const { populateCartData, updateProductQtyInCart } = useContext(StoreContext);
     const productId = parseInt(id);    
 
     const handleUpdate = async (dataToUpdate, e) => {
-        e.preventDefault()
-        const productToUpdate = {
+        e.preventDefault();
+        updateProductQtyInCart(dataToUpdate.qty, productId);        
+        debouncedUpdate({
             ...dataToUpdate,
-            product_id:productId,
-        }
+            product_id: productId,
+        });        
+    };
+
+    const debouncedUpdate = debounce(async (productToUpdate) => {
         try {
             await updateCartItem(productToUpdate);
             await populateCartData();
-            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`)
+            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);
         } catch (error) {
-            console.log(error)
-            setupdateError(error.message)
-            toast.error('Failed to update item in cart')
+            console.error('Failed to update item in cart:', error);
+            setupdateError(error.message);
+            toast.error('Failed to update item in cart');
         }
-        
-    };
+    }, 300);
 
     const handleDelete = async (e) => {
         e.preventDefault()      
@@ -43,6 +47,7 @@ const UpdateCartItems = ({data, id}) => {
         }
         
     };
+
     return (
         <>
         <div className={styles.product_cart_buttons_container}>

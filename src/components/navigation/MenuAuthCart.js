@@ -20,7 +20,7 @@ const MenuAuthCart = () => {
                 ))}                    
                 <h3 className={styles.dropdown_menu_total_cart}>Total: ${cartData.total.toFixed(2)}</h3>
                 <div>
-                    <Link href='/account/cart'><button className={styles.button_sign_in}>View cart</button></Link>
+                    <Link href='/account/cart'><button className={styles.button_sign_in}>View</button></Link>
                 </div>
                 </>
             }

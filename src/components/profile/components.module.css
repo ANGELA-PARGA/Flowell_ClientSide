@@ -32,8 +32,9 @@
 }
 .subcontainer_info_details{
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
     gap: 1rem;
 }
 .profile_info_details_container{
@@ -55,4 +56,10 @@
 }
 .notUserInfoMessage{
     color: #424242;
+}
+
+@media screen and (max-width: 768px) {
+    .subcontainer_info_details{
+        grid-template-columns: 1fr;
+    }
 }

@@ -219,7 +219,7 @@
 }
 
 .button_sign_in, .button_sign_up, .button_cart{
-    width: 100px;
+    width: 50px;
     border-radius: 1rem; 
     height: 2rem;
     background-color:#0067a0;
@@ -227,6 +227,9 @@
     cursor: pointer;
     color: white;
     font-weight: 600;
+}
+.button_cart{
+    width: 100px;
 }
 
 .button_sign_in:hover, .button_sign_up:hover, .button_cart:hover{

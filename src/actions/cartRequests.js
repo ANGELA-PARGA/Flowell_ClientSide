@@ -29,6 +29,7 @@ export async function fetchCartInfoByUser(){
 
 
 export async function updateCartItem({product_id, qty}){
+    console.log('calling update cart item server', product_id, qty)
     const allCookies = cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`

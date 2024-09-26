@@ -45,15 +45,15 @@ const handler = NextAuth({
                                     cookieObject[name.trim()] = value.trim();
                                 }
                             });
+                            /* on production set cookie to secure:true*/
                             cookies().set({
                                 name: 'connect.sid',
                                 value: cookieObject['connect'],
                                 httpOnly: true,
                                 maxAge: 24 * 60 * 60 * 1000,
                                 path: cookieObject['Path'],
-                                sameSite: false,
                                 expires: new Date(cookieObject['Expires']),
-                                secure: false,
+                                secure: true,
                             });
                             
                             /*returning the user for the session information*/

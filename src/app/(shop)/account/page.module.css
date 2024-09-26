@@ -53,21 +53,6 @@
     flex: 0 0 80%;
 }
 
-.sidebar_logout_button{
-    width: 100px;
-    background-color: #0068a0cc;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.25rem;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-}
-.sidebar_logout_button:hover{
-    background-color:#0067a0;
-}
-
 /* Tooltip Styles */
 .tooltip {
     display: none;
@@ -84,14 +69,12 @@
 
 @media screen and (max-width: 768px) {
     .dashboard {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 5fr;
     }
 
     .sidebar {
-        flex-direction: row;
-        justify-content: space-evenly;
+        flex-direction: column;        
         align-items: center;
-        flex: 0 0 auto;
         width: 100%;
         height: auto;
         padding: 0.5rem;
@@ -99,17 +82,7 @@
 
     .sidebar h1 {
         display: none;
-    }
-
-    .sidebar_list_options {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        font-size: 0;
-        width: 100%;
-    }
+    }    
 
     .sidebar_list_options a {
         flex-direction: column;
@@ -120,21 +93,6 @@
         background-color: #fff;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         position: relative;
-    }
-
-    .sidebar_list_options a .tooltip {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-        height: 30px;
-        font-size: 0.75rem;
-    }
-
-    .sidebar_list_options a:hover .tooltip {
-        display: block;
     }
 
     .info_dashboard {

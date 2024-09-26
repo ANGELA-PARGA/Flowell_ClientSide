@@ -14,6 +14,7 @@ const ProductCartInfo = ({data, id}) => {
                         height: 'auto',
                         borderRadius: '25%'
                     }}
+                    priority
                     alt='mini image of the product in the cart'>
                 </Image>
             </div>

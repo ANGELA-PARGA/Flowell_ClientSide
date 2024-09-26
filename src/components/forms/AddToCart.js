@@ -12,13 +12,14 @@ import { addProductToCart } from '@/actions/productRequests';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { StoreContext } from '@/context';
 import Spinner from '@/UI/Spinner';
+import { debounce } from 'lodash';
 
 
 const AddToCart = ({id}) => {
     const [updateError, setupdateError] = useState();
     const [itemQty, setItemQty] = useState(false);
     const { data: session, status} = useSession();
-    const { cartData, populateCartData, getProductQtyInCart } = useContext(StoreContext);
+    const { cartData, populateCartData, getProductQtyInCart, updateProductQtyInCart } = useContext(StoreContext);
     const productId = parseInt(id); 
 
     useEffect(() => {
@@ -59,28 +60,29 @@ const AddToCart = ({id}) => {
         
     };
 
-    const handleUpdate = async (data, e) => {
-        e.preventDefault()
-        const productToUpdate = {
-            ...data,
-            product_id:productId,
-        }
-        console.log('handle update:', productToUpdate)
+    const handleUpdate = async (dataToUpdate, e) => {
+        e.preventDefault();
+        updateProductQtyInCart(dataToUpdate.qty, productId);        
+        debouncedUpdate({
+            ...dataToUpdate,
+            product_id: productId,
+        });        
+    };
+
+    const debouncedUpdate = debounce(async (productToUpdate) => {
         try {
             await updateCartItem(productToUpdate);
             await populateCartData();
-            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`)
+            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);
         } catch (error) {
-            console.log(error)
-            setupdateError(error.message)
-            toast.error('Failed to update item in cart')
+            console.error('Failed to update item in cart:', error);
+            setupdateError(error.message);
+            toast.error('Failed to update item in cart');
         }
-        
-    };
+    }, 300);
 
     const handleDelete = async (e) => {
-        e.preventDefault()
-        console.log('handle delete:', productId)        
+        e.preventDefault()      
         try {
             await deleteCartItem(productId);
             await populateCartData();
