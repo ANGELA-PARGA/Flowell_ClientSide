@@ -113,7 +113,7 @@ const AddToCart = ({id}) => {
                     <button className={styles.add_to_cart_button} type="submit" disabled={isSubmitting}>
                         Add to Cart
                     </button>
-                    {errors.quantity && <p>{errors.quantity.message}</p>}
+                    {errors.qty && <p>{errors.qty.message}</p>}
                     </form>
                 ) : (
                     <div className={styles.product_cart_buttons_container}>

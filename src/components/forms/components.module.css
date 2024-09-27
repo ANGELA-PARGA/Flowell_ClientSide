@@ -158,3 +158,26 @@
 .subtotal_cart span{
     color: #0067a0; 
 }
+
+/* form CSS styles */
+.checkoutForm, .checkoutInfo, .checkoutBoxes{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.checkoutBoxes{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d6d6d6;
+}
+
+.radioInput{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.radioInput label{
+    font-size: 0.9rem;  
+}

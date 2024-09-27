@@ -4,6 +4,7 @@ import styles from './page.module.css'
 import ProductCartInfo from '@/components/product/ProductCartInfo'
 import { StoreContext } from '@/context'
 import { useContext } from 'react'
+import Link from 'next/link'
 
 
 export default function Cart() {
@@ -14,7 +15,7 @@ export default function Cart() {
   return (
     <section className={styles.cartContainer}>
       <h2>Cart</h2>
-      {!cartData.items[0].product_id ? (
+      {!cartData?.total ? (
         <p>There aren't products in your cart, go ahead and purchase some flowers!</p>
       ) : (
         <>
@@ -24,7 +25,7 @@ export default function Cart() {
         ))}
         </div>
         <h3>Total: ${cartData.total.toFixed(2)}</h3>
-        <button className={styles.place_order_button}>Place Order</button>
+        <Link href={'/checkout'}><button className={styles.place_order_button}>Place Order</button></Link>
         </>
       )}
     </section>

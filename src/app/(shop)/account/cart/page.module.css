@@ -5,7 +5,7 @@
 }
 
 
-  .place_order_button{
+  .place_order_button, .returnCart{
     width: 100px;
     background-color: #0068a0cc;
     color: white;
@@ -17,7 +17,7 @@
     cursor: pointer;
   }
 
-  .place_order_button:hover{
+  .place_order_button:hover, .returnCart:hover{
     background-color:#0067a0;
 }
   

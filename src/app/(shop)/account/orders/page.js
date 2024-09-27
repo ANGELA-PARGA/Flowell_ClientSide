@@ -11,7 +11,7 @@ export default async function Orders() {
     <section>
         {orders.orders.length > 0 ? (
           <ul className={styles.orders_container}>
-          {userOrders.orders.map((order) => (
+          {orders.orders.map((order) => (
             <OrderCard order={order} key={order.id}/>
           ))}
           </ul>

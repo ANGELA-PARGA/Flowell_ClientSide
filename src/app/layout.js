@@ -6,6 +6,7 @@ import SessionAuthProvider from "@/context/SessionAuthProvider";
 import StoreProvider from "@/provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styles from './page.module.css'
 const monserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({ children }) {
             <header>
               <Navigation/>
             </header>
-            <main>{children}</main>
+            <main className={styles.mainBody}>{children}</main>
           </StoreProvider>
             <footer> 
               <Footer/>         

@@ -7,7 +7,7 @@ export async function middleware(req) {
     const { pathname } = req.nextUrl;
 
     // Protege rutas de la cuenta
-    if (!token && pathname.startsWith('/account')) {
+    if (!token && (pathname.startsWith('/account') || !token && pathname.startsWith('/checkout'))){
         return NextResponse.redirect(new URL('/login', req.url));
     }
 
@@ -18,6 +18,6 @@ export async function middleware(req) {
     }
 
 export const config = {
-    matcher: ['/account/:path*', '/login', '/signup'],
+    matcher: ['/account/:path*',  '/checkout', '/login', '/signup'],
 };
 

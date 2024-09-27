@@ -1,0 +1,8 @@
+.cartContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 73px auto 0 auto;
+  padding: 1rem;    
+}

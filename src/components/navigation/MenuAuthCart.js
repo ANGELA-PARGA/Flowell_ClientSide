@@ -8,10 +8,9 @@ import ProductCartMenu from '../product/ProductCartMenu';
 
 const MenuAuthCart = () => {
     const {cartData} = useContext(StoreContext);
-    console.log(cartData)
 
     return (
-        cartData.total_items > 0 ? 
+        cartData.total ? 
             <div className={`${styles.dropdown_menu_authenticated} ${styles.dropdown_menu_authenticated_cart}`}>                
             {
                 <>                    

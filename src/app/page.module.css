@@ -12,6 +12,9 @@
     align-items: center;
     
 }
+.mainBody{
+    min-height: 100dvh;
+}
 
 @media screen and (max-width: 768px) {
     .bannerGrid{
