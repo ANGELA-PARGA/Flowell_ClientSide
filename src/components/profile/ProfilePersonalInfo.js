@@ -6,7 +6,6 @@ export default function ProfilePersonalInfo({userData}) {
     return (
         <>
         <section className={styles.profile_info_container}>
-            <h2>My Profile</h2>
             <div className={styles.profile_info_subcontainer}>
                 <h3>Personal information</h3>
                 <div className={styles.profile_info_details_container}>

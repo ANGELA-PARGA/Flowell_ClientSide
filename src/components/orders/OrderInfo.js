@@ -5,7 +5,7 @@ export default function OrderInfo({userOrder}) {
     return (
         <section className={styles.orderInfo_container}>
             <div className={styles.orderInfo_subcontainer}>
-                <h2>Order #{userOrder[0].id}</h2>
+                <h3>Order #{userOrder[0].id}</h3>
                 <p>Created: {format(parseISO(userOrder[0].created), 'EE, MMMM d yyyy')}</p>
                 <p>Status: {userOrder[0].status}</p>
             </div>
@@ -13,16 +13,16 @@ export default function OrderInfo({userOrder}) {
                 <h3>Delivery Date</h3>
                 <p>Delivery date: {format(parseISO(userOrder[0].delivery_date), 'EE, MMMM d yyyy')}</p>
                 {
-                    userOrder.status === 'DELIVERED' || userOrder.status === 'IN TRANSIT' ?
-                    (<button disabled>Update</button>):( <button>Update</button>)
+                userOrder.status === 'DELIVERED' || userOrder.status === 'IN TRANSIT' ?
+                (<button disabled>Update</button>):( <button>Update</button>)
                 }            
             </div>
             <div className={styles.orderInfo_subcontainer}>
                 <h3>Items</h3>
-                <ul>
+                <ul className={styles.ordered_items_container}>
                     {userOrder[0].items.map((item)=>{            
                         return (
-                        <li key={item.product_id}>
+                        <li key={item.product_id} className={styles.ordered_items}>
                             <p>Item: {item.name}</p>
                             <p>Quantity: {item.qty} case</p>
                             {

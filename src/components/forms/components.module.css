@@ -38,7 +38,7 @@
     opacity: 0.5; 
 }
 
-.update_button, .cancel_update_button{
+.update_button, .cancel_update_button, .pay_button{
     width: 100px;
     border-radius: 1rem; 
     height: 2rem;
@@ -50,7 +50,11 @@
     font-size: 0.75rem;
 }
 
-.update_button:hover, .cancel_update_button:hover{
+.pay_button{
+    align-self: center;
+}
+
+.update_button:hover, .cancel_update_button:hover, .pay_button:hover{
     background-color:#0f80bd;
 }
 

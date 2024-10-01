@@ -39,3 +39,11 @@
     color: rgb(65, 64, 64);
     font-weight: 600;
 }
+
+@media screen and (max-width: 768px) {
+    .footer_main_container{
+        grid-template-columns: 1fr 2fr;
+        padding: 1rem;
+        gap: 1rem;
+    }
+}

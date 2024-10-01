@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 export default function OrderCard({order}) {
     return (
         <li key={order.id} className={styles.order_details_subcontainer}>
-            <h2>Order #{order.id}</h2>
+            <h3>Order #{order.id}</h3>
             <div>
                 <p><span>Total:</span> ${order.total.toFixed(2)} </p>
                 <p><span>Status:</span> {order.status}</p>
