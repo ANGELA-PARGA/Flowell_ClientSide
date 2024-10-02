@@ -18,8 +18,8 @@ export default function StoreProvider({children}){
         try {
             console.log('calling populate data')
             const data = await fetchCartInfoByUser();
+            console.log('cart data received from server', data)
             setCartData(data.cart)
-            console.log(cartData)
             localStorage.setItem('cartData', JSON.stringify(data.cart));        
         } catch (error) {
             console.error('Failed to populate cart data:', error);            

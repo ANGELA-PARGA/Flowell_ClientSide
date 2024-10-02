@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
-import { addDays, addBusinessDays, getDay } from 'date-fns';
+import { addDays, addBusinessDays, getDay} from 'date-fns';
 import { createNewOrder } from '@/actions/ordersRequest';
 import styles from './components.module.css';
 
@@ -17,9 +17,7 @@ const schema = yup.object().shape({
     delivery_date: yup.date().required('Please select a delivery date').nullable(),
 });
 
-const stripePromise = loadStripe('pk_test_51Q3iszDtRSJ5heJxDgbmYqFWGU2w1AmYLMHSI8yXVYDRouTe8GCqVeaMkPodCDgwmbWkCkXnuGQloTO9WFPP5UDS00RWvEgoTj');
-console.log('Stripe Publishable Key:', 'pk_test_51Q3iszDtRSJ5heJxDgbmYqFWGU2w1AmYLMHSI8yXVYDRouTe8GCqVeaMkPodCDgwmbWkCkXnuGQloTO9WFPP5UDS00RWvEgoTj');
-
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = ({data}) => {
     const [updateError, setupdateError] = useState();
@@ -38,8 +36,8 @@ const CheckoutForm = ({data}) => {
         await schema.validate(shipping_info)
 
         try {
-            await createNewOrder(shipping_info);
-            await populateCartData();
+            const stripeCheckoutUrl = await createNewOrder(shipping_info);
+            window.location.href = stripeCheckoutUrl;
         } catch (error) {
             console.log(error)
             setupdateError(error.message)

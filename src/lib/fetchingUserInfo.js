@@ -1,4 +1,4 @@
-require('dotenv').config({ path: 'api.env' });
+/*require('dotenv').config({ path: 'api.env' });*/
 import { cookies } from "next/headers";
 
 export async function fetchAllUserInfo(){

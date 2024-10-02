@@ -1,5 +1,5 @@
 'use server'
-require('dotenv').config({ path: 'api.env' });
+/*require('dotenv').config({ path: 'api.env' });*/
 import { revalidatePath } from 'next/cache';
 import { cookies } from "next/headers";
 

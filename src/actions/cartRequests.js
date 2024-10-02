@@ -1,9 +1,10 @@
 'use server'
-require('dotenv').config({ path: 'api.env' });
+
 import { revalidatePath } from 'next/cache';
 import { cookies } from "next/headers";
 
 export async function fetchCartInfoByUser(){
+    console.log('fetch cart info by user')
     const allCookies = cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
@@ -19,6 +20,7 @@ export async function fetchCartInfoByUser(){
         } 
 
         const responseObject = await response.json()
+        console.log('cart info on client', responseObject)
         return responseObject;
         
     } catch (error) {

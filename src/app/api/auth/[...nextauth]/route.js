@@ -1,4 +1,4 @@
-require('dotenv').config({ path: 'api.env' });
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
@@ -13,6 +13,7 @@ const handler = NextAuth({
                 password: { label: "password", type: "password", placeholder: "**********"  },
             },
             async authorize(credentials) {
+                console.log('url on server', process.env.NEXT_PUBLIC_BACKEND_URL)
                     try {
                         const response = await fetch(
                             `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,

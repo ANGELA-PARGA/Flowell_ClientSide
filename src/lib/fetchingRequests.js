@@ -1,5 +1,5 @@
 
-require('dotenv').config({ path: 'api.env' });
+/*require('dotenv').config({ path: 'api.env' });*/
 
 export async function fetchAllProducts(page){
     try {

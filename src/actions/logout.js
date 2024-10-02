@@ -1,6 +1,5 @@
 // pages/api/logout.js
 'use server'
-require('dotenv').config({ path: 'api.env' });
 
 import { cookies } from "next/headers"
 

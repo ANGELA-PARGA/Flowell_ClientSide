@@ -10,7 +10,6 @@ import styles from './components.module.css'
 
 const CheckoutDashboard = ({data}) => {
     const { cartData } = useContext(StoreContext);
-    console.log('data in Checkout component', data) 
     const [isClient, setIsClient] = useState(false);
 
     // Ensure the component is rendered only after the client-side cart data is available

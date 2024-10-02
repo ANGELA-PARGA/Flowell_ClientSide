@@ -1,7 +1,4 @@
 'use server'
-require('dotenv').config({ path: 'api.env' });
-
-
 export async function registerUser(data){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
