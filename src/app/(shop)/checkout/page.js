@@ -5,7 +5,6 @@ import styles from './page.module.css'
 
 export default async function Checkout() { 
   const data = await fetchAllUserInfo();
-  console.log('user info in Checkout component', data)
 
   return (
     <section className={styles.cartContainer}>

@@ -7,7 +7,6 @@ import LoadMore from '@/UI/LoadMore';
 
 export default async function Product({params}) {
   const data = await fetchProductsById(params.productId); 
-  console.log('product info in Product component', data) 
 
   return (
       <section className={styles.main_container}>

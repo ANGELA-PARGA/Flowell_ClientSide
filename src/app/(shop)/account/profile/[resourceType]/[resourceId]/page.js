@@ -1,7 +1,6 @@
 import UpdateAddressInfo from '@/components/forms/UpdateAddressInfo';
 import UpdateProfileInfo from '@/components/forms/UpdateProfileInfo';
 import UpdatePhoneInfo from '@/components/forms/UpdatePhoneInfo';
-import UpdateCreditInfo from '@/components/forms/UpdateCreditInfo';
 import { fetchAllUserInfo } from '@/lib/fetchingUserInfo';
 
 export default async function FormToUpdatePersonalInfo({ params }) {
@@ -12,7 +11,6 @@ export default async function FormToUpdatePersonalInfo({ params }) {
         personal_inf: UpdateProfileInfo,
         address_inf: UpdateAddressInfo,
         contact_inf: UpdatePhoneInfo,
-        payment_inf: UpdateCreditInfo,
     };
 
     const propsForComponent = {
@@ -36,13 +34,6 @@ export default async function FormToUpdatePersonalInfo({ params }) {
             resourceId: params.resourceId,
             phone: (data.user.phones || []).filter(
                 (phone) => phone.phoneID === parseInt(params.resourceId)
-            ),
-        },
-        payment_inf: {
-            resourceType: params.resourceType,
-            resourceId: params.resourceId,
-            creditCard: (data.user.credit_cards || []).filter(
-                (creditc) => creditc.creditcardID === parseInt(params.resourceId)
             ),
         },
     };

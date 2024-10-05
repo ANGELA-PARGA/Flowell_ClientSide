@@ -17,15 +17,15 @@ export default async function handleLogOut() {
 
         if (!response.ok) {     
             const errorResponse = await response.json();
-            console.log(`fetching all user info failed`, errorResponse);
+            console.log(`LOGGING OUT FETCH FAILED`, errorResponse);
             throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
-        console.log('response ok in handler',responseObject)
+        console.log('LOGGIN OUT RESPONSE:',responseObject)
         
     } catch (error) {
-        console.error('Network error:', error);
+        console.error('NETWORK ERROR LOGGIN OUT:', error);
         throw error
     }
     cookies().delete('connect.sid')

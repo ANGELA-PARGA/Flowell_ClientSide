@@ -3,7 +3,7 @@
 import { StoreContext } from '@/context'
 import { useContext, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation';
-import SuccessfullUI from '@/components/orders/ClientSideCartUpdate';
+import SuccessfullUI from '@/components/orders/SuccessfullUI';
 
 
 export default function Success() {

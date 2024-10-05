@@ -7,8 +7,7 @@ import { Suspense } from 'react';
 import LoadMore from '@/UI/LoadMore';
 
 export default async function CategoryProducts({params}){
-  const data = await fetchProductsByCategory(params.categoryId);
-  console.log('categories info in CategoryProducts component', data) 
+  const data = await fetchProductsByCategory(params.categoryId); 
   
   return (
     <>

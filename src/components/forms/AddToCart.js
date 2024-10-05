@@ -13,6 +13,7 @@ import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { StoreContext } from '@/context';
 import Spinner from '@/UI/Spinner';
 import { debounce } from 'lodash';
+import Link from 'next/link';
 
 
 const AddToCart = ({id}) => {
@@ -123,29 +124,24 @@ const AddToCart = ({id}) => {
                                 -
                             </button>
                             ) : (
-                            <button className={styles.update_cart_items_button} onClick={(e) => handleDelete(e)}>
-                                <TrashIcon width={16} height={16} weight={2} />
+                            <button disabled className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
+                                -
                             </button>
+                            
                             )}
                             <p>{itemQty}</p>
                             <button className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty + 1 }, e)}>
                             +
                             </button>
+                            <button className={styles.update_cart_items_button} onClick={(e) => handleDelete(e)}>
+                                <TrashIcon width={16} height={16} weight={2} />
+                            </button>
                         </div>
-                    <div>
-                        {itemQty === 1 ? null : (
-                        <button className={styles.update_cart_items_button} onClick={(e) => handleDelete(e)}>
-                            <TrashIcon width={14} height={14} weight={2} />
-                        </button>
-                        )}
-                    </div>
                     </div>
                 )}
                 </div>
             ) : (
-                <button className={styles.add_to_cart_button} type="submit">
-                Log in to buy
-                </button>
+                <Link href={'/login'}><button className={styles.add_to_cart_button} type="button">Log in to buy</button></Link>  
             )}
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

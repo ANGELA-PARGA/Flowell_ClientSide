@@ -8,9 +8,7 @@ import Link from 'next/link'
 
 
 export default function Cart() {
-  const { cartData } = useContext(StoreContext);
-  console.log('data in Cart component', cartData)
-  
+  const { cartData } = useContext(StoreContext);  
 
   return (
     <section className={styles.cartContainer}>

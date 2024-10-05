@@ -1,7 +1,6 @@
 import ProfilePersonalInfo from "@/components/profile/ProfilePersonalInfo";
 import ProfileAddressInfo from "@/components/profile/ProfileAddressInfo";
 import ProfilePhoneInfo from "@/components/profile/ProfilePhoneInfo";
-import ProfilePaymentInfo from "@/components/profile/ProfilePaymentInfo";
 import { fetchAllUserInfo } from "@/lib/fetchingUserInfo";
 import { Suspense } from "react";
 
@@ -13,7 +12,7 @@ export default async function Profile({params}) {
         personal_inf: ProfilePersonalInfo,
         address_inf: ProfileAddressInfo,
         contact_inf: ProfilePhoneInfo,
-        payment_inf: ProfilePaymentInfo,
+
     };
 
     const Component = components[params.resourceType];

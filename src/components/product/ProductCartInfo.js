@@ -2,6 +2,7 @@ import styles from './components.module.css'
 import Image from 'next/image';
 import mini_image1 from '../../../public/mini_image1.jpeg'
 import UpdateCartItems from '../forms/UpdateCartItems';
+import Link from 'next/link';
 
 const ProductCartInfo = ({data, id}) => {
     return (
@@ -19,7 +20,7 @@ const ProductCartInfo = ({data, id}) => {
                 </Image>
             </div>
             <div className={styles.product_cart_details_info}>
-                <div><p>{data.name}</p></div>
+                <div><Link href={`/products/${id}`}><p>{data.name}</p></Link></div>
                 <div><span>${data.price_per_case.toFixed(2)}</span></div>
             </div>
             <UpdateCartItems data={data} id={id} key={id}/>

@@ -21,11 +21,6 @@ export default function AccountLayout({ children }) {
       icon: <PhonesIcon width={28} height={28} weight={2}/>
     },
     {
-      name: 'My credit cards',
-      href: '/account/profile/payment_inf',
-      icon: <CreditCardIcon width={28} height={28} weight={2}/>
-    },
-    {
       name: 'My orders',
       href: '/account/orders',
       icon: <OrdersIcon width={28} height={28} weight={2}/>

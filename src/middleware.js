@@ -11,13 +11,13 @@ export async function middleware(req) {
         return NextResponse.redirect(new URL('/login', req.url));
     }
 
-    // Redirige si el usuario está autenticado y trata de acceder a /login o /signup
-    if (token && (pathname === '/login' || pathname === '/signup')) {
+    // Redirige si el usuario está autenticado y trata de acceder a /login o /register
+    if (token && (pathname === '/login' || pathname === '/register')) {
         return NextResponse.redirect(new URL('/', req.url));
     }
     }
 
 export const config = {
-    matcher: ['/account/:path*',  '/checkout', '/login', '/signup'],
+    matcher: ['/account/:path*',  '/checkout', '/login', '/register'],
 };
 

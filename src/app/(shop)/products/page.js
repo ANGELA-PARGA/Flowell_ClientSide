@@ -13,7 +13,7 @@ export default async function AllProducts({searchParams}){
     const data = await fetchAllProducts(page);
 
     const pages = data.pagination.totalPages
-    console.log('all products info in AllProducts component', data, pages) 
+ 
         
     return (
         <>

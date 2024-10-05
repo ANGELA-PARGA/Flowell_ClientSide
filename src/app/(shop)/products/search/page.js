@@ -6,7 +6,6 @@ import { fetchProductsBySearch } from '@/lib/fetchingRequests';
 import LoadMore from '@/UI/LoadMore';
 
 export default async function SearchResults({searchParams}){
-    console.log('products info in SearchResults component', searchParams.t)
     const data = await fetchProductsBySearch(searchParams.t)
     const results = data.product_found
 

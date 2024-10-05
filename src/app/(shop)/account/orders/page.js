@@ -3,9 +3,8 @@ import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo";
 import styles from './page.module.css'
 
 
-export default async function Orders({searchParams}) {
+export default async function Orders() {
   const orders = await fetchAllOrdersByUser()
-  console.log('orders in Order component', orders, searchParams) 
 
 
   return (

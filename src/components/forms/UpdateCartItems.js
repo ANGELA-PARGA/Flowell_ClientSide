@@ -55,16 +55,14 @@ const UpdateCartItems = ({data, id}) => {
                 {data.qty > 1 ? (
                     <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> 
                 )
-                : <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>}
+                : <button disabled className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> }
                 <p className={styles.dataQty}>{data.qty}</p>
                 <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)}> + </button>
-                <div>
-                    {data.qty === 1 ? <></>:<button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>}
-                </div>
+                <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>
             </div>                                                
         </div>
-        <div className={styles.subtotal_cart}>
-            <p>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
+        <div>
+            <p className={styles.subtotal_paragraph}>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
         </div>
         {updateError && (<div>{updateError}</div>)}
         </>

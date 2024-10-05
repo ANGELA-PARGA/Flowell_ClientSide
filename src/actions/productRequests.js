@@ -4,11 +4,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function addProductToCart({product_id, qty}){
+    console.log('ADD TO CART ITEM:', {product_id, qty})
     const allCookies = cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
     try {
-        console.log('add to cart item fetch:', {product_id, qty})
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`, {
             method: 'POST',
             body: JSON.stringify({
@@ -23,7 +23,7 @@ export async function addProductToCart({product_id, qty}){
 
         if (!response.ok) {       
             const errorResponse = await response.json();
-            console.log(`adding item in cart fetch failed`, errorResponse);
+            console.log(`ADDING ITEM TO CART FAILED`, errorResponse);
             throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         }
 
@@ -32,20 +32,20 @@ export async function addProductToCart({product_id, qty}){
         return responseObject;   
             
     } catch (error) {
-        console.error('Network error:', error);
+        console.error('NETWORK ERROR ADDING ITEM TO CART:', error);
         throw error;       
     }
 
 }
 
 export async function fetchProductsBySearch(term){
-    console.log(`calling fetch products by search`, term);
+    console.log(`FETCHING PRODUCTS BY SEARCH`, term);
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/search?term=${term}`)
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`search product by term failed`, errorResponse);
+            console.log(`SEARCH PRODUCT BY TERM FAILED:`, errorResponse);
             throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
@@ -53,7 +53,7 @@ export async function fetchProductsBySearch(term){
         return data;  
 
     } catch (error) {
-        console.error('Network error:', error);
+        console.error('NETWORK ERROR SEARCHING PRODUCTS:', error);
         throw error
     }
 }

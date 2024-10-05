@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from './components.module.css'
 import { format, parseISO } from "date-fns";
+import ButtonCancelOrder from "@/UI/ButtonCancelOrder";
 
 export default function OrderCard({order}) {
     return (
@@ -12,7 +13,10 @@ export default function OrderCard({order}) {
                 <p><span>Delivery Date:</span> {format(parseISO(order.delivery_date), 'EE, MMMM d yyyy')}</p>
             </div>
             <div>
-                <Link href={`/account/orders/${order.id}`}><button>View Order</button></Link>
+                <Link href={`/account/orders/${order.id}`}><button type="button">View Order</button></Link>
+            </div>
+            <div>
+                <ButtonCancelOrder id={order.id} />
             </div>
         </li>
     );
