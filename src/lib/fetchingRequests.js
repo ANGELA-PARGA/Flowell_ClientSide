@@ -1,9 +1,7 @@
 
-/*require('dotenv').config({ path: 'api.env' });*/
-
 export async function fetchAllProducts(page){
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products?page=${page}`) 
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products?page=${page}`, { next: { revalidate: 600 } }) 
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -21,7 +19,7 @@ export async function fetchAllProducts(page){
 
 export async function fetchProductsById(id){
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`, { cache: 'no-store'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -40,7 +38,7 @@ export async function fetchProductsById(id){
 
 export async function fetchProductsByCategory(categoryId){
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}`, { next: { revalidate: 600 } })
 
         if (!response.ok) {        
             const errorResponse = await response.json();

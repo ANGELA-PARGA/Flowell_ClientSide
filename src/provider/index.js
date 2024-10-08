@@ -1,18 +1,20 @@
 'use client'
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { StoreContext } from "@/context";
 import { fetchCartInfoByUser } from "@/actions/cartRequests";
 
 export default function StoreProvider({children}){
-    const [cartData, setCartData] = useState(
-        () => {
-            if (typeof window !== "undefined") {
-                const savedCartData = localStorage.getItem('cartData');
-                return savedCartData ? JSON.parse(savedCartData) : [];
+    const [cartData, setCartData] = useState({
+    });
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedCartData = localStorage.getItem('cartData');
+            if (savedCartData) {
+                setCartData(JSON.parse(savedCartData));
             }
-            return [];
         }
-    );
+    }, []);
 
     const populateCartData = useCallback( async () =>{
         try {

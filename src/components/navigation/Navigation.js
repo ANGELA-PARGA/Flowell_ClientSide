@@ -16,6 +16,7 @@ const Navigation = () => {
     const [active, setActive] = useState('');
     const [showingMenu, setShowingMenu] = useState('');
     const { data: session } = useSession();
+    
 
     function handleToggle(linkName) {
         if (active === linkName) {

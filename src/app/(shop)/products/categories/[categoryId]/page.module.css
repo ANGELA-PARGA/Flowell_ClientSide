@@ -42,14 +42,13 @@
     background-color: #52bbf325;
 }
 
-.products_main_container{ 
-    align-self: center;
-    flex: 1 1;  
+.products_main_container{   
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1rem;
 }
 
-@media (max-width: 350px) {
+@media (max-width: 430px) {
     .main_container {
         padding: 1rem;
     }

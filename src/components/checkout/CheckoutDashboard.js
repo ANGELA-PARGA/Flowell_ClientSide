@@ -36,9 +36,6 @@ const CheckoutDashboard = ({data}) => {
 
     return (     
         <div className={styles.checkoutDashboard}>
-            <div>
-                <CheckoutForm data={data}/>           
-            </div>
             <div className={styles.checkoutProducts}>
                 <div>
                 {cartData.items.map((item) => (
@@ -47,6 +44,9 @@ const CheckoutDashboard = ({data}) => {
                 </div>
                 <h4>Total: ${cartData.total.toFixed(2)}</h4>
                 <Link href={'/account/cart'}><button className={styles.place_order_button}>Return to Cart</button></Link>
+            </div>
+            <div>
+                <CheckoutForm data={data}/>           
             </div>
         </div>
     )

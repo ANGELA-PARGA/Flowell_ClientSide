@@ -8,11 +8,12 @@ import LoadMore from '@/UI/LoadMore';
 
 export default async function CategoryProducts({params}){
   const data = await fetchProductsByCategory(params.categoryId); 
+  console.log('products by category', data)
   
   return (
     <>
     { data.products_by_category.length === 0 ? 
-        notFound() : 
+        <p>There aren't products yet...but we are working on it</p> : 
         <>
         <section className={styles.main_container}>
           <h2>All {data.products_by_category[0].category_name} <span>{data.products_by_category.length} Results</span></h2>

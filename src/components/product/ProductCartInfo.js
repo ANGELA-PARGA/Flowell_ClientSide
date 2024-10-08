@@ -1,22 +1,21 @@
 import styles from './components.module.css'
 import Image from 'next/image';
-import mini_image1 from '../../../public/mini_image1.jpeg'
 import UpdateCartItems from '../forms/UpdateCartItems';
 import Link from 'next/link';
 
 const ProductCartInfo = ({data, id}) => {
+
     return (
         <div className={styles.product_cart_maincontainer}>
             <div className={styles.product_cart_small_img}>
-                <Image src={mini_image1}
-                    sizes="100vw"
+                <Image src={data.images[0]}
+                    width={150}
+                    height={150}
                     style={{
-                        width: '100%',
-                        height: 'auto',
-                        borderRadius: '25%'
+                        borderRadius: '5%'
                     }}
                     priority
-                    alt='mini image of the product in the cart'>
+                    alt={`mini image of ${data.name}`}>
                 </Image>
             </div>
             <div className={styles.product_cart_details_info}>

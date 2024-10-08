@@ -1,23 +1,20 @@
 import Link from 'next/link';
 import styles from './components.module.css'
 import Image from 'next/image';
-import mini_image1 from '../../../public/mini_image1.jpeg'
 
 const ProductCard = ({data}) => {
-
+    console.log(data)
     return (
         <div className={styles.main_card_container}>            
             <div className={styles.image_card_container}>
-                <Image  src={mini_image1}
+                <Image  src={data.images_urls[0]}
+                        fill
                         sizes="100vw"
                         style={{
-                            maxWidth: '100%',
-                            minWidth: '200px',
-                            height: 'auto',
-                            borderRadius: '25%'
+                            borderRadius: '5%',
                         }}
                         priority
-                        alt="Picture of the author"
+                        alt={`Picture of ${data.name}`}
                 />
             </div>
             <div className={styles.product_card_info_container}>

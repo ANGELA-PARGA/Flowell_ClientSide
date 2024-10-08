@@ -1,57 +1,42 @@
 import styles from './components.module.css'
 import Image from 'next/image';
-import mini_image1 from '../../../public/mini_image1.jpeg'
 import AddToCart from '../forms/AddToCart';
 
 const ProductInfo = ({data, id}) => {
     
     return (
         <div className={styles.main_info_container}>            
-            <div className={styles.mini_images_container}>
-                <div>
-                    <Image src={mini_image1}
-                            sizes="100vw"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                borderRadius: '25%'
-                            }}
-                            alt='bouquet of purple alstroemerias'>
-                    </Image>
-                </div>
-                <div>
-                    <Image src={mini_image1}
-                            sizes="100vw"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                borderRadius: '25%'
-                            }}
-                            alt='bouquet of purple alstroemerias'>
-                    </Image>
-                </div>
-                <div>
-                    <Image src={mini_image1}
-                            sizes="100vw"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                borderRadius: '25%'
-                            }}
-                            alt='bouquet of purple alstroemerias'>
-                    </Image>
-                </div>
-            </div>
-            <div className={styles.main_image_container}>
-                <Image  src={mini_image1}
+            <div className={styles.all_images_container}>
+                <div className={styles.main_image_container}>
+                    <Image src={data.product_found.images_urls[0]}
+                        fill
                         sizes="100vw"
                         style={{
-                            width: '100%',
-                            height: 'auto',
+                            borderRadius: '5%',
                         }}
                         priority
-                        alt="Picture of the author"
-                />
+                        alt={`Picture of ${data.product_found.name}`}>
+                    </Image>
+                </div>
+                <div className={styles.mini_images_container}>
+                {
+                    data.product_found.images_urls.map((url) =>{
+                        return(
+                            <div className={styles.images_mini_images_container}>
+                                <Image  src={url}
+                                        width={100}
+                                        height={100}
+                                        style={{
+                                            borderRadius: '5%',
+                                        }}
+                                        priority
+                                        alt={`Picture of ${data.name}`}
+                                />
+                            </div>
+                        )
+                    })
+                }
+                </div>
             </div>
             <div className={styles.product_info_container}>
                 <div className={styles.product_title_container}>

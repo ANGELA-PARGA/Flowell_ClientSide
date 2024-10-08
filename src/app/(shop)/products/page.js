@@ -11,8 +11,10 @@ export default async function AllProducts({searchParams}){
     const page = Number(searchParams?.p) || 1;
 
     const data = await fetchAllProducts(page);
+    console.log('total of products:', data)
 
     const pages = data.pagination.totalPages
+    console.log('total of pages:', pages)
  
         
     return (
