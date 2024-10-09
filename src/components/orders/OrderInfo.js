@@ -5,12 +5,13 @@ import { format, parseISO } from "date-fns";
 import ChangeOrderShippingForm from '../forms/ChangeOrderShippingForm';
 import ChangeOrderDateForm from '../forms/ChangeOrderDateForm';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useRef } from 'react';
 
 export default function OrderInfo({userOrder, userData}) {   
     const searchParams = useSearchParams();
     const router = useRouter();
+    const formRef = useRef(null);
 
-    const userInfo = userData
     const order = userOrder[0];
 
     const handleOnClickDelivery = (e) =>{
@@ -34,6 +35,13 @@ export default function OrderInfo({userOrder, userData}) {
         router.replace(`?${currentParams.toString()}`);
     }
 
+    setTimeout(() => {
+        if (formRef.current) {
+            formRef.current.scrollIntoView({ behavior: 'smooth' });
+            window.scrollBy(0, -73);
+        }
+    }, 100); 
+
     return (
         <section className={styles.orderInfo_container}>
             <div className={styles.orderInfo_subcontainer}>
@@ -53,7 +61,11 @@ export default function OrderInfo({userOrder, userData}) {
                     searchParams.get('edit') === 'delivery' && <button type='button' onClick={(e) => handleOnCancel(e)}>Cancel</button>  
                 }
                 {
-                    searchParams.get('edit') === 'delivery' && <ChangeOrderDateForm id={order.id}/>
+                    searchParams.get('edit') === 'delivery' && 
+                    <>
+                    <div ref={formRef}></div>
+                    <ChangeOrderDateForm id={order.id}/>
+                    </>
                 }           
             </div>
             <div className={styles.orderInfo_subcontainer}>
@@ -89,9 +101,11 @@ export default function OrderInfo({userOrder, userData}) {
                     searchParams.get('edit') === 'shipping' && <button type='button' onClick={(e) => handleOnCancel(e)}>Cancel</button>
                 }
                 {
-                    searchParams.get('edit') === 'shipping' && 
-                    <ChangeOrderShippingForm data={{...userInfo, shipping_address_id:order.shipping_address_id, contact_info_id:order.contact_info_id, id:order.id}}/>
-                    
+                    searchParams.get('edit') === 'shipping' &&
+                    <>
+                    <div ref={formRef}></div>
+                    <ChangeOrderShippingForm data={order}/>
+                    </>                    
                 }
             </div>
         </section>

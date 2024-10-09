@@ -28,7 +28,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         } 
 
         const responseObject = await response.json()
-        revalidatePath(`/account/profile/${resourceType}`, "page")
+        revalidatePath(`/account/profile`, "page")
         return responseObject;
         
     } catch (error) {
@@ -94,7 +94,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
         } 
 
         const responseObject = await response.json()
-        revalidatePath(`/account/profile/${resourceType}`, "page")
+        revalidatePath(`/account/profile`, "page")
         return responseObject
         
     } catch (error) {
@@ -123,7 +123,7 @@ export async function deletePersonalInfo(resourceType,resourceId){
             throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
-        revalidatePath(`/account/profile/${resourceType}`, "page")
+        revalidatePath(`/account/profile`, "page")
     
     } catch (error) {
         console.error('NETWORK ERROR DELETING PERSONAL INFO:', error);

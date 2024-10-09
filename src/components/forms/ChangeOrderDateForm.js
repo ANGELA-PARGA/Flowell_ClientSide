@@ -28,11 +28,10 @@ const ChangeOrderDateForm = ({id}) => {
     const onSubmit = async (formData, e) => {
         console.log('Form Data:', { ...formData});
         e.preventDefault()
-
+        await schema.validate(formData)
         const delivery_info = {
             ...formData,
         }
-        await schema.validate(delivery_info)
 
         try {
             await updateOrderShippingInfo(delivery_info, id)

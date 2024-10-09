@@ -11,8 +11,11 @@ import { createNewOrder } from '@/actions/ordersRequest';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
-    contact_info_id: yup.number().required('Please select a phone number'),
-    shipping_address_id: yup.number().required('Please select a shipping address'),    
+    contact_phone: yup.string().required('Please select a phone number'),
+    address: yup.string().required('Please select a shipping address'), 
+    city: yup.string().required(),
+    state: yup.string().required(),
+    zip_code: yup.string().required(),   
     delivery_date: yup.date().required('Please select a delivery date').nullable(),
 });
 
@@ -51,6 +54,13 @@ const CheckoutForm = ({data}) => {
         return day !== 0 && day !== 6 && day !== 1;
     };
 
+    const handleAddressSelect = (address) => {
+        setValue('address', address.address);
+        setValue('city', address.city);
+        setValue('state', address.state);
+        setValue('zip_code', address.zip_code);
+    };
+
     return (
         <form className={styles.checkoutForm} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.checkoutInfo}>
@@ -65,13 +75,13 @@ const CheckoutForm = ({data}) => {
                         <div key={index} className={styles.radioInput}>
                             <input
                                 type="radio"
-                                value={Number(phone.phoneID)}
-                                {...register('contact_info_id')}
+                                value={phone.phone}
+                                {...register('contact_phone')}
                             />
                             <label>{phone.phone}</label>
                         </div>
                     ))}
-                    {errors.contact_info_id && <p className={styles.error_updating_info}>{errors.contact_info_id.message}</p>}
+                    {errors.contact_phone && <p className={styles.error_updating_info}>{errors.contact_phone.message}</p>}
                 </div>
                 <div className={styles.checkoutBoxes}>
                     <h4>Select Shipping Address</h4>
@@ -79,14 +89,20 @@ const CheckoutForm = ({data}) => {
                     <div key={index} className={styles.radioInput}>
                         <input
                             type="radio"
-                            value={Number(address.addressID)}
-                            {...register('shipping_address_id')}
+                            onClick={() => handleAddressSelect(address)}
+                            name="address_info"
                         />
                         <label>{address.address}, {address.city} - {address.state}, {address.zip_code}</label>        
                     </div>
                     ))}
-                    {errors.shipping_address_id && <p className={styles.error_updating_info}>{errors.shipping_address_id.message}</p>}
+                    {errors.address_info && <p className={styles.error_updating_info}>{errors.address_info.message}</p>}
                 </div>
+                {/* Hidden fields for selected address details */}
+                <input type="hidden" {...register('address')} />
+                <input type="hidden" {...register('city')} />
+                <input type="hidden" {...register('state')} />
+                <input type="hidden" {...register('zip_code')} />
+
                 <div className={styles.checkoutBoxes}>
                     <h4>Select Shipping Date</h4>
                     <ReactDatePicker

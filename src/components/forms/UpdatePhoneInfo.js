@@ -4,7 +4,7 @@ import styles from './components.module.css'
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
@@ -25,8 +25,10 @@ const schema = yup.object({
 });
 
 export default function UpdatePhoneInfo({resourceType, resourceId, phone}) {
+
     const [updateError, setupdateError] = useState();
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
@@ -36,10 +38,13 @@ export default function UpdatePhoneInfo({resourceType, resourceId, phone}) {
         e.preventDefault();
         await schema.validate(data);
         try {
-            await updatePersonalInfo(data, resourceType, resourceId);
-            reset()
-            router.push("/account/profile/contact_inf");
+            await updatePersonalInfo(data, resourceType, resourceId);            
             toast.success(`Contact information updated succesfully`)
+            reset()
+            const currentParams = new URLSearchParams(searchParams.toString());
+            currentParams.delete('edit');
+            currentParams.delete('phoneId');
+            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });  
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -47,10 +52,12 @@ export default function UpdatePhoneInfo({resourceType, resourceId, phone}) {
         }             
     };
 
-    const onCancel = async () => {
-        toast.error('update cancelled')          
-        reset()
-        router.push("/account/profile/contact_inf");
+    const onCancel = async (e) => {
+        e.preventDefault();
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.delete('edit');
+        currentParams.delete('phoneID');
+        router.replace(`?${currentParams.toString()}`);
     };
 
     const handlePhoneChange = (e) => {
@@ -67,10 +74,9 @@ export default function UpdatePhoneInfo({resourceType, resourceId, phone}) {
     return (    
         <main className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-                <h2>Edit your contact information</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
-                        <input {...register('phone')} type="text" name="phone" id="phone" defaultValue={phone[0].phone} onBlur={() => {
+                        <input {...register('phone')} type="text" name="phone" id="phone" defaultValue={phone.phone} onBlur={() => {
                             trigger('phone'); 
                         }} onChange={handlePhoneChange}/>
                         <label htmlFor="phone">Enter phone number</label>
@@ -78,9 +84,9 @@ export default function UpdatePhoneInfo({resourceType, resourceId, phone}) {
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button} disabled={isSubmitting}>Update</button>
+                        <button type="button" onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>
                     </div>
-                </form> 
-                <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>       
+                </form>
             </div>
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

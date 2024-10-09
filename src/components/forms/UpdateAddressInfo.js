@@ -4,7 +4,7 @@ import styles from './components.module.css'
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
@@ -20,8 +20,10 @@ const schema = yup.object({
 
 
 export default function UpdateAddressInfo({resourceType, resourceId, address}) {
+    
     const [updateError, setupdateError] = useState();
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
@@ -32,9 +34,12 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
         await schema.validate(data);
         try {
             await updatePersonalInfo(data, resourceType, resourceId);
-            reset()
-            router.push("/account/profile/address_inf");
             toast.success(`Address information updated succesfully`)
+            reset()
+            const currentParams = new URLSearchParams(searchParams.toString());
+            currentParams.delete('edit');
+            currentParams.delete('addressID');
+            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });   
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -42,40 +47,41 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
         }             
     };
 
-    const onCancel = async () => {  
-        toast.error('update cancelled')        
-        reset()
-        router.push("/account/profile/address_inf");
+    const onCancel = async (e) => {  
+        e.preventDefault();
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.delete('edit');
+        currentParams.delete('addressID');
+        router.replace(`?${currentParams.toString()}`);
     };
 
     return (    
         <main className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-                <h2>Edit your address information</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
-                        <input {...register('address')} type="text" name="address" id="address" defaultValue={address[0].address} onBlur={() => {
+                        <input {...register('address')} type="text" name="address" id="address" defaultValue={address.address} onBlur={() => {
                             trigger('address'); 
                         }} />
                         <label htmlFor="address">Enter your address</label>
                         <p className={styles.error_updating_info}>{errors.address?.message}</p>
                     </div>
                     <div className={styles.update_form_input_container}>
-                        <input {...register('city')} type="text" name="city" id="city" defaultValue={address[0].city} onBlur={() => {
+                        <input {...register('city')} type="text" name="city" id="city" defaultValue={address.city} onBlur={() => {
                             trigger('city');
                         }} />
                         <label htmlFor="city">Enter the city</label>
                         <p className={styles.error_updating_info}>{errors.city?.message}</p>
                     </div>
                     <div className={styles.update_form_input_container}>
-                        <input {...register('state')} type="text" name="state" id="state" defaultValue={address[0].state} onBlur={() => {
+                        <input {...register('state')} type="text" name="state" id="state" defaultValue={address.state} onBlur={() => {
                             trigger('state'); 
                         }} />
                         <label htmlFor="state">Enter the state</label>
                         <p className={styles.error_updating_info}>{errors.state?.message}</p>
                     </div>
                     <div className={styles.update_form_input_container}>
-                        <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" defaultValue={address[0].zip_code} onBlur={() => {
+                        <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" defaultValue={address.zip_code} onBlur={() => {
                             trigger('zip_code'); 
                         }} />
                         <label htmlFor="zip_code">Enter a valid zip code</label>
@@ -83,9 +89,9 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button} disabled={isSubmitting}>Update</button>
+                        <button  type="button" onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>    
                     </div>
-                </form>
-                <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>        
+                </form>    
             </div>
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

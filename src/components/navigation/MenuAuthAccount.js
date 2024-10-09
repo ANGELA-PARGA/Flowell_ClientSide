@@ -6,7 +6,7 @@ const MenuAuthAccount = () => {
         <div className={styles.dropdown_menu_unauthenticated_options}>
             <ul>
                 <li className={styles.dropdown_menu_unauthenticated_options_list}>
-                    <Link href='/account/profile/personal_inf'>Account</Link>
+                    <Link href='/account/profile'>Account</Link>
                 </li>
                 <li className={styles.dropdown_menu_unauthenticated_options_list}>
                     <Link href='/account/orders'>Orders</Link>

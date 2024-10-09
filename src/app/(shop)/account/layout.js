@@ -1,24 +1,14 @@
 import Link from "next/link";
 import styles from './page.module.css'
 import ButtonLogOut from "@/UI/ButtonLogOut";
-import { UserIcon, CartIcon, OrdersIcon, PhonesIcon, AddressIcon, CreditCardIcon } from "../../../../public/svgIcons";
+import { UserIcon, CartIcon, OrdersIcon } from "../../../../public/svgIcons";
 
 export default function AccountLayout({ children }) {
   const sidebarLinks = [
     {
       name: 'Profile Information',
-      href: '/account/profile/personal_inf',
+      href: '/account/profile',
       icon: <UserIcon width={28} height={28} weight={2}/>
-    },
-    {
-      name: 'My addresses',
-      href: '/account/profile/address_inf',
-      icon: <AddressIcon width={28} height={28} weight={2}/>
-    },
-    {
-      name: 'My phones',
-      href: '/account/profile/contact_inf',
-      icon: <PhonesIcon width={28} height={28} weight={2}/>
     },
     {
       name: 'My orders',

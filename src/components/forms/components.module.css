@@ -1,3 +1,4 @@
+
 .update_info_container, .update_form{
     display: flex;
     flex-direction: column;
@@ -56,12 +57,6 @@
 
 .update_button:hover, .cancel_update_button:hover, .pay_button:hover{
     background-color:#0f80bd;
-}
-
-.error_updating_info{
-    color: #ee0707;
-    font-size: 0.75rem;
-    font-weight: 700;
 }
 
 .buttons_profile_container{
@@ -167,6 +162,13 @@
 .subtotal_cart span{
     color: #0067a0; 
 }
+
+.error_updating_info {
+    color: #ee0707;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
 
 /* form CSS styles */
 .checkoutForm, .checkoutInfo, .checkoutBoxes{

@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 
-export async function createNewOrder({ delivery_date, shipping_address_id, contact_info_id }){
-    console.log('FETCHING CREATE NEW ORDER', delivery_date, shipping_address_id, contact_info_id)
+export async function createNewOrder({ delivery_date, address, city, state, zip_code, contact_phone }){
+    console.log('FETCHING CREATE NEW ORDER', delivery_date, address, city, state, zip_code, contact_phone)
     const allCookies = cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
@@ -14,8 +14,11 @@ export async function createNewOrder({ delivery_date, shipping_address_id, conta
             method: 'POST',
             body: JSON.stringify({
                 delivery_date, 
-                shipping_address_id, 
-                contact_info_id,
+                address, 
+                city, 
+                state, 
+                zip_code, 
+                contact_phone
             }),
             headers : {
                 "Content-Type": "application/json",

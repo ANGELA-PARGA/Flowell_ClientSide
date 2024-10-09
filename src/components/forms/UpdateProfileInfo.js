@@ -4,7 +4,7 @@ import styles from './components.module.css'
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 export default function UpdateProfileInfo({resourceType, resourceId, name}) {
     const [updateError, setupdateError] = useState();
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const schema = yup.object({
         first_name: yup.string().required('The first name is required'),
@@ -28,10 +29,11 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
         await schema.validate(data);
         try {
             await updatePersonalInfo(data, resourceType, resourceId);
-            reset()
-            router.push("/account/profile/personal_inf");
             toast.success(`Personal information updated succesfully`)
-            
+            reset()
+            const currentParams = new URLSearchParams(searchParams.toString());
+            currentParams.delete('edit');
+            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });                 
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -39,16 +41,16 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
         }             
     };
 
-    const onCancel = async () => {    
-        toast.error('update cancelled') 
-        reset()
-        router.push("/account/profile/personal_inf");
+    const onCancel = async (e) => {    
+        e.preventDefault();
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.delete('edit');
+        router.replace(`?${currentParams.toString()}`);
     };
 
     return (    
         <main className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-                <h2>Edit your personal information</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                     <div className={styles.update_form_input_container}>
                         <input {...register('first_name')} type="text" name="first_name" id="first_name" defaultValue={name.firstName} onBlur={() => {
@@ -66,9 +68,9 @@ export default function UpdateProfileInfo({resourceType, resourceId, name}) {
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button} disabled={isSubmitting}>Update</button>
+                        <button type="button" onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>
                     </div>
-                </form>
-                <button onClick={()=> onCancel()} className={styles.cancel_update_button}>Cancel</button>        
+                </form>        
             </div>
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>
