@@ -1,13 +1,14 @@
-
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
+
 
 export async function middleware(req) {
     const token = await getToken({ req });
     const { pathname } = req.nextUrl;
 
     // Protege rutas de la cuenta
-    if (!token && (pathname.startsWith('/account') || !token && pathname.startsWith('/checkout'))){
+    if (!token && (pathname.startsWith('/account') || 
+        !token && pathname.startsWith('/checkout'))){
         return NextResponse.redirect(new URL('/login', req.url));
     }
 

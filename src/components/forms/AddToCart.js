@@ -3,6 +3,7 @@
 import styles from './components.module.css';
 import { TrashIcon } from '../../../public/svgIcons';
 import { toast } from 'react-toastify';
+import Spinner from '@/UI/Spinner';
 import { useState, useContext, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useForm } from "react-hook-form";
@@ -11,17 +12,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { addProductToCart } from '@/actions/productRequests';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { StoreContext } from '@/context';
-import Spinner from '@/UI/Spinner';
+import { signOut } from 'next-auth/react';
+import { cookieVerification } from '@/lib/cookieVerification';
 import { debounce } from 'lodash';
 import Link from 'next/link';
 
+
+const schema = yup.object().shape({
+    qty: yup.number().required("Please select a quantity")
+});
 
 const AddToCart = ({id}) => {
     const [updateError, setupdateError] = useState();
     const [itemQty, setItemQty] = useState(false);
     const { data: session, status} = useSession();
     const { cartData, populateCartData, getProductQtyInCart, updateProductQtyInCart } = useContext(StoreContext);
-    const productId = parseInt(id); 
+    const productId = parseInt(id);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -33,14 +39,9 @@ const AddToCart = ({id}) => {
         }
     }, [session, productId, cartData]);
 
-
-    const schema = yup.object().shape({
-        qty: yup.number().required("Please select a quantity")
-    });
-    
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(schema)
-    });
+    });    
     
     const onSubmit = async (data, e) => {
         e.preventDefault()
@@ -50,9 +51,16 @@ const AddToCart = ({id}) => {
             product_id:productId,
         }
         try {
-            await addProductToCart(productToAdd);
-            await populateCartData();
-            toast.success(`Added ${productToAdd.qty} cases to the cart`)
+            const response = await addProductToCart(productToAdd);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                await populateCartData();
+                toast.success(`Added ${productToAdd.qty} cases to the cart`)     
+            }     
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -63,18 +71,33 @@ const AddToCart = ({id}) => {
 
     const handleUpdate = async (dataToUpdate, e) => {
         e.preventDefault();
-        updateProductQtyInCart(dataToUpdate.qty, productId);        
-        debouncedUpdate({
-            ...dataToUpdate,
-            product_id: productId,
-        });        
+        const response = await cookieVerification()
+        if(response.expired){
+            toast.error('Your session has expired, please login again')
+            setTimeout(async () => {
+                await signOut({ callbackUrl: '/login' });
+            }, 2000);
+        } else {
+            updateProductQtyInCart(dataToUpdate.qty, productId);        
+            debouncedUpdate({
+                ...dataToUpdate,
+                product_id: productId,
+            });   
+        }        
     };
 
     const debouncedUpdate = debounce(async (productToUpdate) => {
         try {
-            await updateCartItem(productToUpdate);
-            await populateCartData();
-            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);
+            const response = await updateCartItem(productToUpdate);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                await populateCartData();
+                toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);    
+            }    
         } catch (error) {
             console.error('Failed to update item in cart:', error);
             setupdateError(error.message);
@@ -85,9 +108,16 @@ const AddToCart = ({id}) => {
     const handleDelete = async (e) => {
         e.preventDefault()      
         try {
-            await deleteCartItem(productId);
-            await populateCartData();
-            toast.success(`Deleted product to the cart`)
+            const response = await deleteCartItem(productId);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                await populateCartData();
+                toast.success(`Deleted product to the cart`)   
+            } 
         } catch (error) {
             console.log(error)
             setupdateError(error.message)

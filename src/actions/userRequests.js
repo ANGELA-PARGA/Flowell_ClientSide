@@ -1,14 +1,17 @@
 'use server'
 
 import { revalidatePath } from 'next/cache';
-import { cookies } from "next/headers";
+import { cookieFetchVerification } from '@/lib/cookieVerification';
 
-/*it requires an url param string indicating the resourceType and an ID param indicating the resource to update */
-export async function updatePersonalInfo(data, resourceType, resourceId){
-    console.log('UPDATING PERSONAL INFO FETCH:', data, resourceType, resourceId)
-    const allCookies = cookies();
-    const connectSidCookie = allCookies.getAll('connect.sid');
-    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
+export async function updatePersonalInfo(data, resourceType, resourceId){   
+    console.log('CALLING UPDATE PERSONAL USER INFO')
+    const { cookieForServer, expired } = await cookieFetchVerification();
+
+    if (expired) {
+        console.log('Session expired on the backend. Triggering logout.');
+        return { expired: true };
+    }
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'PATCH',
@@ -21,15 +24,19 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
             }
         })
 
-        if (!response.ok) {       
+        if (!response.ok) { 
+            if (response.status === 401 || response.status === 403) {
+                console.log('Session expired on the backend. Triggering logout.');
+                return { expired: true };
+            }      
             const errorResponse = await response.json();
             console.log(`UPDATING PERSONAL INFO FAILED:`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
         revalidatePath(`/account/profile`, "page")
-        return responseObject;
+        return { data: responseObject, expired: false };
         
     } catch (error) {
         console.error('NETWORK ERROR UPDATING PERSONAL INFO:', error);
@@ -39,9 +46,13 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
 
 export async function updatePassword(password){
     console.log('UPDATING PASSWORD FETCH:', password)
-    const allCookies = cookies();
-    const connectSidCookie = allCookies.getAll('connect.sid');
-    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
+    const { cookieForServer, expired } = await cookieFetchVerification();
+
+    if (expired) {
+        console.log('Session expired on the backend. Triggering logout.');
+        return { expired: true };
+    }
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/mine`, {
             method: 'PATCH',
@@ -54,14 +65,18 @@ export async function updatePassword(password){
             }
         })
 
-        if (!response.ok) {       
+        if (!response.ok) {  
+            if (response.status === 401 || response.status === 403) {
+                console.log('Session expired on the backend. Triggering logout.');
+                return { expired: true };
+            }     
             const errorResponse = await response.json();
             console.log(`UPDATING PASSWORD FAILED:`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
-        return responseObject;
+        return { data: responseObject, expired: false };
         
     } catch (error) {
         console.error('NETWORK ERROR UPDATING PASSWORD:', error);
@@ -72,9 +87,13 @@ export async function updatePassword(password){
 
 export async function addNewPersonalInfo(newdata, resourceType){
     console.log('ADDING NEW PERSONAL INFO FETCH:', newdata, resourceType)
-    const allCookies = cookies();
-    const connectSidCookie = allCookies.getAll('connect.sid');
-    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
+    const { cookieForServer, expired } = await cookieFetchVerification();
+
+    if (expired) {
+        console.log('Session expired on the backend. Triggering logout.');
+        return { expired: true };
+    }
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}`, {
             method: 'POST',
@@ -87,15 +106,19 @@ export async function addNewPersonalInfo(newdata, resourceType){
             }
         })
 
-        if (!response.ok) {       
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                console.log('Session expired on the backend. Triggering logout.');
+                return { expired: true };
+            }       
             const errorResponse = await response.json();
             console.log(`ADDING NEW PERSONAL INFO FAILED:`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
         revalidatePath(`/account/profile`, "page")
-        return responseObject
+        return { data: responseObject, expired: false };
         
     } catch (error) {
         console.error('NETWORK ERROR ADDING PERSONAL INFO:', error);
@@ -105,10 +128,14 @@ export async function addNewPersonalInfo(newdata, resourceType){
 
 
 export async function deletePersonalInfo(resourceType,resourceId){
-    console.log('DELETING PERSONAL INFO FETCH:', resourceType, resourceId)
-    const allCookies = cookies();
-    const connectSidCookie = allCookies.getAll('connect.sid');
-    const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`
+    console.log('CALLING DELETE PERSONAL USER INFO')
+    const { cookieForServer, expired } = await cookieFetchVerification();
+
+    if (expired) {
+        console.log('Session expired on the backend. Triggering logout.');
+        return { expired: true };
+    }
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${resourceType}/${resourceId}`, {
             method: 'DELETE',
@@ -117,10 +144,14 @@ export async function deletePersonalInfo(resourceType,resourceId){
             }
         })
 
-        if (!response.ok) {       
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                console.log('Session expired on the backend. Triggering logout.');
+                return { expired: true };
+            }     
             const errorResponse = await response.json();
             console.log(`DELETING PERSONAL INFO FAILED`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         revalidatePath(`/account/profile`, "page")

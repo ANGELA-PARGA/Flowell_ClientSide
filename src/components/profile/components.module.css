@@ -3,7 +3,7 @@
 .profile_info_container span{
     font-weight: 600;
 }
-.profile_info_container button{
+.profile_info_container button, .cancelModalButton{
     width: 100px;
     background-color: #0068a0cc;
     color: white;
@@ -14,11 +14,10 @@
     border-radius: 0.5rem;
     cursor: pointer;
 }
-.profile_info_container button:hover{
+.profile_info_container button:hover, .cancelModalButton:hover{
     background-color:#0067a0;
 }
 .profile_info_container p{
-    color: rgb(58, 57, 57);
     line-height: 2;
 }
 .profile_info_subcontainer{
@@ -52,6 +51,45 @@
 }
 .notUserInfoMessage{
     color: #424242;
+}
+
+/* ModalStyles.module.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.692); 
+}
+
+
+.content{
+    position: fixed;
+    top: 25%;
+    left: 15%;
+    right: 15%;
+    width: 70%;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    background: #fff;
+    overflow: 'auto';
+    border-radius: 4px;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modalButtons{
+    display: flex;
+    gap: 1rem;
+}
+
+.modalText{
+    color: #424242;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,46 +1,9 @@
-'use client'
-
 import styles from './components.module.css'
 import { format, parseISO } from "date-fns";
-import ChangeOrderShippingForm from '../forms/ChangeOrderShippingForm';
-import ChangeOrderDateForm from '../forms/ChangeOrderDateForm';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import MyModalUpdateOrder from '@/UI/MyModalUpdateOrder';
 
-export default function OrderInfo({userOrder, userData}) {   
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const formRef = useRef(null);
-
+export default function OrderInfo({userOrder}) {   
     const order = userOrder[0];
-
-    const handleOnClickDelivery = (e) =>{
-        e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString()); 
-        currentParams.set('edit', 'delivery'); 
-        router.replace(`?${currentParams.toString()}`);
-    }
-
-    const handleOnClickShipping = (e) =>{
-        e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.set('edit', 'shipping'); 
-        router.replace(`?${currentParams.toString()}`);
-    }
-
-    const handleOnCancel = (e) =>{
-        e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.delete('edit');
-        router.replace(`?${currentParams.toString()}`);
-    }
-
-    setTimeout(() => {
-        if (formRef.current) {
-            formRef.current.scrollIntoView({ behavior: 'smooth' });
-            window.scrollBy(0, -73);
-        }
-    }, 100); 
 
     return (
         <section className={styles.orderInfo_container}>
@@ -55,17 +18,7 @@ export default function OrderInfo({userOrder, userData}) {
                 {
                     order.status === 'DELIVERED' || order.status === 'IN TRANSIT' ?
                     <button type='button' disabled>Edit</button>: 
-                    <button type='button' onClick={(e) => handleOnClickDelivery(e)}>Edit</button>                          
-                }
-                {
-                    searchParams.get('edit') === 'delivery' && <button type='button' onClick={(e) => handleOnCancel(e)}>Cancel</button>  
-                }
-                {
-                    searchParams.get('edit') === 'delivery' && 
-                    <>
-                    <div ref={formRef}></div>
-                    <ChangeOrderDateForm id={order.id}/>
-                    </>
+                    <MyModalUpdateOrder id={order.id} resourceType={'date'}/>                          
                 }           
             </div>
             <div className={styles.orderInfo_subcontainer}>
@@ -95,18 +48,10 @@ export default function OrderInfo({userOrder, userData}) {
                 <p>Phone: {order.shipping_info.phone}</p>
                 {
                     order.status === 'DELIVERED' || order.status === 'IN TRANSIT' ?
-                    <button disabled>Edit</button>:<button type='button' onClick={(e) => handleOnClickShipping(e)}>Edit</button>
+                    <button disabled>Edit</button>:
+                    <MyModalUpdateOrder data={order} resourceType={'address'}/>
                 }
-                {
-                    searchParams.get('edit') === 'shipping' && <button type='button' onClick={(e) => handleOnCancel(e)}>Cancel</button>
-                }
-                {
-                    searchParams.get('edit') === 'shipping' &&
-                    <>
-                    <div ref={formRef}></div>
-                    <ChangeOrderShippingForm data={order}/>
-                    </>                    
-                }
+                
             </div>
         </section>
     );

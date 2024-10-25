@@ -1,43 +1,12 @@
 import styles from './components.module.css'
-import Image from 'next/image';
 import AddToCart from '../forms/AddToCart';
+import ProductImages from './ProductImages';
 
 const ProductInfo = ({data, id}) => {
     
     return (
         <div className={styles.main_info_container}>            
-            <div className={styles.all_images_container}>
-                <div className={styles.main_image_container}>
-                    <Image src={data.product_found.images_urls[0]}
-                        fill
-                        sizes="100vw"
-                        style={{
-                            borderRadius: '5%',
-                        }}
-                        priority
-                        alt={`Picture of ${data.product_found.name}`}>
-                    </Image>
-                </div>
-                <div className={styles.mini_images_container}>
-                {
-                    data.product_found.images_urls.map((url) =>{
-                        return(
-                            <div className={styles.images_mini_images_container}>
-                                <Image  src={url}
-                                        width={100}
-                                        height={100}
-                                        style={{
-                                            borderRadius: '5%',
-                                        }}
-                                        priority
-                                        alt={`Picture of ${data.name}`}
-                                />
-                            </div>
-                        )
-                    })
-                }
-                </div>
-            </div>
+            <ProductImages images={data.product_found.images_urls} />
             <div className={styles.product_info_container}>
                 <div className={styles.product_title_container}>
                     <h1>{data.product_found.name}</h1>

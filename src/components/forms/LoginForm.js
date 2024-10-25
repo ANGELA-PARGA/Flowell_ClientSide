@@ -22,7 +22,7 @@ export default function LoginForm() {
     const router = useRouter();
     const { populateCartData } = useContext(StoreContext);
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -70,7 +70,7 @@ export default function LoginForm() {
                 <label htmlFor="password">Enter your password</label>
                 <p className={styles.error_login_form}>{errors.password?.message}</p>
             </div>
-            <button type="submit" className={styles.login_submit_button}>Sign in</button>
+            <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
             </form>        
             <Link href={"/"}>Forgot credentials</Link>
         </div>

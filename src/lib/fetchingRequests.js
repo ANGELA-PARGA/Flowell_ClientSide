@@ -6,7 +6,7 @@ export async function fetchAllProducts(page){
         if (!response.ok) {        
             const errorResponse = await response.json();
             console.log(`fetching all products failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -24,7 +24,7 @@ export async function fetchProductsById(id){
         if (!response.ok) {        
             const errorResponse = await response.json();
             console.log(`fetching products by id`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const responseObject = await response.json()
@@ -43,7 +43,7 @@ export async function fetchProductsByCategory(categoryId){
         if (!response.ok) {        
             const errorResponse = await response.json();
             console.log(`fetching products by category id`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const data = await response.json()
@@ -64,7 +64,7 @@ export async function fetchProductsBySearch(term){
         if (!response.ok) {        
             const errorResponse = await response.json();
             console.log(`search product by term failed`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
         } 
 
         const data = await response.json()

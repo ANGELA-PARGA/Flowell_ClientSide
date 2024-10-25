@@ -2,11 +2,11 @@
 
 import { updateOrderShippingInfo } from '@/actions/ordersRequest';
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
@@ -27,12 +27,10 @@ const schema = yup.object().shape({
     } ),  
 });
 
-const ChangeOrderShippingForm = ({data}) => {
+const ChangeOrderShippingForm = ({data, handleClose}) => {
     const [updateError, setupdateError] = useState(); 
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger, setValue} = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, trigger, setValue} = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -44,18 +42,28 @@ const ChangeOrderShippingForm = ({data}) => {
             ...formData,
         }        
         try {
-            await updateOrderShippingInfo(shipping_info, data.id)
-            toast.success(`Shipping information updated succesfully`) 
-            reset()
-            const currentParams = new URLSearchParams(searchParams.toString());
-            currentParams.delete('edit');
-            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true }); // Shallow navigation 
+            const response = await updateOrderShippingInfo(shipping_info, data.id)
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    handleClose();
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                handleClose()
+                toast.success(`Shipping information updated succesfully`)  
+            } 
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
             toast.error('Failed to update the order shipping information, try again')  
         }        
     } 
+
+    const handleOnCancel = (e) =>{
+        e.preventDefault();
+        handleClose();
+    }
     
     const handlePhoneChange = (e) => {
         const cleaned = ('' + e.target.value).replace(/\D/g, '');
@@ -108,6 +116,7 @@ const ChangeOrderShippingForm = ({data}) => {
                 </div>
                 <div className={styles.buttons_profile_container}>
                     <button type="submit" className={styles.pay_button} disabled={isSubmitting}>Update</button>
+                    <button type='button' className={styles.cancel_update_button} onClick={(e) => handleOnCancel(e)}>Cancel</button>
                 </div>
                 <div>
                     <p className={styles.error_updating_info}>{updateError}</p>
@@ -118,47 +127,3 @@ const ChangeOrderShippingForm = ({data}) => {
 }
 
 export default ChangeOrderShippingForm
-
-/*<form className={styles.checkoutForm} onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.checkoutInfo}>
-                <div className={styles.checkoutBoxes}>
-                    <h4>Select Contact Phone Number</h4>
-                    {data.user.phones?.map((phone, index) => (
-                        <div key={index} className={styles.radioInput}>
-                            <input
-                                type="radio"
-                                value={phone.phone}
-                                {...register('contact_phone')}
-                            />
-                            <label>{phone.phone}</label>
-                        </div>
-                    ))}
-                    {errors.contact_phone && <p className={styles.error_updating_info}>{errors.contact_phone.message}</p>}
-                </div>
-                <div className={styles.checkoutBoxes}>
-                    <h4>Select Shipping Address</h4>
-                    {data.user.addresses?.map((address, index) => (
-                        <div key={index} className={styles.radioInput}>
-                            <input
-                                type="radio"
-                                onClick={() => handleAddressSelect(address)}
-                                name="address_info"
-                            />
-                            <label>{address.address}, {address.city} - {address.state}, {address.zip_code}</label>        
-                        </div>
-                    ))}
-                    {errors.address_info && <p className={styles.error_updating_info}>{errors.address_info.message}</p>}
-                </div>
-                <input type="hidden" {...register('address')} />
-                <input type="hidden" {...register('city')} />
-                <input type="hidden" {...register('state')} />
-                <input type="hidden" {...register('zip_code')} />
-                <div>
-
-                </div>
-            </div>            
-            <button type='submit' disabled={isSubmitting} className={styles.pay_button}>Update</button>
-            <div>
-                <p className={styles.error_updating_info}>{updateError}</p>
-            </div>
-        </form> */

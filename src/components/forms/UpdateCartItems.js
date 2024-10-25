@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { useState, useContext } from 'react';
 import { StoreContext } from '@/context';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
+import { signOut } from 'next-auth/react';
+import { cookieVerification } from '@/lib/cookieVerification';
 import { TrashIcon } from '../../../public/svgIcons';
 import { debounce } from "lodash";
 
@@ -15,18 +17,34 @@ const UpdateCartItems = ({data, id}) => {
 
     const handleUpdate = async (dataToUpdate, e) => {
         e.preventDefault();
-        updateProductQtyInCart(dataToUpdate.qty, productId);        
-        debouncedUpdate({
-            ...dataToUpdate,
-            product_id: productId,
-        });        
+        e.stopPropagation();
+        const response = await cookieVerification()
+        if(response.expired){
+            toast.error('Your session has expired, please login again')
+            setTimeout(async () => {
+                await signOut({ callbackUrl: '/login' });
+            }, 2000);
+        } else {
+            updateProductQtyInCart(dataToUpdate.qty, productId);        
+            debouncedUpdate({
+                ...dataToUpdate,
+                product_id: productId,
+            });   
+        }        
     };
 
     const debouncedUpdate = debounce(async (productToUpdate) => {
         try {
-            await updateCartItem(productToUpdate);
-            await populateCartData();
-            toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);
+            const response = await updateCartItem(productToUpdate);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                await populateCartData();
+                toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);  
+            }            
         } catch (error) {
             console.error('Failed to update item in cart:', error);
             setupdateError(error.message);
@@ -35,11 +53,19 @@ const UpdateCartItems = ({data, id}) => {
     }, 300);
 
     const handleDelete = async (e) => {
-        e.preventDefault()      
+        e.preventDefault() 
+        e.stopPropagation()    
         try {
-            await deleteCartItem(productId);
-            await populateCartData();
-            toast.success(`Deleted product to the cart`)
+            const response = await deleteCartItem(productId);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                await populateCartData();
+                toast.success(`Deleted product to the cart`)  
+            }
         } catch (error) {
             console.log(error)
             setupdateError(error.message)

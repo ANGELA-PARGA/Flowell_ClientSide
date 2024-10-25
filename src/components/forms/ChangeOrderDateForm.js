@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter, useSearchParams } from 'next/navigation';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
 import { addDays, addBusinessDays, getDay} from 'date-fns';
-import { updateOrderShippingInfo } from '@/actions/ordersRequest';
+import { updateOrderDeliverydateInfo } from '@/actions/ordersRequest';
+import { signOut } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import styles from './components.module.css';
 
@@ -16,11 +16,8 @@ const schema = yup.object().shape({
     delivery_date: yup.date().required('Please select a delivery date').nullable(),
 });
 
-const ChangeOrderDateForm = ({id}) => {
+const ChangeOrderDateForm = ({id, handleClose}) => {
     const [updateError, setupdateError] = useState();
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
     const { handleSubmit, formState: { errors, isSubmitting }, setValue, watch} = useForm({
         resolver: yupResolver(schema)
     });
@@ -34,18 +31,27 @@ const ChangeOrderDateForm = ({id}) => {
         }
 
         try {
-            await updateOrderShippingInfo(delivery_info, id)
-            toast.success(`Delivery date updated succesfully`)   
-            
-            const currentParams = new URLSearchParams(searchParams.toString());
-            currentParams.delete('edit');
-            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true }); // Shallow navigation
-
+            const response = await updateOrderDeliverydateInfo(delivery_info, id);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    handleClose();
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                handleClose()
+                toast.success(`Delivery date updated succesfully`)  
+            }   
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
             toast.error('Failed to update the delivery date, try again') 
         }        
+    }
+
+    const handleOnCancel = (e) =>{
+        e.preventDefault();
+        handleClose();
     }
     
     const handleDateChange = (date) => {
@@ -78,8 +84,11 @@ const ChangeOrderDateForm = ({id}) => {
                     </ReactDatePicker>
                     {errors.delivery_date && <p className={styles.error_updating_info}>{errors.delivery_date.message}</p>}
                 </div>
-            </div>            
-            <button type='submit' disabled={isSubmitting} className={styles.pay_button}>Update</button>
+            </div>  
+            <div className={styles.buttons_profile_container}>
+                <button type='submit' disabled={isSubmitting} className={styles.pay_button}>Update</button>
+                <button type='button' className={styles.cancel_update_button} onClick={(e) => handleOnCancel(e)}>Cancel</button>
+            </div>         
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>
             </div>

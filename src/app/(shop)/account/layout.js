@@ -4,6 +4,7 @@ import ButtonLogOut from "@/UI/ButtonLogOut";
 import { UserIcon, CartIcon, OrdersIcon } from "../../../../public/svgIcons";
 
 export default function AccountLayout({ children }) {
+
   const sidebarLinks = [
     {
       name: 'Profile Information',

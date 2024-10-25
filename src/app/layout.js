@@ -11,7 +11,7 @@ const monserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata = {
   title: "Flowell",
-  description: "E-commerce for floral business",
+  description: "E-commerce for floral businesses",
 };
 
 export default function RootLayout({ children }) {
@@ -30,8 +30,8 @@ export default function RootLayout({ children }) {
             </footer>
         </SessionAuthProvider>
         <ToastContainer
-          position="top-right"
-          autoClose={1500}
+          position="top-center"
+          autoClose={2000}
         />       
       </body>
     </html>

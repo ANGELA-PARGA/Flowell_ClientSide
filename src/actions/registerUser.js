@@ -1,4 +1,4 @@
-'use server'
+
 export async function registerUser(data){
     console.log('REGISTER NEW USER FETCH')
     try {

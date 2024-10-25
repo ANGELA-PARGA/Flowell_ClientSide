@@ -9,8 +9,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { debounce } from "lodash";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { fetchProductsBySearch } from "@/actions/productRequests"
-import mini_image11 from '../../../public/mini_image11.jpeg'
+import { fetchProductsBySearch } from '@/lib/fetchingRequests'
+
 
 export const SearchForm = () => {
     const searchParams = useSearchParams();
@@ -105,10 +105,10 @@ export const SearchForm = () => {
                 {results.map((item) => (
                     <li key={item.id} className={styles.searchResults} onClick={()=> setResults([])}>
                         <Image
-                                src={mini_image11}
+                                src={item.images_urls[0]}
                                 width={50}
                                 height={50}
-                                style={{ borderRadius: '50%' }}
+                                style={{ borderRadius: '5%' }}
                                 alt={item.name}
                         /> 
                         <Link href={`/products/${item.id}`}>                           

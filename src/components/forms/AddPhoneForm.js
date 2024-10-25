@@ -1,13 +1,13 @@
 'use client'
 
 import styles from './components.module.css'
+import { toast } from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { addNewPersonalInfo } from '@/actions/userRequests';
-import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 
 const schema = yup.object({
     phone: yup
@@ -25,12 +25,10 @@ const schema = yup.object({
 });
 
 
-export default function AddPhoneForm({resourceType}) {
+export default function AddPhoneForm({resourceType, handleClose}) {
     const [updateError, setupdateError] = useState();
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, reset, trigger} =useForm({
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -38,12 +36,16 @@ export default function AddPhoneForm({resourceType}) {
         e.preventDefault();
         await schema.validate(data);
         try {
-            await addNewPersonalInfo(data, resourceType);
-            toast.success(`Contact information added succesfully`)
-            reset()
-            const currentParams = new URLSearchParams(searchParams.toString());
-            currentParams.delete('add');
-            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });              
+            const response = await addNewPersonalInfo(data, resourceType);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                handleClose()
+                toast.success(`Contact information added succesfully`)       
+            }           
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -53,9 +55,7 @@ export default function AddPhoneForm({resourceType}) {
 
     const onCancel = async (e) => {  
         e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.delete('add');
-        router.replace(`?${currentParams.toString()}`);   
+        handleClose()   
     };
 
     const handlePhoneChange = (e) => {
@@ -73,20 +73,20 @@ export default function AddPhoneForm({resourceType}) {
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-            <h2>Add new contact information</h2>
+            <h3>Add new contact information</h3>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
-                    <div className={styles.update_form_input_container}>
-                        <input {...register('phone')} type="text" name="phone" id="phone" placeholder='(000) 000-0000' onBlur={() => {
-                            trigger('phone'); 
-                        }} onChange={handlePhoneChange}/>
-                        <label htmlFor="phone">Enter phone number</label>
-                        <p className={styles.error_updating_info}>{errors.phone?.message}</p>
-                    </div>
-                    <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
-                        <button onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>  
-                    </div>
-                </form>
+                <div className={styles.update_form_input_container}>
+                    <input {...register('phone')} type="text" name="phone" id="phone" placeholder='(000) 000-0000' onBlur={() => {
+                        trigger('phone'); 
+                    }} onChange={handlePhoneChange}/>
+                    <label htmlFor="phone">Enter phone number</label>
+                    <p className={styles.error_updating_info}>{errors.phone?.message}</p>
+                </div>
+                <div className={styles.buttons_profile_container}>
+                    <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
+                    <button onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>  
+                </div>
+            </form>
             </div>
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

@@ -21,7 +21,7 @@ const schema = yup.object({
 
 export default function RegisterUserForm() {  
 
-    const { register, handleSubmit, formState: { errors }, reset, trigger } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -90,7 +90,7 @@ export default function RegisterUserForm() {
                 <label htmlFor="confirmationPassword">Confirm your password</label>
                 <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
             </div>
-            <button type="submit" className={styles.signup_submit_button}>Sign up</button>
+            <button type="submit" disabled={isSubmitting} className={styles.signup_submit_button}>Sign up</button>
             </form>        
         </div>
         <section className={styles.login_main_container}>

@@ -2,17 +2,19 @@
 
 import styles from '../components/navigation/components.module.css'
 import handleLogOut from '@/actions/logout'
-
 import { signOut } from "next-auth/react";
 
 
 export default function ButtonLogOut(){
 
-    const onClickLogOut = async () => {
-        console.log('calling onclick log out')
+    const onClickLogOut = async (e) => {
+        console.log('Starting logout... outside modal');
         await signOut();
         await handleLogOut();
+        console.log('Logged out. Redirecting...');
+        handleClose();        
     }
+
     return (
         <button className={styles.button_sign_in} onClick={()=> onClickLogOut()}>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">

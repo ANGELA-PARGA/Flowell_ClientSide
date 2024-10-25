@@ -1,13 +1,13 @@
 'use client'
 
 import styles from './components.module.css'
+import { toast } from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter,  useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { addNewPersonalInfo } from '@/actions/userRequests';
-import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 
 
 const schema = yup.object({
@@ -19,10 +19,8 @@ const schema = yup.object({
     } ),
 })
 
-export default function AddAddressForm({resourceType}) {
+export default function AddAddressForm({resourceType, handleClose}) {
     const [updateError, setupdateError] = useState();
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
     const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} =useForm({
         resolver: yupResolver(schema)
@@ -32,12 +30,16 @@ export default function AddAddressForm({resourceType}) {
         e.preventDefault();
         await schema.validate(data);
         try {
-            await addNewPersonalInfo(data, resourceType);
-            toast.success(`Address information added succesfully`)
-            reset();
-            const currentParams = new URLSearchParams(searchParams.toString());
-            currentParams.delete('add');
-            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });  
+            const response = await addNewPersonalInfo(data, resourceType);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                handleClose()
+                toast.success(`Address information added succesfully`)       
+            }  
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -47,9 +49,7 @@ export default function AddAddressForm({resourceType}) {
 
     const onCancel = async (e) => {      
         e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.delete('add');
-        router.replace(`?${currentParams.toString()}`);
+        handleClose()
     };
 
 

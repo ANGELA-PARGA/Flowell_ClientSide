@@ -51,7 +51,7 @@ const handler = NextAuth({
                                 name: 'connect.sid',
                                 value: cookieObject['connect'],
                                 httpOnly: true,
-                                maxAge: 24 * 60 * 60 * 1000,
+                                maxAge: 24 * 60 * 60,
                                 path: cookieObject['Path'],
                                 expires: new Date(cookieObject['Expires']),
                                 secure: true,
@@ -79,7 +79,10 @@ const handler = NextAuth({
     },
     session: {
         jwt: true,
-        maxAge: 24 * 60 * 60, 
+        maxAge: 24 * 60 * 60,
+    },
+    jwt:{
+        maxAge: 24 * 60 * 60,
     },
     callbacks: {
         async jwt({ token, user }) {

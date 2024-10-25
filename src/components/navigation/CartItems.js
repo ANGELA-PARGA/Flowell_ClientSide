@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { StoreContext } from "@/context";
 import { CartIconNavBar } from '../../../public/svgIcons';
-import Spinner from "@/UI/Spinner";
 import styles from './components.module.css';
 
 const CartItems = () => {
@@ -12,7 +11,10 @@ const CartItems = () => {
     return (
         <div className={styles.auth_button}>
             {status === 'loading' ? (
-                <Spinner />
+                <>
+                <CartIconNavBar width={22} height={22} weight={2} />
+                <span>Cart</span>
+                </>
             ) : (
                 <>
                     <CartIconNavBar width={22} height={22} weight={2} />

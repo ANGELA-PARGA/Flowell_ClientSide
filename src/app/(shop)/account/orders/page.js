@@ -1,11 +1,16 @@
 import OrderCard from "@/components/orders/OrderCard";
 import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo"; 
+import MyModalLogin from "@/UI/MyModalLogin";
 import styles from './page.module.css'
 
 
 export default async function Orders() {
-  const orders = await fetchAllOrdersByUser()
+  const {orders, expired} = await fetchAllOrdersByUser();
 
+  if (expired) {
+    console.log('data is expired on ORDERS server component')
+      return <MyModalLogin />;
+  }
 
   return (
     <section className={styles.orders_container}>

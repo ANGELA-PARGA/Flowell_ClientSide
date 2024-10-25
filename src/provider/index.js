@@ -4,8 +4,7 @@ import { StoreContext } from "@/context";
 import { fetchCartInfoByUser } from "@/actions/cartRequests";
 
 export default function StoreProvider({children}){
-    const [cartData, setCartData] = useState({
-    });
+    const [cartData, setCartData] = useState({});
 
     useEffect(() => {
         if (typeof window !== "undefined") {

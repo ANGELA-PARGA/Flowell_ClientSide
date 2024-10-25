@@ -8,6 +8,8 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
 import { addDays, addBusinessDays, getDay} from 'date-fns';
 import { createNewOrder } from '@/actions/ordersRequest';
+import { signOut } from 'next-auth/react';
+import { toast } from 'react-toastify';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
@@ -22,6 +24,7 @@ const schema = yup.object().shape({
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = ({data}) => {
+    console.log(data)
     const [updateError, setupdateError] = useState();    
     const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, watch} = useForm({
         resolver: yupResolver(schema)
@@ -36,9 +39,16 @@ const CheckoutForm = ({data}) => {
         }
         await schema.validate(shipping_info)
 
-        try {
+        try {            
             const stripeCheckoutUrl = await createNewOrder(shipping_info);
-            window.location.href = stripeCheckoutUrl;
+            if(stripeCheckoutUrl.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                window.location.href = stripeCheckoutUrl; 
+            } 
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -71,6 +81,7 @@ const CheckoutForm = ({data}) => {
                 </div>
                 <div className={styles.checkoutBoxes}>
                     <h4>Select Contact Phone Number</h4>
+                    <p>Select one of your phone numbers. If the phone number has a mistypo go to 'Profile Information' and change it</p>
                     {data.phones?.map((phone, index) => (
                         <div key={index} className={styles.radioInput}>
                             <input
@@ -85,6 +96,7 @@ const CheckoutForm = ({data}) => {
                 </div>
                 <div className={styles.checkoutBoxes}>
                     <h4>Select Shipping Address</h4>
+                    <p>Select one of your addresses. If the address has a mistypo go to 'Profile Information' and change it</p>
                     {data.addresses?.map((address, index) => (
                     <div key={index} className={styles.radioInput}>
                         <input

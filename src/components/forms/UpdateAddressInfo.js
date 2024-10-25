@@ -4,9 +4,9 @@ import styles from './components.module.css'
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
+import { signOut } from 'next-auth/react';
 import { toast } from 'react-toastify';
 
 const schema = yup.object({
@@ -19,13 +19,10 @@ const schema = yup.object({
 })
 
 
-export default function UpdateAddressInfo({resourceType, resourceId, address}) {
-    
+export default function UpdateAddressInfo({resourceType, resourceId, address, handleClose}) {    
     const [updateError, setupdateError] = useState();
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
@@ -33,13 +30,17 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
         e.preventDefault();
         await schema.validate(data);
         try {
-            await updatePersonalInfo(data, resourceType, resourceId);
-            toast.success(`Address information updated succesfully`)
-            reset()
-            const currentParams = new URLSearchParams(searchParams.toString());
-            currentParams.delete('edit');
-            currentParams.delete('addressID');
-            router.replace(`?${currentParams.toString()}`, undefined, { shallow: true });   
+            const response = await updatePersonalInfo(data, resourceType, resourceId);
+            if(response.expired){
+                toast.error('Your session has expired, please login again')
+                setTimeout(async () => {
+                    handleClose();
+                    await signOut({ callbackUrl: '/login' });
+                }, 2000);
+            } else {
+                handleClose()
+                toast.success(`Address information updated succesfully`)  
+            } 
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -49,10 +50,7 @@ export default function UpdateAddressInfo({resourceType, resourceId, address}) {
 
     const onCancel = async (e) => {  
         e.preventDefault();
-        const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.delete('edit');
-        currentParams.delete('addressID');
-        router.replace(`?${currentParams.toString()}`);
+        handleClose();
     };
 
     return (    

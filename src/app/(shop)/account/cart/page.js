@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 
+
 export default function Cart() {
   const { cartData } = useContext(StoreContext);  
 
@@ -15,6 +16,7 @@ export default function Cart() {
     return <p>Loading cart...</p>; 
   }
 
+  
   return (
     <section className={styles.cartContainer}>
       <h2>Cart</h2>
