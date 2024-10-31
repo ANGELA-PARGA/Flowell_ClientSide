@@ -1,6 +1,6 @@
 'use client'
 
-import { useState} from 'react';
+import { useState, } from 'react';
 import Link from 'next/link';
 import styles from './components.module.css';
 import DropdownMenu from './DropdownMenu';
@@ -9,7 +9,6 @@ import DropdownAuthUser from './DropdownAuthUser';
 import CartItems from './CartItems';
 import { SearchForm } from './SearchForm';
 import { useSession } from 'next-auth/react';
-import { Suspense } from 'react';
 import { LeafIconNavBar, UserIconNavBar, CartIconNavBar, MenuIconNavBar, CloseIcon, SearchIconNavBar, ChevronDownNavBar } from '../../../public/svgIcons';
 
 const Navigation = () => {
@@ -40,15 +39,15 @@ const Navigation = () => {
 
     return (
         <>
-        <nav className={`${styles.navbar} ${styles.large_screen_navbar}`} onMouseLeave={handleOnMouseLeave}>
+        <nav className={`${styles.navbar} ${styles.large_screen_navbar}`}>
             <div className={styles.logo_container}>
                 <Link href="/" className={styles.logo}>
                     <LeafIconNavBar width={40} height={40} weight={2} />
                 </Link>
             </div>
             <ul className={styles.navbar_options}>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onClick={() => handleToggle('products')}>
-                    <div className={styles.menu_button} onMouseEnter={() => handleOnMouseEnter('products')}>
+                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onMouseLeave={handleOnMouseLeave}>
+                    <div className={styles.menu_button} onClick={() => handleToggle('products')} onMouseEnter={() => handleOnMouseEnter('products')}>
                         <span>Products</span>
                         <div id={styles.arrow_down}>
                             <ChevronDownNavBar width={16} height={16} weight={3} />
@@ -60,8 +59,8 @@ const Navigation = () => {
                         </div>
                     )}
                 </li>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onClick={() => handleToggle('services')}>
-                    <div className={styles.menu_button} onMouseEnter={() => handleOnMouseEnter('services')}>
+                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onMouseLeave={handleOnMouseLeave}>
+                    <div className={styles.menu_button} onClick={() => handleToggle('services')} onMouseEnter={() => handleOnMouseEnter('services')}>
                         <span>Flowell</span>
                         <div id={styles.arrow_down}>
                             <ChevronDownNavBar width={16} height={16} weight={3} />
@@ -78,13 +77,11 @@ const Navigation = () => {
                 setActive('')
                 setShowingMenu('')
             }}>
-                <Suspense>
-                    <SearchForm/>
-                </Suspense> 
+            <SearchForm/> 
             </div>                       
             <ul className={styles.navbar_options}>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onClick={() => handleToggle('sign_in')}>
-                    <div className={styles.menu_button} onMouseEnter={() => handleOnMouseEnter('sign_in')}>
+                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onMouseLeave={handleOnMouseLeave}>
+                    <div className={styles.menu_button}  onClick={() => handleToggle('sign_in')} onMouseEnter={() => handleOnMouseEnter('sign_in')}>
                         <div className={styles.auth_button}>
                             <UserIconNavBar width={22} height={22} weight={2} />
                             <span>Account</span>
@@ -100,17 +97,15 @@ const Navigation = () => {
                     )}
                 </li>
                 <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`} onClick={() => handleToggle('cart')}>
-                    <div className={styles.menu_button} onMouseEnter={() => handleOnMouseEnter('cart')}>
+                    <div className={styles.menu_button}> 
                         <div className={styles.auth_button}>
-                            <CartItems/>
-                        </div>
-                        <div id={styles.arrow_down}>
-                            <ChevronDownNavBar width={16} height={16} weight={3} />
+                            {showingMenu === 'cart' ? <CloseIcon width={22} height={22} weight={2} /> : <CartItems/>}  
                         </div>
                     </div>
                     {showingMenu === 'cart' && (
                         <div>
-                            {session?.user?.email ? <DropdownAuthUser linkActive={active}/> : <DropdownUnauth linkActive={active} />}
+                            {session?.user?.email ? 
+                                <DropdownAuthUser linkActive={active}/> : <DropdownUnauth linkActive={active} />}
                         </div>
                     )}
                 </li>
@@ -161,7 +156,7 @@ const Navigation = () => {
                     {showingMenu === 'search' && (
                         <div className={styles.dropdown_menu}>
                             <SearchForm />
-                        </div>
+                        </div>                        
                     )}
                 </li>
             </ul>  

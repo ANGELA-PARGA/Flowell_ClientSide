@@ -34,9 +34,7 @@ const ChangeOrderShippingForm = ({data, handleClose}) => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (formData, e) => {
-        console.log('Form Data:', { ...formData});
-        e.preventDefault()
+    const onSubmit = async (formData) => {
         await schema.validate(formData)
         const shipping_info = {
             ...formData,

@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { cookieFetchVerification } from '@/lib/cookieVerification';
 
 export async function updatePersonalInfo(data, resourceType, resourceId){   
-    console.log('CALLING UPDATE PERSONAL USER INFO')
+    console.log('CALLING UPDATE PERSONAL USER INFO:', data, resourceType, resourceId)
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
@@ -31,10 +31,11 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
             }      
             const errorResponse = await response.json();
             console.log(`UPDATING PERSONAL INFO FAILED:`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('UPDATE PERSONAL USER INFO RESPONSE:', responseObject)
         revalidatePath(`/account/profile`, "page")
         return { data: responseObject, expired: false };
         
@@ -72,10 +73,11 @@ export async function updatePassword(password){
             }     
             const errorResponse = await response.json();
             console.log(`UPDATING PASSWORD FAILED:`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('UPDATING PASSWORD RESPONSE:', responseObject)
         return { data: responseObject, expired: false };
         
     } catch (error) {
@@ -113,10 +115,11 @@ export async function addNewPersonalInfo(newdata, resourceType){
             }       
             const errorResponse = await response.json();
             console.log(`ADDING NEW PERSONAL INFO FAILED:`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('ADDING NEW PERSONAL INFO RESPONSE:', responseObject)
         revalidatePath(`/account/profile`, "page")
         return { data: responseObject, expired: false };
         
@@ -128,7 +131,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
 
 
 export async function deletePersonalInfo(resourceType,resourceId){
-    console.log('CALLING DELETE PERSONAL USER INFO')
+    console.log('CALLING DELETE PERSONAL USER INFO:', resourceType, resourceId)
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
@@ -151,7 +154,7 @@ export async function deletePersonalInfo(resourceType,resourceId){
             }     
             const errorResponse = await response.json();
             console.log(`DELETING PERSONAL INFO FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         revalidatePath(`/account/profile`, "page")

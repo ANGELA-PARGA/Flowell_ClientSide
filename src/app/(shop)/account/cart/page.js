@@ -8,20 +8,19 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 
-
 export default function Cart() {
   const { cartData } = useContext(StoreContext);  
 
   if (!cartData || !cartData.items) {
-    return <p>Loading cart...</p>; 
+    return <h2>Loading cart...</h2>; 
   }
 
   
   return (
     <section className={styles.cartContainer}>
-      <h2>Cart</h2>
+      <h3>Cart</h3>
       {!cartData?.total ? (
-        <p>There aren't products in your cart, go ahead and purchase some flowers!</p>
+        <h4>There aren't products in your cart, go ahead and purchase some flowers!</h4>
       ) : (
         <>
         <Suspense>

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import {useState} from 'react'
 
 const ProductImages = ({images}) => {
-    // State to track the currently selected image (main image)
   const [selectedImage, setSelectedImage] = useState(images[0]); // Default to the first image
 
   // Function to handle mini image click
@@ -32,8 +31,8 @@ const ProductImages = ({images}) => {
                 return(
                     <div key={index} 
                         className={styles.images_mini_images_container}
-                        onClick={() => handleImageClick(url)} // Set the clicked image as the main image
-                        style={{ cursor: 'pointer' }} // Make it clear that these are clickable
+                        onClick={() => handleImageClick(url)} 
+                        style={{ cursor: 'pointer' }} 
                     >
                         <Image  src={url}
                                 width={100}

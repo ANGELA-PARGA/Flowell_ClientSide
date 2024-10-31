@@ -8,7 +8,12 @@
     font-weight: 600;    
 }
 
-.order_details_subcontainer button{
+.order_details_buttons{
+    display: flex;
+    gap: 1rem;
+}
+
+.order_details_buttons button{
     width: 100px;
     background-color: #0068a0cc;
     color: white;
@@ -19,7 +24,7 @@
     border-radius: 0.5rem;
     cursor: pointer;
 }
-.order_details_subcontainer button:hover{
+.order_details_buttons button:hover{
     background-color:#0067a0;
 }
 

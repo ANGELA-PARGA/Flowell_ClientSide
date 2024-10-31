@@ -9,6 +9,17 @@
     height: 73px;
     padding: 0 0.5rem;
 }
+
+/* ModalStyles.module.css */
+.backdrop {
+    position: fixed;
+    top: 73px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+  
 .logo_container{
     border-right: 1px solid rgb(255, 255, 255);
 }
@@ -45,6 +56,11 @@
     justify-content: center;
     flex-direction: column;
     transition: transform 0.8s;
+}
+
+.menu_button:hover span{
+    font-weight: 400;
+    text-decoration: underline;
 }
 
 .menu_button:hover #arrow_down svg  {
@@ -123,8 +139,9 @@
 
 .dropdown_menu_authenticated_cart{
     width: 300px;
-    height: 400px;
+    height: 88svh;
     overflow-y: scroll;
+    z-index: 1;
 }
 
 
@@ -218,7 +235,7 @@
     font-weight: 100;
 }
 
-.button_sign_in{
+.button_sign_in, .button_log_out{
     width: 80px;
     border-radius: 0.5rem; 
     height: 1.5rem;
@@ -229,7 +246,7 @@
     font-weight: 600;
 }
 
-.button_sign_in:hover{
+.button_sign_in:hover, .button_log_out:hover {
     background-color:#0f80bd;
 }
 
@@ -241,6 +258,7 @@
     font-size: 1rem;
     color:#0067a0;
 }
+
 
 @media screen and (max-width: 790px) {    
     .menu_button_secondary{
@@ -270,7 +288,8 @@
         flex-direction: column;
         align-items: center;
         width: 50vw;   
-    }  
+    } 
+    .button_log_out{
+        width: 50px;
+    } 
 }
-
-

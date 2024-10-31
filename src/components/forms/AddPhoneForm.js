@@ -28,12 +28,11 @@ const schema = yup.object({
 export default function AddPhoneForm({resourceType, handleClose}) {
     const [updateError, setupdateError] = useState();
 
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger} =useForm({
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, reset, trigger} =useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (data, e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         await schema.validate(data);
         try {
             const response = await addNewPersonalInfo(data, resourceType);
@@ -44,7 +43,8 @@ export default function AddPhoneForm({resourceType, handleClose}) {
                 }, 2000);
             } else {
                 handleClose()
-                toast.success(`Contact information added succesfully`)       
+                toast.success(`Contact information added succesfully`) 
+                reset()      
             }           
         } catch (error) {
             console.log(error)

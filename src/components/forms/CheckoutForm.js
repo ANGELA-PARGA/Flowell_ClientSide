@@ -30,10 +30,7 @@ const CheckoutForm = ({data}) => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (formData, e) => {
-        console.log('Form Data:', { ...formData});
-
-        e.preventDefault()
+    const onSubmit = async (formData) => {
         const shipping_info = {
             ...formData,
         }

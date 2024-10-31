@@ -21,7 +21,7 @@ export default async function Orders() {
           <OrderCard order={order} key={order.id}/>
         ))}
         </ul>
-        ):(<p className={styles.notUserOrdersMessage}>You don't have any orders. Go ahead and place one!</p>)}         
+        ):(<h4 className={styles.notUserOrdersMessage}>You don't have any orders. Go ahead and place one!</h4>)}         
     </section>
   )
 }

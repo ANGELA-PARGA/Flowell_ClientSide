@@ -3,7 +3,7 @@ import AddToCart from '../forms/AddToCart';
 import ProductImages from './ProductImages';
 
 const ProductInfo = ({data, id}) => {
-    
+       
     return (
         <div className={styles.main_info_container}>            
             <ProductImages images={data.product_found.images_urls} />

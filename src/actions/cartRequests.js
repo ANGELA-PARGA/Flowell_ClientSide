@@ -24,11 +24,11 @@ export async function fetchCartInfoByUser(){
             }      
             const errorResponse = await response.json();
             console.log(`FETCHING CART INFO FAILED`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
-        console.log('CART INFO AFTER FETCHING', responseObject)
+        console.log('CART INFO FETCHING RESPONSE:', responseObject)
         return responseObject;
         
     } catch (error) {
@@ -66,10 +66,11 @@ export async function updateCartItem({product_id, qty}){
             }       
             const errorResponse = await response.json();
             console.log(`UPDATING CART ITEM FAILED`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('UPDATING CART ITEM RESULT:', responseObject)
         revalidatePath(`/account/cart`, "page")
         return responseObject; 
 
@@ -103,10 +104,11 @@ export async function deleteCartItem(id){
             }       
             const errorResponse = await response.json();
             console.log(`DELETE CART ITEM FAILED`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('DELETE CART ITEM RESULT:', responseObject)
         revalidatePath(`/account/cart`, "page")
         return responseObject; 
 

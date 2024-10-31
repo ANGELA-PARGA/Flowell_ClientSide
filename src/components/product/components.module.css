@@ -207,6 +207,40 @@
     height: 150px; /* Define the desired height */    
 }
 
+/*add filters*/
+.filter_sort_buttons_container{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.button_sort_and_filter{
+    width: 80px;
+    border-radius: 1rem; 
+    text-align: center;
+    height: 2rem;
+    line-height: 2rem;
+    background-color:white;
+    border: 1px solid rgb(197, 197, 197);
+    cursor: pointer;
+    color: rgb(58, 57, 57);
+    font-weight: 600;
+    font-size: 0.825rem;
+    transition: transform 0.3s;
+}
+.button_sort_and_filter svg{
+    vertical-align: middle;
+}
+
+.button_sort_and_filter:hover svg {
+    transform: rotate(180deg);
+}
+
+.button_sort_and_filter:hover{
+    color: #1dabf8;
+    background-color: #52bbf325;
+}
+
 @media (max-width: 640px) {    
     .product_cart_maincontainer{
         grid-template-columns: 1fr 3fr;

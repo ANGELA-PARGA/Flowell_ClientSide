@@ -23,7 +23,7 @@
 .sidebar_list_options{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     font-weight: 400;
     font-size: 1rem;
 }
@@ -32,13 +32,10 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem;
-    transition: background-color 0.3s;
 }
 
 .sidebar_list_options a:hover{
     text-decoration: none;
-    background-color: #f0f0f0;
 }
 
 .sidebar_list_options a:hover .tooltip {
@@ -66,10 +63,11 @@
 
 @media screen and (max-width: 768px) {
     .dashboard {
-        grid-template-columns: 1fr 5fr;
+        grid-template-columns: 1fr 11fr;
     }
 
     .sidebar {
+        margin-top: 50px;
         flex-direction: column;        
         align-items: center;
         width: 100%;
@@ -85,15 +83,15 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 0;
-        border-radius: 50%;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        position: relative;
+    }
+
+    .linkName{
+        display: none;
     }
 
     .info_dashboard {
         flex: 1;
         width: 100%;
+        padding: 1rem 0 1rem 0 ;
     }
 }

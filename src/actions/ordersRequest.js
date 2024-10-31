@@ -37,10 +37,11 @@ export async function createNewOrder({ delivery_date, address, city, state, zip_
             }       
             const errorResponse = await response.json();
             console.log(`create new checkout session FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         }
 
         const responseObject = await response.json() 
+        console.log('CREATE NEW ORDER RESPONSE:', responseObject)
         return responseObject.url       
 
         
@@ -80,10 +81,11 @@ export async function updateOrderShippingInfo(data, id){
             }     
             const errorResponse = await response.json();
             console.log(`UPDATING ORDER SHIPPING INFO FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
-        const responseObject = await response.json()        
+        const responseObject = await response.json() 
+        console.log('UPDATE ORDER SHIPPING INFORMATION RESULT:', responseObject)       
         revalidatePath(`/account/orders`, "page")
         return responseObject; 
 
@@ -121,10 +123,11 @@ export async function updateOrderDeliverydateInfo(data, id){
             }      
             const errorResponse = await response.json();
             console.log(`UPDATING ORDER DELIVERY DATE FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
-        const responseObject = await response.json()        
+        const responseObject = await response.json()   
+        console.log('UPDATE ORDER DELIVERY DATE RESPONSE:', responseObject)     
         revalidatePath(`/account/orders`, "page")
         return responseObject; 
 
@@ -158,10 +161,11 @@ export async function deleteOrder(id){
             }     
             const errorResponse = await response.json();
             console.log(`DELETING ORDER FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse?.customError?.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
+        console.log('DELETE ORDER RESPONSE:', responseObject)
         revalidatePath(`/account/orders`, "page")
         return responseObject;        
     } catch (error) {

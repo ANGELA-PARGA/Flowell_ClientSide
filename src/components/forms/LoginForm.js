@@ -26,18 +26,17 @@ export default function LoginForm() {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (data, e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         await schema.validate(data);
         try {
             const responseNextAuth = await signIn("credentials", {
-            email: data.email,
-            password: data.password,
-            redirect: false,
+                email: data.email,
+                password: data.password,
+                redirect: false,
             });
             if (responseNextAuth?.error) {
-            console.log(responseNextAuth)
-            throw new Error(responseNextAuth.error)
+                console.log(responseNextAuth)
+                throw new Error(responseNextAuth.error)
             }
             reset()
             await populateCartData();

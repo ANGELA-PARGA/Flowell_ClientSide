@@ -416,6 +416,89 @@
     background-color:#0f80bd;
 }
 
+.filterMenu{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: rgb(255, 255, 255);
+    top: 180px;
+    z-index: 1000;
+    width: fit-content;
+    padding: 1rem;
+    border: 0.5px solid gray;
+}
+
+.filterForm, .filterButtonsContainer{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.filterButtonsContainer{
+    flex-direction: row ;
+}
+
+.filterBoxes, .filterBoxes label{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: #232424;
+}
+
+.filterBoxes label{
+    gap: 0.25rem;
+}
+
+.filterButtons{
+    width: 80px;
+    border-radius: 1rem; 
+    text-align: center;
+    height: 1.5rem;
+    line-height: 1rem;
+    background-color:white;
+    border: 1px solid rgb(197, 197, 197);
+    cursor: pointer;
+    color: rgb(58, 57, 57);
+    font-weight: 600;
+    font-size: 0.825rem;
+}
+
+.appliedFilters{
+    display: flex;
+    gap: 1rem;
+}
+
+.filterTag{
+    width: fit-content;
+    padding: 0.25rem;
+    text-align: center;
+    background-color:white;
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 5%;
+    color: rgb(58, 57, 57);
+    font-weight: 600;
+    font-size: 0.825rem;
+}
+
+.removeFilterButton{
+    cursor: pointer;
+    border: none;
+    background-color: transparent;  
+    font-weight: 600;
+    font-size: 0.825rem;      
+}
+
+.filterButtons:hover, .removeFilterButton:hover{
+    color: #1dabf8;
+}
+
+.filterBoxesInputs{
+    accent-color: #0067a0;
+}
+
+
 @media (max-width: 400px) {
     .signup_main_container{
         width: 90vw;

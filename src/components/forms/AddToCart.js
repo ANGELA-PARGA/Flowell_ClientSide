@@ -43,8 +43,7 @@ const AddToCart = ({id}) => {
         resolver: yupResolver(schema)
     });    
     
-    const onSubmit = async (data, e) => {
-        e.preventDefault()
+    const onSubmit = async (data) => {
         await schema.validate(data)
         const productToAdd = {
             ...data,

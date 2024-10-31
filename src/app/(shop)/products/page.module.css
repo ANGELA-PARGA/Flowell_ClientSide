@@ -10,6 +10,18 @@
     font-weight: 300;
 }
 
+.products_main_container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1rem;
+
+}
+
+.paginationContainer{
+    display: flex;
+    margin: 0 auto;
+}
+
 .filter_sort_buttons_container{
     display: flex;
     justify-content: space-between;
@@ -40,18 +52,6 @@
 .button_sort_and_filter:hover{
     color: #1dabf8;
     background-color: #52bbf325;
-}
-
-.products_main_container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1rem;
-
-}
-
-.paginationContainer{
-    display: flex;
-    margin: 0 auto;
 }
 
 @media (max-width: 430px) {

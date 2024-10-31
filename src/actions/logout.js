@@ -27,7 +27,7 @@ export default async function handleLogOut() {
             }      
             const errorResponse = await response.json();
             console.log(`LOGGING OUT FETCH FAILED`, errorResponse);
-            throw new Error(`Error ${errorResponse.status}: ${errorResponse.customError.message || errorResponse.error}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()

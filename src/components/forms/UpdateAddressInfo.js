@@ -26,8 +26,7 @@ export default function UpdateAddressInfo({resourceType, resourceId, address, ha
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (data, e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         await schema.validate(data);
         try {
             const response = await updatePersonalInfo(data, resourceType, resourceId);

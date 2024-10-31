@@ -3,13 +3,13 @@ import styles from './components.module.css'
 import Image from 'next/image';
 
 const ProductCard = ({data}) => {
-    console.log(data)
+
     return (
         <div className={styles.main_card_container}>            
             <div className={styles.image_card_container}>
                 <Image  src={data.images_urls[0]}
                         fill
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         style={{
                             borderRadius: '5%',
                         }}

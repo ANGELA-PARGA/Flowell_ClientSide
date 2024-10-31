@@ -26,7 +26,7 @@ const CheckoutDashboard = ({data}) => {
     if(!cartData.total){
         return(
         <div>
-            <p>There aren't products in your cart, go ahead and purchase some flowers!</p>
+            <h4>There aren't products in your cart, go ahead and purchase some flowers!</h4>
             <br />
             <Link href={'/account/cart'}><button className={styles.returnCart}>Cart</button></Link>
         </div>

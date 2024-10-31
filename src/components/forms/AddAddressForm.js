@@ -26,8 +26,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (data, e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         await schema.validate(data);
         try {
             const response = await addNewPersonalInfo(data, resourceType);
@@ -38,7 +37,8 @@ export default function AddAddressForm({resourceType, handleClose}) {
                 }, 2000);
             } else {
                 handleClose()
-                toast.success(`Address information added succesfully`)       
+                toast.success(`Address information added succesfully`);
+                reset();       
             }  
         } catch (error) {
             console.log(error)
