@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
             </footer>
         </SessionAuthProvider>
         <ToastContainer
-          position="top-center"
+          position="bottom-right"
           autoClose={2000}
         />       
       </body>

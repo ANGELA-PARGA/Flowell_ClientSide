@@ -10,6 +10,12 @@
   padding: 0.5rem;
 }
 
+.checkoutProducts h3{
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0068a0;
+}
+
 .place_order_button, .returnCart{
 
   width: 100px;

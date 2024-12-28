@@ -4,6 +4,11 @@ const nextConfig = {
         domains: ['res.cloudinary.com']
     },
     reactStrictMode: false,
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    },
 };
 
 export default nextConfig;

@@ -1,6 +1,6 @@
 // pages/api/logout.js
 'use server'
-
+import { cookies } from "next/headers";
 import { cookieFetchVerification } from "@/lib/cookieVerification";
 
 export default async function handleLogOut() {
@@ -29,7 +29,7 @@ export default async function handleLogOut() {
             console.log(`LOGGING OUT FETCH FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
-
+        (await cookies()).delete('connect.sid')
         const responseObject = await response.json()
         console.log('LOGGING OUT RESPONSE:',responseObject)
         
@@ -37,7 +37,6 @@ export default async function handleLogOut() {
         console.error('NETWORK ERROR LOGGING OUT:', error);
         throw error
     }
-    cookies().delete('connect.sid')
     console.log('DONE LOGGED OUT FROM SERVER!') 
     
 }

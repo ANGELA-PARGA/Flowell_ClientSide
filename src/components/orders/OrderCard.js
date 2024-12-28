@@ -13,7 +13,7 @@ export default function OrderCard({order}) {
                 <p><span>Delivery Date:</span> {format(parseISO(order.delivery_date), 'EE, MMMM d yyyy')}</p>
             </div>
             <div >
-                <Link href={`/account/orders/${order.id}`}><button type="button">View Order</button></Link>
+                <Link href={`/account/orders/${order.id}`}><button type="button" className={styles.orderInfo_container}>View Order</button></Link>
             </div>
             <MyModalCancelOrder id={order.id}/>            
         </li>

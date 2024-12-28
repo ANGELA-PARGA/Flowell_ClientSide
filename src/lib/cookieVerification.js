@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export async function cookieVerification(){
-    const allCookies = cookies();
+    const allCookies = await cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     if(connectSidCookie.length === 0){
         console.log('Session cookie missing or expired.');
@@ -13,7 +13,7 @@ export async function cookieVerification(){
 }
 
 export async function cookieFetchVerification() {
-    const allCookies = cookies();
+    const allCookies = await cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
 
     if (connectSidCookie.length === 0) {

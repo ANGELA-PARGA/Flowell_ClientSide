@@ -63,7 +63,7 @@
     text-decoration: underline;
 }
 
-.menu_button:hover #arrow_down svg  {
+.menu_button:active #arrow_down svg  {
     transform: rotate(180deg); 
 }
 

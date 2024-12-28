@@ -42,7 +42,7 @@ const CheckoutDashboard = ({data}) => {
                     <ProductCheckoutInfo data={item} key={item.product_id} />          
                 ))}
                 </div>
-                <h4>Total: ${cartData.total.toFixed(2)}</h4>
+                <h3>Total: ${cartData.total.toFixed(2)}</h3>
                 <Link href={'/account/cart'}><button className={styles.place_order_button}>Return to Cart</button></Link>
             </div>
             <div>

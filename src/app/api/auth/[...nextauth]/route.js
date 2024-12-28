@@ -47,7 +47,7 @@ const handler = NextAuth({
                                 }
                             });
                             /* on production set cookie to secure:true*/
-                            cookies().set({
+                            await cookies().set({
                                 name: 'connect.sid',
                                 value: cookieObject['connect'],
                                 httpOnly: true,
@@ -62,7 +62,8 @@ const handler = NextAuth({
                                 id: userRetrieved.user.id,
                                 email: userRetrieved.user.email,
                                 username: `${userRetrieved.user.first_name} ${userRetrieved.user.last_name}`,
-                                cart_id: userRetrieved.user.cart_id
+                                cart_id: userRetrieved.user.cart_id,
+                                role: userRetrieved.user.role
                             }  
                             console.log('user for session:', user)        
                             return user 
