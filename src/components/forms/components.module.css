@@ -121,6 +121,10 @@
     
 }
 
+button:disabled{
+    cursor: not-allowed;    
+}
+
 .subtotal_paragraph{
     display: flex;
     gap: 0.5rem;

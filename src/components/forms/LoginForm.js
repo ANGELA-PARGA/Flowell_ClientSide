@@ -22,7 +22,7 @@ export default function LoginForm() {
     const router = useRouter();
     const { populateCartData } = useContext(StoreContext);
 
-    const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} =useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -38,7 +38,6 @@ export default function LoginForm() {
                 console.log(responseNextAuth)
                 throw new Error(responseNextAuth.error)
             }
-            reset()
             await populateCartData();
             router.push("/");  
             toast.success(`Login succesfull!`)   
@@ -51,35 +50,35 @@ export default function LoginForm() {
 
     return (    
         <main className={styles.login_main_container}>
-        <div className={styles.login_form_container}>
-            <h2>Sign in to your account</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>          
-            <div>
-                <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
-                    trigger('email'); 
-                }} />
-                <label htmlFor="email">Enter your email</label> 
-                <p className={styles.error_login_form}>{errors.email?.message}</p>
-                
+            <div className={styles.login_form_container}>
+                <h2>Sign in to your account</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>          
+                    <div>
+                        <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
+                            trigger('email'); 
+                        }} />
+                        <label htmlFor="email">Enter your email</label> 
+                        <p className={styles.error_login_form}>{errors.email?.message}</p>
+                        
+                    </div>
+                    <div>
+                        <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {
+                            trigger('password');
+                        }} />
+                        <label htmlFor="password">Enter your password</label>
+                        <p className={styles.error_login_form}>{errors.password?.message}</p>
+                    </div>
+                    <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
+                </form>        
+                <Link href={"/"}>Forgot credentials</Link>
             </div>
             <div>
-                <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {
-                    trigger('password');
-                }} />
-                <label htmlFor="password">Enter your password</label>
-                <p className={styles.error_login_form}>{errors.password?.message}</p>
+                <p className={styles.error_login_form}>{loginError}</p>
             </div>
-            <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
-            </form>        
-            <Link href={"/"}>Forgot credentials</Link>
-        </div>
-        <div>
-            <p className={styles.error_login_form}>{loginError}</p>
-        </div>
-        <section className={styles.signup_main_container}>
-            <h2>Not registered yet?</h2>
-            <Link href={"/register"}>Become a member</Link>
-        </section>
+            <section className={styles.signup_main_container}>
+                <h2>Not registered yet?</h2>
+                <Link href={"/register"}>Become a member</Link>
+            </section>
         </main>
     );
 }

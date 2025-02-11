@@ -23,11 +23,13 @@ const schema = yup.object().shape({
 });
 
 const AddToCart = ({id}) => {
+    const { data: session, status} = useSession();
+    const productId = parseInt(id);
+
     const [updateError, setupdateError] = useState();
     const [itemQty, setItemQty] = useState(false);
-    const { data: session, status} = useSession();
     const { cartData, populateCartData, getProductQtyInCart, updateProductQtyInCart } = useContext(StoreContext);
-    const productId = parseInt(id);
+    
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -56,16 +58,17 @@ const AddToCart = ({id}) => {
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
+                return 
             } else {
-                await populateCartData();
-                toast.success(`Added ${productToAdd.qty} cases to the cart`)     
-            }     
+                await populateCartData()
+                toast.success(`Added ${productToAdd.qty} cases to the cart`)
+            }
+                
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
             toast.error('Failed to add to cart')
         }
-        
     };
 
     const handleUpdate = async (dataToUpdate, e) => {
@@ -76,12 +79,12 @@ const AddToCart = ({id}) => {
             setTimeout(async () => {
                 await signOut({ callbackUrl: '/login' });
             }, 2000);
-        } else {
-            updateProductQtyInCart(dataToUpdate.qty, productId);        
+        } else {      
             debouncedUpdate({
                 ...dataToUpdate,
                 product_id: productId,
-            });   
+            });
+            updateProductQtyInCart(dataToUpdate.qty, productId);     
         }        
     };
 
@@ -93,9 +96,7 @@ const AddToCart = ({id}) => {
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
-            } else {
-                await populateCartData();
-                toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);    
+                return
             }    
         } catch (error) {
             console.error('Failed to update item in cart:', error);
@@ -105,7 +106,8 @@ const AddToCart = ({id}) => {
     }, 300);
 
     const handleDelete = async (e) => {
-        e.preventDefault()      
+        e.preventDefault() 
+        e.stopPropagation()    
         try {
             const response = await deleteCartItem(productId);
             if(response.expired){
@@ -114,9 +116,9 @@ const AddToCart = ({id}) => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
             } else {
-                await populateCartData();
-                toast.success(`Deleted product to the cart`)   
-            } 
+                await populateCartData()
+                toast.success(`Deleted product from the cart`) 
+            }            
         } catch (error) {
             console.log(error)
             setupdateError(error.message)
@@ -133,40 +135,40 @@ const AddToCart = ({id}) => {
                 <div className={styles.add_to_cart_container}>
                 {!itemQty ? (
                     <form className={styles.add_to_cart_form} onSubmit={handleSubmit(onSubmit)}>
-                    <select {...register("qty")}>
-                        {[...Array(30)].map((_, index) => (
-                        <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                        </option>
-                        ))}
-                    </select>
-                    <button className={styles.add_to_cart_button} type="submit" disabled={isSubmitting}>
-                        Add to Cart
-                    </button>
-                    {errors.qty && <p>{errors.qty.message}</p>}
+                        <select {...register("qty")}>
+                            {[...Array(15)].map((_, index) => (
+                            <option key={index + 1} value={index + 1}>
+                                {index + 1}
+                            </option>
+                            ))}
+                        </select>
+                        <button className={styles.add_to_cart_button} type="submit" disabled={isSubmitting}>
+                            Add to Cart
+                        </button>
+                        {errors.qty && <p>{errors.qty.message}</p>}
                     </form>
                 ) : (
-                    <div className={styles.product_cart_buttons_container}>
+                    <form className={styles.product_cart_buttons_container}>
                         <div className={styles.product_cart_button_minicontainer}>
                             {itemQty > 1 ? (
-                            <button className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
+                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
                                 -
                             </button>
                             ) : (
-                            <button disabled className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
+                            <button type="submit" disabled className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
                                 -
                             </button>
                             
                             )}
                             <p>{itemQty}</p>
-                            <button className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty + 1 }, e)}>
+                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleUpdate({ qty: itemQty + 1 }, e)}>
                             +
                             </button>
-                            <button className={styles.update_cart_items_button} onClick={(e) => handleDelete(e)}>
+                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleDelete(e)}>
                                 <TrashIcon width={16} height={16} weight={2} />
                             </button>
                         </div>
-                    </div>
+                    </form>
                 )}
                 </div>
             ) : (

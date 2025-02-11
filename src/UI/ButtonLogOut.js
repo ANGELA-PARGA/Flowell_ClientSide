@@ -8,9 +8,9 @@ import { signOut } from "next-auth/react";
 export default function ButtonLogOut(){
 
     const onClickLogOut = async () => {
+        localStorage.removeItem('cartData');
         await signOut();
         await handleLogOut();
-        handleClose();        
     }
 
     return (

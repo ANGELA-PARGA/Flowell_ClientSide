@@ -15,7 +15,7 @@ export default function StoreProvider({children}){
         }
     }, []);
 
-    const populateCartData = useCallback( async () =>{
+    const populateCartData = useCallback(async () =>{
         try {
             console.log('calling populate data')
             const data = await fetchCartInfoByUser();
@@ -34,17 +34,32 @@ export default function StoreProvider({children}){
         return cartItem ? cartItem.qty : false;
     }, [])
 
-    const updateProductQtyInCart = useCallback ((newQty, productId) => {
+    const updateProductQtyInCart = useCallback (async (newQty, productId) => {
         console.log('calling update product qty in cart', newQty, productId)
-        const updatedCartItems = cartData.items.map(item =>
-            item.product_id === productId ? { ...item, qty: newQty } : item
-        );
-        setCartData({ ...cartData, items: updatedCartItems });
+        let {total, total_items, items, id} = cartData;
+        const itemToUpdate = items?.find(item => item.product_id === productId);
+        if (!itemToUpdate) return false;
+        
+        const updatedCartItems = items.map(item => {
+            const updatedItem = item.product_id === productId ? { ...item, qty: newQty} : item;
+            return updatedItem;
+        });
+        total = total - (itemToUpdate.qty * itemToUpdate.price_per_case) + (newQty * itemToUpdate.price_per_case);
+        total_items = total_items - itemToUpdate.qty + newQty;
+
+        setCartData({ id, items: updatedCartItems, total, total_items});
+        localStorage.setItem('cartData', JSON.stringify({ id, items: updatedCartItems, total, total_items}));
         return true;
     }, [cartData])
 
     return (
-        <StoreContext.Provider value={{cartData, setCartData, populateCartData, getProductQtyInCart, updateProductQtyInCart}}>
+        <StoreContext.Provider value={
+            {   cartData, 
+                setCartData, 
+                populateCartData, 
+                getProductQtyInCart, 
+                updateProductQtyInCart
+            }}>
             {children}
         </StoreContext.Provider>
     )

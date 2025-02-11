@@ -12,24 +12,24 @@ import { debounce } from "lodash";
 
 const UpdateCartItems = ({data, id}) => {
     const [updateError, setupdateError] = useState();
-    const { populateCartData, updateProductQtyInCart } = useContext(StoreContext);
+    const { updateProductQtyInCart, populateCartData } = useContext(StoreContext);
     const productId = parseInt(id);    
 
     const handleUpdate = async (dataToUpdate, e) => {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopPropagation(); 
         const response = await cookieVerification()
         if(response.expired){
             toast.error('Your session has expired, please login again')
             setTimeout(async () => {
                 await signOut({ callbackUrl: '/login' });
             }, 2000);
-        } else {
-            updateProductQtyInCart(dataToUpdate.qty, productId);        
+        } else {                    
             debouncedUpdate({
                 ...dataToUpdate,
                 product_id: productId,
             });   
+            updateProductQtyInCart(dataToUpdate.qty, productId);
         }        
     };
 
@@ -41,10 +41,8 @@ const UpdateCartItems = ({data, id}) => {
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
-            } else {
-                await populateCartData();
-                toast.success(`Updated ${productToUpdate.qty} case(s) to the cart`);  
-            }            
+                return 
+            }              
         } catch (error) {
             console.error('Failed to update item in cart:', error);
             setupdateError(error.message);
@@ -63,9 +61,9 @@ const UpdateCartItems = ({data, id}) => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
             } else {
-                await populateCartData();
-                toast.success(`Deleted product to the cart`)  
-            }
+                await populateCartData()
+                toast.success(`Deleted product from the cart`) 
+            }            
         } catch (error) {
             console.log(error)
             setupdateError(error.message)

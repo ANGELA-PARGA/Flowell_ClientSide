@@ -106,7 +106,7 @@ const Navigation = () => {
                 >
                     <div className={styles.menu_button}> 
                         <div className={styles.auth_button}>
-                            {showingMenu === 'cart' ? <CloseIcon width={22} height={22} weight={2} /> : <CartItems/>}  
+                            {showingMenu === 'cart' ? <CloseIcon width={28} height={28} weight={2} /> : <CartItems/>}  
                         </div>
                     </div>
                     {showingMenu === 'cart' && (

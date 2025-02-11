@@ -14,64 +14,66 @@ const handler = NextAuth({
             },
             async authorize(credentials) {
                 console.log('url on server', process.env.NEXT_PUBLIC_BACKEND_URL)
-                    try {
-                        const response = await fetch(
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-                            {
-                                method: "POST",
-                                body: JSON.stringify({
-                                email: credentials?.email,
-                                password: credentials?.password,
-                                }),
-                                headers: { "Content-Type": "application/json" },
-                            }
-                        );
-                        if(!response.ok){
-                            const parsedError = await response.json();
-                            console.log('error in login', parsedError)
-                            throw new Error(parsedError.error)
-                            
+                try {
+                    const response = await fetch(
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({
+                            email: credentials?.email,
+                            password: credentials?.password,
+                            }),
+                            headers: { "Content-Type": "application/json" },
                         }
-                        if(response.ok){
-                            const userRetrieved = await response.json();
-                            
-                            /*setting the cookie manually to the browser*/
-                            const apiCookies = response.headers.get('Set-Cookie');
-                            const cookieParts = apiCookies.split(';');
-                            const cookieObject = {};
-                            cookieParts.forEach(part => {
-                                const [key, value] = part.trim().split('=');
-                                const name = key.split('.')[0];
-                                if (name && value) {
-                                    cookieObject[name.trim()] = value.trim();
-                                }
-                            });
-                            /* on production set cookie to secure:true*/
-                            await cookies().set({
-                                name: 'connect.sid',
-                                value: cookieObject['connect'],
-                                httpOnly: true,
-                                maxAge: 24 * 60 * 60,
-                                path: cookieObject['Path'],
-                                expires: new Date(cookieObject['Expires']),
-                                secure: true,
-                            });
-                            
-                            /*returning the user for the session information*/
-                            const user = {
-                                id: userRetrieved.user.id,
-                                email: userRetrieved.user.email,
-                                username: `${userRetrieved.user.first_name} ${userRetrieved.user.last_name}`,
-                                cart_id: userRetrieved.user.cart_id,
-                                role: userRetrieved.user.role
-                            }  
-                            console.log('user for session:', user)        
-                            return user 
-                        }                            
-                    } catch (error) {
-                        console.error('Authorization error:', error);
-                        throw new Error(error);                        
+                    );
+                    if(!response.ok){
+                        const parsedError = await response.json();
+                        console.log('error in login', parsedError)
+                        throw new Error(parsedError.error)
+                        
                     }
+                    if(response.ok){
+                        const userRetrieved = await response.json();
+                        
+                        /*setting the cookie manually to the browser*/
+                        
+                        const apiCookies = (await response.headers).get('Set-Cookie');
+                        const cookieParts = apiCookies.split(';');
+                        const cookieObject = {};
+                        cookieParts.forEach(part => {
+                            const [key, value] = part.trim().split('=');
+                            const name = key.split('.')[0];
+                            if (name && value) {
+                                cookieObject[name.trim()] = value.trim();
+                            }
+                        });
+                        /* on production set cookie to secure:true*/
+                        const allCookies = await cookies();
+                        allCookies.set({
+                            name: 'connect.sid',
+                            value: cookieObject['connect'],
+                            httpOnly: true,
+                            maxAge: 24 * 60 * 60,
+                            path: cookieObject['Path'],
+                            expires: new Date(cookieObject['Expires']),
+                            secure: true,
+                        });
+                        
+                        /*returning the user for the session information*/
+                        const user = {
+                            id: userRetrieved.user.id,
+                            email: userRetrieved.user.email,
+                            username: `${userRetrieved.user.first_name} ${userRetrieved.user.last_name}`,
+                            cart_id: userRetrieved.user.cart_id,
+                            role: userRetrieved.user.role
+                        }  
+                        console.log('user for session:', user)        
+                        return user 
+                    }                            
+                } catch (error) {
+                    console.error('Authorization error:', error);
+                    throw new Error(error);                        
+                }
             },
         }),
     ],

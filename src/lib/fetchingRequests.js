@@ -1,4 +1,4 @@
-/*Cache no-store to avoid using stale data, change on built*/
+
 export async function fetchAllProducts(page, filters ={}) {
     console.log('calling fetch all products:', page, filters)
     const query = new URLSearchParams({
@@ -89,6 +89,26 @@ export async function fetchProductsBySearch(term, filters ={}){
 
         const data = await response.json()
         console.log(`fetch products by search response:`, data);
+        return data;  
+
+    } catch (error) {
+        console.error('Network error:', error);
+        throw error
+    }
+}
+
+
+export async function fetchCategories(){
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories`, { cache: 'force-cache', next: { revalidate: 1800 }})
+
+        if (!response.ok) {        
+            const errorResponse = await response.json();
+            console.log(`fetching categories`, errorResponse);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
+        } 
+
+        const data = await response.json()
         return data;  
 
     } catch (error) {

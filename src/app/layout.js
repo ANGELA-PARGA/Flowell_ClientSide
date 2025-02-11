@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         </SessionAuthProvider>
         <ToastContainer
           position="bottom-right"
-          autoClose={2000}
+          autoClose={1500}
         />       
       </body>
     </html>

@@ -1,12 +1,24 @@
 import styles from './page.module.css'
 import ProductCard from '@/components/product/ProductCard';
-import { fetchProductsByCategory } from '@/lib/fetchingRequests';
+import { fetchProductsByCategory, fetchCategories } from '@/lib/fetchingRequests';
 import { AddColorFilter } from '@/components/product/AddFilters';
 import PaginationButton from '@/UI/PaginationButton';
+
+export const dynamicParams = true
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const allCategories = await fetchCategories();
+  const categoriesId = allCategories.products_and_categories.map(category => category.id);
+  return categoriesId.map((id) => ({
+    categoryId: id.toString(),
+  }));
+}
 
 export default async function CategoryProducts(props) {
   const searchParams = await props.searchParams;
   const params = await props.params;
+  
   const page = Number(searchParams?.p) || 1;
   const colorFilter = searchParams?.color || [];
   const data = await fetchProductsByCategory(params.categoryId, page, { color: colorFilter});
