@@ -161,7 +161,7 @@ export async function deleteOrder(id){
             }     
             const errorResponse = await response.json();
             console.log(`DELETING ORDER FAILED`, errorResponse);
-            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}`);
         } 
 
         const responseObject = await response.json()

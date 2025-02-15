@@ -3,12 +3,12 @@ import ButtonLogOut from '../../UI/ButtonLogOut';
 import MenuAuthAccount from './MenuAuthAccount';
 import MenuAuthCart from './MenuAuthCart';
 
-const DropdownAuthUser = ({linkActive}) => {
+const DropdownAuthUser = ({linkActive, handleClose}) => {
 
     if(linkActive === 'sign_in'){
         return (
             <div className={styles.dropdown_menu_authenticated}>
-                <MenuAuthAccount/>
+                <MenuAuthAccount handleClose={handleClose}/>
                 <ButtonLogOut/>          
             </div>
         );
@@ -17,7 +17,7 @@ const DropdownAuthUser = ({linkActive}) => {
     if(linkActive === 'cart'){
         return (
             <div>
-                <MenuAuthCart />                        
+                <MenuAuthCart handleClose={handleClose}/>                        
             </div>
         );
     }

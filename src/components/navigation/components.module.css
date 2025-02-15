@@ -200,15 +200,21 @@
 .dropdown_menu_phone_version_options {
     display: flex;
     gap: 1rem;
+    align-items: center;
 }
 
 .dropdown_menu_phone_version_options a,
+.dropdown_menu_phone_version_options p,
 .dropdown_menu_category_list,
 .dropdown_menu_unauthenticated_options a,
 .searchResults a {
-    color: #646363;
+    color: #211f1f;
     font-size: 0.85rem;
     line-height: 1.5rem;
+}
+
+.dropdown_menu_phone_version_options a{
+    line-height: 2rem;
 }
 
 .dropdown_menu_unauthenticated_phone {
@@ -271,6 +277,23 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.see_results_link{
+    align-self: flex-end;
+    border: none;
+    background-color: none;
+    font-size: 0.825rem;
+    color: #0067a0;
+    font-weight: 600;
+}
+.see_results_link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.phone_account_menu{
+    width: 100%;
+}
+
 /* Media queries */
 @media screen and (max-width: 790px) {
     .menu_button_secondary {
@@ -291,20 +314,27 @@
         justify-content: space-between;
     }
 
-    .dropdown_menu,
+    .dropdown_menu{
+        left: 0;
+        width: 85%;
+        align-items: flex-start;
+        height: 100svh;
+        border-radius: 0;
+    }
     .search_dropdown_menu {
         left: 0;
         width: 100%;
         align-items: flex-start;
+        height: fit-content;
+        border-radius: 0;
     }
 
-    .dropdown_menu_unauthenticated {
+    .dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
         right: 0;
-        z-index: 100;
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50vw;
+        width: 80vw;
     }
 
     .button_log_out {

@@ -1,6 +1,7 @@
 
 export async function fetchAllProducts(page, filters ={}) {
     console.log('calling fetch all products:', page, filters)
+    
     const query = new URLSearchParams({
         page,
         ...filters,
@@ -26,6 +27,7 @@ export async function fetchAllProducts(page, filters ={}) {
 
 export async function fetchProductsById(id){
     console.log('calling fetch product by id:', id)
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`, { cache: 'force-cache', next: { revalidate: 1800 }})
 

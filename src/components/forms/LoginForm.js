@@ -22,7 +22,7 @@ export default function LoginForm() {
     const router = useRouter();
     const { populateCartData } = useContext(StoreContext);
 
-    const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting}, trigger} = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -38,8 +38,8 @@ export default function LoginForm() {
                 console.log(responseNextAuth)
                 throw new Error(responseNextAuth.error)
             }
-            await populateCartData();
-            router.push("/");  
+            router.push("/");
+            await populateCartData();  
             toast.success(`Login succesfull!`)   
         } catch (error) {
             console.log('error catched:', error.message)

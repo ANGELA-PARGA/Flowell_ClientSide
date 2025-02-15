@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './components.module.css';
 
 /*This component sets the URL to apply the filter parameters (color - category) */
@@ -10,6 +10,7 @@ const FilterForm = ({ type, handleClose }) => {
     const searchParams = useSearchParams();
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [appliedFilters, setAppliedFilters] = useState([]);
+    const filterRef = useRef(null);
 
     useEffect(() => {
         // Update applied filters based on URL search params
@@ -27,7 +28,7 @@ const FilterForm = ({ type, handleClose }) => {
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
         setSelectedOptions((prev) =>
-            checked ? [...prev, value] : prev.filter((item) => item !== value)
+            checked ? [...prev, value] : prev.filter((item) => item !== value) // Add or remove the value from the array
         );
     };
 
@@ -50,7 +51,7 @@ const FilterForm = ({ type, handleClose }) => {
     };
 
     const handleRemoveFilter = (filter) => {
-        /*Can't use delete, because I can have more than one key of the same type. So it will delete all entries*/
+        /*Can't use delete, because I could have more than one key of the same type. So it will delete all entries*/
         const params = new URLSearchParams(searchParams);
         params.delete('p');
         /*Constructing new URL filtering the entry with the same value as the argument */
@@ -64,15 +65,28 @@ const FilterForm = ({ type, handleClose }) => {
         handleClose(); 
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (filterRef.current && !filterRef.current.contains(event.target)) {
+                handleClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [filterRef]);
+
     const colors = ['white', 'red', 'yellow', 'pink', 'light pink', 'green', 'lavender', 'orange']
     const categories = ['roses', 'greenery', 'spray roses', 'hydrangeas', 'gerberas', 'sunflowers', 'moms', 'poms']
     
     return (
-        <div className={styles.filterMenu}>
+        <div className={styles.filterMenu} ref={filterRef}>
             <h4>Choose a {type}</h4>
             <form onSubmit={handleApply} className={styles.filterForm}>
                 {type === 'color' && (
-                    <div className={styles.filterBoxes}>
+                    <div className={styles.filterBoxes} >
                         { colors.map((color, index) =>{
                             return (
                                 <label key={index+1}>

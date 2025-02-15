@@ -57,6 +57,18 @@ span{
   color: var(--primary-color);
 }
 
+button:disabled{
+  cursor: not-allowed; 
+  background-color: #c9c7c7;
+  color: #424242;   
+}
+
+button:disabled:hover{
+  cursor: not-allowed; 
+  background-color: #c9c7c7;
+  color: #424242;   
+}
+
 @media (max-width: 545px) {
   h2 {
     font-size: 1.17rem;

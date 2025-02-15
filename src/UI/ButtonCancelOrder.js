@@ -16,6 +16,7 @@ const ButtonCancelOrder = ({id, handleClose}) => {
         } catch (error) {
             console.log(error)
             toast.error(`Failed to cancel order`)
+            handleClose()
         }        
     }
 

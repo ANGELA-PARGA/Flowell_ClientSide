@@ -10,6 +10,10 @@
   padding: 0.5rem;
 }
 
+.checkoutProducts a{
+  width: fit-content;
+}
+
 .checkoutProducts h3{
   font-size: 1.25rem;
   font-weight: 600;

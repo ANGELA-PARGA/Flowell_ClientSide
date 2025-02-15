@@ -29,7 +29,7 @@ const categoryData = [
     { src: mini_image11, href: '/products', alt: 'bouquet of multiple kinds of flowers', name: 'All products' }
 ];
 
-const DropdownMenu = ({linkActive}) => {
+const DropdownMenu = ({linkActive, handleClose}) => {
 
     if (linkActive === 'products') {
         return (
@@ -38,7 +38,7 @@ const DropdownMenu = ({linkActive}) => {
                 <ul className={styles.dropdown_menu_category_list}>
                     {categoryData.map((category, index) => (
                         <li key={index}>
-                            <Link href={category.href} className={styles.dropdown_menu_category_box}>
+                            <Link href={category.href} onClick={()=> handleClose()} className={styles.dropdown_menu_category_box}>
                                 <Image
                                     src={category.src}
                                     width={60}
@@ -62,15 +62,15 @@ const DropdownMenu = ({linkActive}) => {
                 <ul className={styles.dropdown_menu_category_list}>
                     <li className={styles.dropdown_menu_flowell_list}>
                         <LeafIcon width={40} height={40} weight={2}/>
-                        <Link href='/about-us'>About us</Link>
+                        <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>
                     <li className={styles.dropdown_menu_flowell_list}>
                         <ShoppingBagIcon width={40} height={40} weight={2} />
-                        <Link href='/how-to'>How to Buy</Link>
+                        <Link href='/how-to' onClick={()=> handleClose()}>How to Buy</Link>
                     </li>
                     <li className={styles.dropdown_menu_flowell_list}>
                         <PlantIcon width={40} height={40} weight={2}/>
-                        <Link href='/floral-care'>Handling flowers</Link>
+                        <Link href='/floral-care' onClick={()=> handleClose()}>Handling flowers</Link>
                     </li>
                 </ul>
             </div>
@@ -83,19 +83,28 @@ const DropdownMenu = ({linkActive}) => {
                 <ul className={styles.dropdown_menu_phone_version}>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <CategoryIcon width={20} height={20} weight={2}/>
-                        <Link href='/products'>All Products</Link>
+                        <p>Categories</p>
                     </li>
+                    <ul>
+                        {categoryData.map((category, index) => (
+                            <li key={index} className={styles.dropdown_menu_phone_version_options}>
+                                <Link href={category.href} onClick={()=> handleClose()}>
+                                    {category.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <ShoppingBagIcon width={20} height={20} weight={2} />       
-                        <Link href='/how-to'>How to buy</Link>
+                        <Link href='/how-to' onClick={()=> handleClose()}>How to buy</Link>
                     </li>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <PlantIcon width={20} height={20} weight={2}/>
-                        <Link href='/floral-care'>Handling your flowers</Link>
+                        <Link href='/floral-care' onClick={()=> handleClose()}>Handling your flowers</Link>
                     </li>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <LeafIcon width={20} height={20} weight={2}/>
-                        <Link href='/about-us'>About us</Link>
+                        <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>                    
                 </ul>
             </div>

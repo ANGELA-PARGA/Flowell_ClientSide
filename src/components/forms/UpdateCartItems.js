@@ -2,7 +2,7 @@
 
 import styles from './components.module.css'
 import { toast } from 'react-toastify';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { StoreContext } from '@/context';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { signOut } from 'next-auth/react';
@@ -11,7 +11,6 @@ import { TrashIcon } from '../../../public/svgIcons';
 import { debounce } from "lodash";
 
 const UpdateCartItems = ({data, id}) => {
-    const [updateError, setupdateError] = useState();
     const { updateProductQtyInCart, populateCartData } = useContext(StoreContext);
     const productId = parseInt(id);    
 
@@ -28,8 +27,7 @@ const UpdateCartItems = ({data, id}) => {
             debouncedUpdate({
                 ...dataToUpdate,
                 product_id: productId,
-            });   
-            updateProductQtyInCart(dataToUpdate.qty, productId);
+            });
         }        
     };
 
@@ -42,12 +40,13 @@ const UpdateCartItems = ({data, id}) => {
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
                 return 
-            }              
+            }            
         } catch (error) {
             console.error('Failed to update item in cart:', error);
-            setupdateError(error.message);
             toast.error('Failed to update item in cart');
+            return            
         }
+        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
     }, 300);
 
     const handleDelete = async (e) => {
@@ -66,7 +65,6 @@ const UpdateCartItems = ({data, id}) => {
             }            
         } catch (error) {
             console.log(error)
-            setupdateError(error.message)
             toast.error(`Failed to delete product in cart`)
         }
         
@@ -83,12 +81,11 @@ const UpdateCartItems = ({data, id}) => {
                 <p className={styles.dataQty}>{data.qty}</p>
                 <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)}> + </button>
                 <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>
-            </div>                                                
+            </div>                                             
         </div>
         <div>
             <p className={styles.subtotal_paragraph}>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
         </div>
-        {updateError && (<div>{updateError}</div>)}
         </>
     )
 }

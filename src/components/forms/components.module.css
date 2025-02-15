@@ -40,9 +40,9 @@
 
 .update_button, .cancel_update_button, .pay_button{
     width: 100px;
-    height: 25px;
-    border-radius: 0.5rem; 
-    background-color:#0067a0;
+    padding: 0.25rem;
+    background-color:#0068a0cc;
+    border-radius: 0.5rem;
     border: none;
     cursor: pointer;
     color: white;
@@ -50,11 +50,11 @@
     font-size: 0.75rem;
 }
 .cancel_update_button{
-    background-color:#f00505;
+    background-color: #fa0000cc;
 }
 
 .cancel_update_button:hover{
-    background-color:#f33d3d;
+    background-color: #f82c2ccc;
 }
 
 .pay_button{
@@ -62,7 +62,7 @@
 }
 
 .update_button:hover, .pay_button:hover{
-    background-color:#0f80bd;
+    background-color:#0067a0;
 }
 
 .buttons_profile_container{
@@ -119,10 +119,6 @@
 .update_cart_items_button:hover{
     background-color:#dbe0e2;
     
-}
-
-button:disabled{
-    cursor: not-allowed;    
 }
 
 .subtotal_paragraph{

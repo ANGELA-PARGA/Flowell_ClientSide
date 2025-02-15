@@ -12,7 +12,7 @@ export async function fetchAllUserInfo(){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`, {
             headers : {cookie: cookieForServer}
-        })
+        }, { cache: 'force-cache', next: { revalidate: 1800 }})
 
         if (!response.ok) { 
             if (response.status === 401 || response.status === 403) {
@@ -37,7 +37,7 @@ export async function fetchAllUserInfo(){
 
 
 export async function fetchAllOrdersByUser(){
-    console.log('CALLING SERVER FETCH ALL ORDERS INFO')
+    console.log('CALLING SERVER FETCH ALL ORDERS INFO')    
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
@@ -48,7 +48,8 @@ export async function fetchAllOrdersByUser(){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
             headers : {cookie: cookieForServer}
-        })
+        }, { cache: 'force-cache', next: { revalidate: 1800 }})
+        
         if (!response.ok) { 
             if (response.status === 401 || response.status === 403) {
                 console.log('Session expired on the backend. Triggering logout.');
@@ -71,6 +72,7 @@ export async function fetchAllOrdersByUser(){
 
 export async function fetchOrdersById(id){
     console.log('CALLING SERVER FETCH ORDER INFO BY ID:', id)
+    
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {

@@ -26,7 +26,6 @@ const AddToCart = ({id}) => {
     const { data: session, status} = useSession();
     const productId = parseInt(id);
 
-    const [updateError, setupdateError] = useState();
     const [itemQty, setItemQty] = useState(false);
     const { cartData, populateCartData, getProductQtyInCart, updateProductQtyInCart } = useContext(StoreContext);
     
@@ -63,10 +62,8 @@ const AddToCart = ({id}) => {
                 await populateCartData()
                 toast.success(`Added ${productToAdd.qty} cases to the cart`)
             }
-                
         } catch (error) {
             console.log(error)
-            setupdateError(error.message)
             toast.error('Failed to add to cart')
         }
     };
@@ -83,8 +80,7 @@ const AddToCart = ({id}) => {
             debouncedUpdate({
                 ...dataToUpdate,
                 product_id: productId,
-            });
-            updateProductQtyInCart(dataToUpdate.qty, productId);     
+            });     
         }        
     };
 
@@ -100,9 +96,10 @@ const AddToCart = ({id}) => {
             }    
         } catch (error) {
             console.error('Failed to update item in cart:', error);
-            setupdateError(error.message);
             toast.error('Failed to update item in cart');
+            return
         }
+        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
     }, 300);
 
     const handleDelete = async (e) => {
@@ -121,7 +118,6 @@ const AddToCart = ({id}) => {
             }            
         } catch (error) {
             console.log(error)
-            setupdateError(error.message)
             toast.error(`Failed to delete product in cart`)
         }
         
@@ -174,9 +170,6 @@ const AddToCart = ({id}) => {
             ) : (
                 <Link href={'/login'}><button className={styles.add_to_cart_button} type="button">Log in to buy</button></Link>  
             )}
-            <div>
-                <p className={styles.error_updating_info}>{updateError}</p>
-            </div>
             </>
         );
 }
