@@ -26,7 +26,6 @@
 }
 
 .button_sign_in_modal{
-  z-index: 1001;
   pointer-events: auto;
   width: 80px;
   border-radius: 0.5rem; 
@@ -112,6 +111,12 @@
   gap: 1rem;
 }
 
+.recover_modalText{
+  color: #424242;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 .modalText{
   color: #424242;
   font-size: 1rem;
@@ -138,4 +143,34 @@
 
 .loadingProductInformation{
   width: 60%;
+}
+
+/*recover password button*/
+.recover_password_link{
+  border: none;
+  background: none;
+  background-color: none;
+  cursor: pointer;
+  color: #383838;
+  font-size: 0.825rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+.recover_password_link:hover{
+  text-decoration: underline;
+}
+
+.sent_email_confirmation{
+  color: #ee0707;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 468px) {
+  .content{
+    width: 90%;   
+    left: 5%;
+    right: 5%;
+  }    
 }

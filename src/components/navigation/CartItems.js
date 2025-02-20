@@ -13,15 +13,21 @@ const CartItems = () => {
             {status === 'loading' ? (
                 <>
                 <CartIconNavBar width={28} height={28} weight={2} />
+                <span className={styles.number_items_cart}><span className={styles.itemNumber}>0</span></span>
                 </>
             ) : (
                 <>
-                    <CartIconNavBar width={28} height={28} weight={2} />
+                    <CartIconNavBar width={28} height={28} weight={2} />                    
                     {session?.user?.email ? (
-                        <span><span className={styles.itemNumber}>{cartData.total_items}</span></span>
+                        <span className={styles.number_items_cart}>
+                        <span className={styles.itemNumber}>{cartData.total_items}</span>
+                        </span>
                     ) : (
-                        <></>
+                        <span className={styles.number_items_cart}>
+                        <span className={styles.itemNumber}>0</span>
+                        </span>
                     )}
+
                 </>
             )}
         </div>

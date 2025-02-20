@@ -31,7 +31,10 @@ export default function ProfileAddressInfo({userData}) {
                         </li>))}
                     </ul>
                     ) : (
+                        <>
                         <p className={styles.notUserInfoMessage}>You don't have any addresses, please add an address</p>
+                        <MyModalAdd resourceType={'address_inf'}/> 
+                        </>
                     )}
                     <div>
                         {

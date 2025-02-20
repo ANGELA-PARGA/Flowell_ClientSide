@@ -96,6 +96,10 @@
     .embla_button{
         display: none;
     }
+
+    .banner_informative_container h3{
+        font-size: 1rem;
+    }
 }
 
 @media screen and (max-width: 679px) {

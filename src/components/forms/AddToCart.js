@@ -56,7 +56,7 @@ const AddToCart = ({id}) => {
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                }, 3000);
                 return 
             } else {
                 await populateCartData()

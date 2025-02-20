@@ -39,12 +39,13 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem;  
-    cursor:pointer;    
+    cursor:pointer;
+    justify-content: center;    
 }
 
 .menu_button span{
     color: white;
-    font-weight: 300;       
+    font-weight: 400;       
 }
 .menu_button:hover{
     background-color: #25a3e798;
@@ -56,6 +57,10 @@
     justify-content: center;
     flex-direction: column;
     transition: transform 0.8s;
+}
+
+.cart_button_container{
+    min-width: 75px;
 }
 
 .menu_button:active #arrow_down svg  {
@@ -92,11 +97,27 @@
     opacity: 0.5; 
 }
 
-.auth_button{
+.auth_button_account{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.auth_button_cart{
+    display: block;
+}
+.number_items_cart{
+    display: inline-block;
+    background: #ee0707;
+    border-radius: 50%;
+    padding: 5px;
+    position: relative;
+    bottom: 10px;
+    right: 7px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
 }
 
 /* menu dropdown styles */
@@ -258,8 +279,9 @@
     background-color: #0f80bd;
 }
 
-.itemNumber {
+.itemNumber span{
     font-size: 0.8rem;
+    font-weight: 800;
 }
 
 .dropdown_menu_total_cart {

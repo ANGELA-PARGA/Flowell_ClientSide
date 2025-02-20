@@ -68,4 +68,10 @@ button:disabled:hover{
     color: #424242;
 }
 
+@media screen and (max-width: 468px) {
+    .orderInfo_subcontainer h3{
+        font-size: 1rem;    
+    }   
+  }
+
 

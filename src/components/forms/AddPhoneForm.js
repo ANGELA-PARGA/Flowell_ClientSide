@@ -40,7 +40,7 @@ export default function AddPhoneForm({resourceType, handleClose}) {
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                }, 3000);
             } else {
                 handleClose()
                 toast.success(`Contact information added succesfully`) 
@@ -73,7 +73,7 @@ export default function AddPhoneForm({resourceType, handleClose}) {
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-            <h3>Add new contact information</h3>
+            <h2>Add new contact information</h2>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                 <div className={styles.update_form_input_container}>
                     <input {...register('phone')} type="text" name="phone" id="phone" placeholder='(000) 000-0000' onBlur={() => {

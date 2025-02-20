@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState, useContext } from "react";
 import { StoreContext } from "@/context";
 import { toast } from 'react-toastify';
+import MyModalRecoverPassword from "@/UI/MyModalRecoverPassword";
 
 
 const schema = yup.object({
@@ -69,13 +70,13 @@ export default function LoginForm() {
                         <p className={styles.error_login_form}>{errors.password?.message}</p>
                     </div>
                     <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
-                </form>        
-                <Link href={"/"}>Forgot credentials</Link>
+                </form> 
+                <MyModalRecoverPassword />
             </div>
             <div>
                 <p className={styles.error_login_form}>{loginError}</p>
             </div>
-            <section className={styles.signup_main_container}>
+            <section className={styles.signup_inside_login_container}>
                 <h2>Not registered yet?</h2>
                 <Link href={"/register"}>Become a member</Link>
             </section>

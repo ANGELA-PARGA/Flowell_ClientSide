@@ -34,7 +34,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
                     await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                }, 3000);
             } else {
                 handleClose()
                 toast.success(`Address information added succesfully`);

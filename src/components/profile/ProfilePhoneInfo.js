@@ -24,7 +24,10 @@ export default function ProfilePhoneInfo({userData}) {
                         ))}
                     </ul>
                     ) : (
+                        <>
                         <p className={styles.notUserInfoMessage}>You don't have any phone numbers, please add a phone number</p>
+                        <MyModalAdd resourceType={'contact_inf'}/> 
+                        </>
                     )}
                 </div>
                 <div>

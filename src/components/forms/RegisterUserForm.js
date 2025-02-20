@@ -101,7 +101,7 @@ export default function RegisterUserForm() {
             <div>
                 <p className={styles.error_login_form}>{loginError}</p>
             </div>
-            <section className={styles.login_main_container}>
+            <section className={styles.login_inside_signup_container}>
                 <h2>Already registered?</h2>
                 <Link href={"/login"}>Sign in</Link>
             </section>

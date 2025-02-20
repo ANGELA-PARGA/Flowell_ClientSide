@@ -165,3 +165,64 @@ export async function deletePersonalInfo(resourceType,resourceId){
     } 
 
 }
+
+export async function sentResetEmail(email){
+    console.log('SENT RESET EMAIL FETCH:', email)    
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/request_email_pwd_recovery`, {
+            method: 'POST',
+            body: JSON.stringify({
+                ...email
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+
+        if (!response.ok) {  
+            console.log(response);     
+            const errorResponse = await response.json();
+            console.log(`SENDING EMAIL FOR RECOVERING PASSWORD FAILED:`, errorResponse);
+            throw new Error(`Error: ${errorResponse?.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.errors[0].msg}`);
+        } 
+
+        const responseObject = await response.json()
+        console.log('SENDING EMAIL FOR RECOVERING PASSWORD RESPONSE:', responseObject)
+        return responseObject;
+        
+    } catch (error) {
+        console.error('NETWORK ERROR SENDING EMAIL FOR RECOVERING PASSWORD:', error);
+        throw error;        
+    } 
+}
+
+export async function recoverPassword(data){
+    console.log('RECOVERING PASSWORD:', data)
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset_password`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                password: data.password,
+                status: data.status                
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+
+        if (!response.ok) {      
+            const errorResponse = await response.json();
+            console.log(`CHANGING PASSWORD FAILED:`, errorResponse);
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
+        } 
+
+        const responseObject = await response.json()
+        console.log('CHANGING PASSWORD RESPONSE:', responseObject)
+        return responseObject;
+        
+    } catch (error) {
+        console.error('NETWORK ERROR UPDATING PASSWORD:', error);
+        throw error;        
+    } 
+}

@@ -3,7 +3,7 @@
 import styles from './components.module.css'
 import {useForm} from 'react-hook-form'
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { recoverPassword } from '@/actions/userRequests';
@@ -16,10 +16,12 @@ const schema = yup.object({
     confirmationPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Please re-type your password')
 })
 
-export default function ChangePasswordForm() {  
+export default function SetNewPasswordForm() {  
     const [loginError, setLoginError] = useState();
     const [change, setChange] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams()
+    const status = searchParams.get('status')
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger } = useForm({
         resolver: yupResolver(schema)
@@ -28,12 +30,12 @@ export default function ChangePasswordForm() {
     const onSubmit = async (data) => {
         await schema.validate(data);
         try {      
-            await recoverPassword(data) 
+            await recoverPassword({...data, status}) 
             setChange(true); 
-            toast.success(`Password succesfully changed. Please login!`)  
+            toast.success(`Password succesfully changed. You will be redirected to login page!`)  
             setTimeout(() => {
                 router.replace('/login');
-            }, 6000);   
+            }, 5000);   
         } catch (error) {
             setLoginError(error.message);
             toast.error('Failed to change your password, try again')
@@ -69,7 +71,7 @@ export default function ChangePasswordForm() {
             </div>
             {change && 
                 <section className={styles.signup_after_update_container}>
-                    <p className={styles.error_login_form}>Your password has been changed successfully. You will be redirected to login</p>
+                    <p className={styles.error_login_form}>Your password has been changed successfully. You will be redirected to login in 5 seconds</p>
                 </section>
             }
         </main>
