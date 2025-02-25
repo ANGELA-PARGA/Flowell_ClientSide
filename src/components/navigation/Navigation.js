@@ -81,7 +81,7 @@ const Navigation = () => {
                 setActive('')
                 setShowingMenu('')}}
             >
-                <SearchForm/> 
+                <SearchForm handleClose={handleClose}/> 
             </div>                       
             <ul className={styles.navbar_options}>
                 <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`}>

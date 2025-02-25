@@ -1,0 +1,34 @@
+.section_blog_containers{
+    margin: 73px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    padding-top: 2rem;
+    line-height: 2rem;
+}
+
+.section_blog_containers h1, .section_blog_containers h2{
+    text-align: center;
+    line-height: 3rem;
+    font-weight: 400;
+}
+
+.section_blog_containers h2{
+    font-size: 1.5rem;
+    color: black;
+}
+
+.section_blog_containers span{
+    font-weight: 500;
+    align-self: self-start;
+}
+
+.section_blog_containers h1 > span{
+    font-weight: 500;
+}
+
+.blog_instructions_text {
+    color:red
+}

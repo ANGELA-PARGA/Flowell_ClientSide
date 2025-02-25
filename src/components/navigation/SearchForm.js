@@ -12,7 +12,7 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { fetchProductsBySearch } from '@/lib/fetchingRequests'
 
 
-export const SearchForm = () => {
+export const SearchForm = ({handleClose}) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace, push, prefetch } = useRouter();
@@ -79,6 +79,7 @@ export const SearchForm = () => {
             const searchTerm = event.target.value.trim();
             setResults([]);
             setNotFound(null);
+            handleClose()
             if (searchTerm) {                
                 push(`/products/search?t=${searchTerm}`);
                 inputRef.current.value = ''; // Clear the input field
@@ -91,6 +92,7 @@ export const SearchForm = () => {
         const searchTerm = inputRef.current.value.trim(); // Get the value from the input field using the ref
         setResults([]);
         setNotFound(null);
+        handleClose()
         if (searchTerm) {                
             push(`/products/search?t=${searchTerm}`);
             inputRef.current.value = ''; // Clear the input field

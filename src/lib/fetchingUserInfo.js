@@ -83,7 +83,7 @@ export async function fetchOrdersById(id){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders/${id}`, {
             headers : {cookie: cookieForServer}
-        })
+        } , { cache: 'force-cache', next: { revalidate: 1800 }})
         if (!response.ok) {       
             if (response.status === 401 || response.status === 403) {
                 console.log('Session expired on the backend. Triggering logout.');

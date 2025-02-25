@@ -18,8 +18,13 @@ const NavigationPhone = () => {
     
 
     function handleClickToggle(linkName) {
-        setActive(linkName);
-        setShowingMenu(linkName);
+        if (showingMenu) {
+            setActive('');
+            setShowingMenu('');
+        } else {
+            setActive(linkName);
+            setShowingMenu(linkName);
+        }
     }
 
     function handleClose(){
@@ -36,6 +41,7 @@ const NavigationPhone = () => {
         };
 
         document.addEventListener('mousedown', handleClickOutside);
+        
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -85,8 +91,8 @@ const NavigationPhone = () => {
                         {showingMenu === 'search' ? <CloseIcon width={22} height={22} weight={2} /> : <SearchIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'search' && (
-                        <div className={styles.search_dropdown_menu} ref={menuRef}>
-                            <SearchForm />
+                        <div className={styles.search_dropdown_menu} ref={menuRef} >
+                            <SearchForm handleClose={handleClose}/>
                         </div>                        
                     )}
                 </li>

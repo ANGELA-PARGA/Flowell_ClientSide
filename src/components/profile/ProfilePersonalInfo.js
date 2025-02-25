@@ -1,5 +1,6 @@
 import styles from './components.module.css'
 import MyModalEdit from '@/UI/MyModalUpdate';
+import MyModalChangePassword from '@/UI/MyModalChangePassword';
 
 export default async function ProfilePersonalInfo({userData}) {
     return (
@@ -19,7 +20,7 @@ export default async function ProfilePersonalInfo({userData}) {
                 </div>
                 <div className={styles.profile_info_details_container}>
                     <p>Email:<span> {userData.user.email}</span></p>
-                    <button>Change password</button>
+                    <MyModalChangePassword/>
                 </div>
             </div>
         </section>

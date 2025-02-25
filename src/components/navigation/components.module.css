@@ -214,8 +214,8 @@
 
 .dropdown_menu_flowell_list {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .dropdown_menu_phone_version_options {

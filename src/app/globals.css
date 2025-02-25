@@ -37,7 +37,7 @@ ul, li {
 
 h1{
   color: var(--text-color);
-  font-size: var(--font-size-large); 
+  font-size: var(--font-size-extralarge); 
   font-weight: var(--font-medium-weight);
 }
 

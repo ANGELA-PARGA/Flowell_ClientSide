@@ -81,7 +81,7 @@ export async function fetchProductsBySearch(term, filters ={}){
     });
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/search?term=${term}&${query.toString()}`, { cache: 'no-store'})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/search?term=${term}&${query.toString()}`, { cache: 'force-cache', next: { revalidate: 1800 }})
 
         if (!response.ok) {        
             const errorResponse = await response.json();

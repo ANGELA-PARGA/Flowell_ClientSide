@@ -58,7 +58,7 @@ export async function updatePassword(password){
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/mine`, {
             method: 'PATCH',
             body: JSON.stringify({
-                ...password
+                password
             }),
             headers : {
                 "Content-Type": "application/json",
@@ -78,6 +78,7 @@ export async function updatePassword(password){
 
         const responseObject = await response.json()
         console.log('UPDATING PASSWORD RESPONSE:', responseObject)
+        revalidatePath(`/account/profile`, "page")
         return { data: responseObject, expired: false };
         
     } catch (error) {
