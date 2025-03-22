@@ -42,8 +42,10 @@ export default function RecoverPasswordForm({handleClose, setMessage, closeModal
                         <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
                             trigger('email'); 
                         }}/>
-                        <label htmlFor="email">Enter your email</label>
-                        <p className={styles.error_signup_form}>{errors.email?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="email">Enter your email</label>
+                            <p className={styles.error_signup_form}>{errors.email?.message}</p>
+                        </div>
                     </div> 
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" disabled={isSubmitting} className={styles.update_button}>Sent reset link</button>

@@ -4,11 +4,9 @@ import { revalidatePath } from "next/cache";
 import { cookieFetchVerification } from "@/lib/cookieVerification";
 
 export async function addProductToCart({product_id, qty}){
-    console.log('ADD TO CART ITEM FETCH:', {product_id, qty})
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        console.log('Session expired on the backend. Triggering logout.');
         return { expired: true };
     }
     
@@ -27,16 +25,13 @@ export async function addProductToCart({product_id, qty}){
 
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                console.log('Session expired on the backend. Triggering logout.');
                 return { expired: true };
             }       
             const errorResponse = await response.json();
-            console.log(`ADDING ITEM TO CART FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         }
 
         const responseObject = await response.json()
-        console.log('ADD TO CART ITEM RESPONSE:', responseObject)
         revalidatePath(`/account/cart`)
         return { data: responseObject, expired: false };  
             

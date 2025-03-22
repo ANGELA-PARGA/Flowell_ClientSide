@@ -13,7 +13,6 @@ const handler = NextAuth({
                 password: { label: "password", type: "password", placeholder: "**********"  },
             },
             async authorize(credentials) {
-                console.log('url on server', process.env.NEXT_PUBLIC_BACKEND_URL)
                 try {
                     const response = await fetch(
                         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
@@ -28,7 +27,6 @@ const handler = NextAuth({
                     );
                     if(!response.ok){
                         const parsedError = await response.json();
-                        console.log('error in login', parsedError)
                         throw new Error(parsedError.error)
                         
                     }
@@ -66,8 +64,7 @@ const handler = NextAuth({
                             username: `${userRetrieved.user.first_name} ${userRetrieved.user.last_name}`,
                             cart_id: userRetrieved.user.cart_id,
                             role: userRetrieved.user.role
-                        }  
-                        console.log('user for session:', user)        
+                        }          
                         return user 
                     }                            
                 } catch (error) {

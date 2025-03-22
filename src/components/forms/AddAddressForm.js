@@ -9,7 +9,6 @@ import { useState } from "react";
 import { addNewPersonalInfo } from '@/actions/userRequests';
 import { signOut } from 'next-auth/react';
 
-
 const schema = yup.object({
     address: yup.string().required('The address is required').min(3),
     city: yup.string().required('The city is required'),
@@ -52,7 +51,6 @@ export default function AddAddressForm({resourceType, handleClose}) {
         handleClose()
     };
 
-
     return (    
         <section className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
@@ -62,29 +60,37 @@ export default function AddAddressForm({resourceType, handleClose}) {
                         <input {...register('address')} type="text" name="address" id="address" placeholder='address' onBlur={() => {
                             trigger('address'); 
                         }} />
-                        <label htmlFor="address">Enter your address</label>
-                        <p className={styles.error_updating_info}>{errors.address?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="address">Enter your address</label>
+                            <p className={styles.error_updating_info}>{errors.address?.message}</p>
+                        </div>
                     </div>
                     <div className={styles.update_form_input_container}>
                         <input {...register('city')} type="text" name="city" id="city" placeholder='city' onBlur={() => {
                             trigger('city');
                         }} />
-                        <label htmlFor="city">Enter the city</label>
-                        <p className={styles.error_updating_info}>{errors.city?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="city">Enter the city</label>
+                            <p className={styles.error_updating_info}>{errors.city?.message}</p>
+                        </div>
                     </div>
                     <div className={styles.update_form_input_container}>
                         <input {...register('state')} type="text" name="state" id="state" placeholder='state' onBlur={() => {
                             trigger('state'); 
                         }} />
-                        <label htmlFor="state">Enter the state</label>
-                        <p className={styles.error_updating_info}>{errors.state?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="state">Enter the state</label>
+                            <p className={styles.error_updating_info}>{errors.state?.message}</p>
+                        </div>
                     </div>
                     <div className={styles.update_form_input_container}>
                         <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" placeholder='zip code' onBlur={() => {
                             trigger('zip_code'); 
                         }} />
-                        <label htmlFor="zip_code">Enter a valid zip code</label>
-                        <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="zip_code">Enter a valid zip code</label>
+                            <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
+                        </div>
                     </div>
                     <div className={styles.buttons_profile_container}>
                         <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>

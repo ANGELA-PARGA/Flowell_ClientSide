@@ -4,11 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { cookieFetchVerification } from '@/lib/cookieVerification';
 
 export async function fetchCartInfoByUser(){
-    console.log('CALLING FETCH CART INFO')
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        console.log('Session expired on the backend. Triggering logout.');
         return { expired: true };
     }
 
@@ -19,16 +17,13 @@ export async function fetchCartInfoByUser(){
 
         if (!response.ok) { 
             if (response.status === 401 || response.status === 403) {
-                console.log('Session expired on the backend. Triggering logout.');
                 return { expired: true };
             }      
             const errorResponse = await response.json();
-            console.log(`FETCHING CART INFO FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
-        console.log('CART INFO FETCHING RESPONSE:', responseObject)
         return responseObject;
         
     } catch (error) {
@@ -39,11 +34,9 @@ export async function fetchCartInfoByUser(){
 
 
 export async function updateCartItem({product_id, qty}){
-    console.log('UPDATE CART ITEM FETCH', product_id, qty)
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        console.log('Session expired on the backend. Triggering logout.');
         return { expired: true };
     }
     try {
@@ -61,16 +54,13 @@ export async function updateCartItem({product_id, qty}){
 
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                console.log('Session expired on the backend. Triggering logout.');
                 return { expired: true };
             }       
             const errorResponse = await response.json();
-            console.log(`UPDATING CART ITEM FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
-        console.log('UPDATING CART ITEM RESULT:', responseObject)
         revalidatePath(`/account/cart`)
         return responseObject; 
 
@@ -85,7 +75,6 @@ export async function deleteCartItem(id){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        console.log('Session expired on the backend. Triggering logout.');
         return { expired: true };
     }
     
@@ -99,16 +88,13 @@ export async function deleteCartItem(id){
 
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                console.log('Session expired on the backend. Triggering logout.');
                 return { expired: true };
             }       
             const errorResponse = await response.json();
-            console.log(`DELETE CART ITEM FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
-        console.log('DELETE CART ITEM RESULT:', responseObject)
         revalidatePath(`/account/cart`)
         return responseObject; 
 

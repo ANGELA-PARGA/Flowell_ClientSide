@@ -9,7 +9,7 @@ const DropdownUnauth = ({linkActive, handleClose}) => {
                 <div className={styles.dropdown_menu_unauthenticated_options}>
                     <p>Access to your account and orders</p>
                     <div>
-                        <Link href='/login' onClick={()=> handleClose()}><button className={styles.button_sign_in}>Sign In</button></Link>
+                        <Link href='/login' onClick={()=> handleClose()}><button className={styles.button_sign_in}>Log In</button></Link>
                     </div>
                 </div>                  
                 <div className={styles.dropdown_menu_unauthenticated_options}>

@@ -59,16 +59,19 @@ export default function LoginForm() {
                         <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
                             trigger('email'); 
                         }} />
-                        <label htmlFor="email">Enter your email</label> 
-                        <p className={styles.error_login_form}>{errors.email?.message}</p>
-                        
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="email">Enter your email</label> 
+                            <p className={styles.error_login_form}>{errors.email?.message}</p>
+                        </div>                        
                     </div>
                     <div>
                         <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {
                             trigger('password');
                         }} />
-                        <label htmlFor="password">Enter your password</label>
-                        <p className={styles.error_login_form}>{errors.password?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="password">Enter your password</label>
+                            <p className={styles.error_login_form}>{errors.password?.message}</p>
+                        </div>
                     </div>
                     <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
                 </form> 

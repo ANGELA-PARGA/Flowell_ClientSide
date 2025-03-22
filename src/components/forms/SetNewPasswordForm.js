@@ -60,8 +60,10 @@ export default function SetNewPasswordForm() {
                         <input {...register('confirmationPassword')} type="password" name="confirmationPassword" id="confirmationPassword" placeholder="Confirm Password*" onBlur={() => {
                             trigger('confirmationPassword'); 
                         }} />
-                        <label htmlFor="confirmationPassword">Confirm your new password</label>
-                        <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="confirmationPassword">Confirm your new password</label>
+                            <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
+                        </div>
                     </div>
                     { !change ? <button type="submit" disabled={isSubmitting} className={styles.signup_submit_button}>Submit changes</button> : <></>}
                 </form>        

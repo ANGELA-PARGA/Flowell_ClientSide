@@ -1,7 +1,6 @@
 
 export async function fetchAllProducts(page, filters ={}) {
-    console.log('calling fetch all products:', page, filters)
-    
+
     const query = new URLSearchParams({
         page,
         ...filters,
@@ -12,7 +11,6 @@ export async function fetchAllProducts(page, filters ={}) {
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`fetching all products failed`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         }
 
@@ -25,15 +23,12 @@ export async function fetchAllProducts(page, filters ={}) {
 }
 
 
-export async function fetchProductsById(id){
-    console.log('calling fetch product by id:', id)
-    
+export async function fetchProductsById(id){    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`, { cache: 'force-cache'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`fetching products by id`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
@@ -47,7 +42,6 @@ export async function fetchProductsById(id){
 }
 
 export async function fetchProductsByCategory(categoryId, page, filters ={}){
-    console.log('calling fetch all products by category:', categoryId, page, filters)
     const query = new URLSearchParams({
         page,
         ...filters,
@@ -58,7 +52,6 @@ export async function fetchProductsByCategory(categoryId, page, filters ={}){
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`fetching products by category id`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
@@ -73,7 +66,6 @@ export async function fetchProductsByCategory(categoryId, page, filters ={}){
 
 
 export async function fetchProductsBySearch(term, filters ={}){
-    console.log(`calling fetch products by search`, term, filters);
     const query = new URLSearchParams({
         ...filters,
     });
@@ -83,7 +75,6 @@ export async function fetchProductsBySearch(term, filters ={}){
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`search product by term failed`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
@@ -103,7 +94,6 @@ export async function fetchCategories(){
 
         if (!response.ok) {        
             const errorResponse = await response.json();
-            console.log(`fetching categories`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 

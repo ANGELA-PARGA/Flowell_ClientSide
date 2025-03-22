@@ -79,8 +79,10 @@ export default function AddPhoneForm({resourceType, handleClose}) {
                     <input {...register('phone')} type="text" name="phone" id="phone" placeholder='(000) 000-0000' onBlur={() => {
                         trigger('phone'); 
                     }} onChange={handlePhoneChange}/>
-                    <label htmlFor="phone">Enter phone number</label>
-                    <p className={styles.error_updating_info}>{errors.phone?.message}</p>
+                    <div className={styles.error_label_container}>
+                        <label htmlFor="phone">Enter phone number</label>
+                        <p className={styles.error_updating_info}>{errors.phone?.message}</p>
+                    </div>
                 </div>
                 <div className={styles.buttons_profile_container}>
                     <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>

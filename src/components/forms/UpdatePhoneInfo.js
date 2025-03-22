@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './components.module.css'
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -24,37 +24,37 @@ const schema = yup.object({
         .matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'The phone number must be valid')
 });
 
-export default function UpdatePhoneInfo({resourceType, resourceId, phone, handleClose}) {
+export default function UpdatePhoneInfo({ resourceType, resourceId, phone, handleClose }) {
     const [updateError, setupdateError] = useState();
 
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger} =useForm({
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger } = useForm({
         resolver: yupResolver(schema)
     });
 
     const onSubmit = async (data) => {
         await schema.validate(data);
         try {
-            const response = await updatePersonalInfo(data, resourceType, resourceId); 
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
+            const response = await updatePersonalInfo(data, resourceType, resourceId);
+            if (response.expired) {
+                toast.error('Your session has expired, please login again');
                 setTimeout(async () => {
                     handleClose();
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
             } else {
-                handleClose()           
-                toast.success(`Contact information updated succesfully`)  
-            } 
+                handleClose();
+                toast.success(`Contact information updated successfully`);
+            }
         } catch (error) {
-            console.log(error)
-            setupdateError(error.message)
-            toast.error('Failed to update contact information')
-        }             
+            console.log(error);
+            setupdateError(error.message);
+            toast.error('Failed to update contact information');
+        }
     };
 
     const onCancel = async (e) => {
         e.preventDefault();
-        handleClose()
+        handleClose();
     };
 
     const handlePhoneChange = (e) => {
@@ -68,20 +68,34 @@ export default function UpdatePhoneInfo({resourceType, resourceId, phone, handle
         }
     };
 
-    return (    
+    return (
         <main className={styles.edit_profile_main_container}>
             <div className={styles.update_info_container}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>
                     <div className={styles.update_form_input_container}>
-                        <input {...register('phone')} type="text" name="phone" id="phone" defaultValue={phone.phone} onBlur={() => {
-                            trigger('phone'); 
-                        }} onChange={handlePhoneChange}/>
-                        <label htmlFor="phone">Enter phone number</label>
-                        <p className={styles.error_updating_info}>{errors.phone?.message}</p>
+                        <input
+                            {...register('phone')}
+                            type="text"
+                            name="phone"
+                            id="phone"
+                            defaultValue={phone.phone}
+                            onBlur={() => {
+                                trigger('phone');
+                            }}
+                            onChange={handlePhoneChange}
+                        />
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="phone">Enter phone number</label>
+                            <p className={styles.error_updating_info}>{errors.phone?.message}</p>
+                        </div>
                     </div>
                     <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Update</button>
-                        <button type="button" onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>
+                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>
+                            Update
+                        </button>
+                        <button type="button" onClick={(e) => onCancel(e)} className={styles.cancel_update_button}>
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>

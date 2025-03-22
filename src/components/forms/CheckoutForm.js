@@ -16,7 +16,8 @@ import styles from './components.module.css';
 
 const schema = yup.object().shape({
     phone: yup.string().required('Please select a phone number'),
-    address: yup.string().required('Please select a shipping address'), 
+    address_info: yup.string().required('Please select a shipping address'),
+    address: yup.string().required(), 
     city: yup.string().required(),
     state: yup.string().required(),
     zip_code: yup.string().required(),   
@@ -102,6 +103,7 @@ const CheckoutForm = ({data}) => {
                             type="radio"
                             onClick={() => handleAddressSelect(address)}
                             name="address_info"
+                            {...register('address_info')}
                         />
                         <label>{address.address}, {address.city} - {address.state}, {address.zip_code}</label>        
                     </div>

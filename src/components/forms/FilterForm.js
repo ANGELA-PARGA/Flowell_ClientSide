@@ -38,11 +38,13 @@ const FilterForm = ({ type, handleClose }) => {
 
         if (type === 'color') {
             params.delete('color'); // Clear previous values
+            params.delete('p');
             selectedOptions.forEach((option) => params.append('color', option));
         }
 
         if (type === 'category') {
             params.delete('category'); // Clear previous values
+            params.delete('p');
             selectedOptions.forEach((option) => params.append('category', option));
         }
 

@@ -8,7 +8,6 @@ export default async function handleLogOut() {
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        console.log('Session expired on the backend. Triggering logout.');
         return { expired: true };
     }
 
@@ -22,21 +21,16 @@ export default async function handleLogOut() {
 
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                console.log('Session expired on the backend. Triggering logout.');
                 return { expired: true };
             }      
             const errorResponse = await response.json();
-            console.log(`LOGGING OUT FETCH FAILED`, errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
         (await cookies()).delete('connect.sid')
-        const responseObject = await response.json()
-        console.log('LOGGING OUT RESPONSE:',responseObject)
+        await response.json()
         
     } catch (error) {
         console.error('NETWORK ERROR LOGGING OUT:', error);
         throw error
-    }
-    console.log('DONE LOGGED OUT FROM SERVER!') 
-    
+    }    
 }

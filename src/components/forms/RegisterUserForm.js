@@ -65,36 +65,46 @@ export default function RegisterUserForm() {
                         <input {...register('first_name')} type="text" name="first_name" id="first_name" placeholder="First Name*" onBlur={() => {
                             trigger('first_name'); 
                         }}/>
-                        <label htmlFor="first_name">First name</label>
-                        <p className={styles.error_signup_form}>{errors.first_name?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="first_name">First name</label>
+                            <p className={styles.error_signup_form}>{errors.first_name?.message}</p>
+                        </div>
                     </div>
                     <div>
                         <input {...register('last_name')} type="text" name="last_name" id="last_name" placeholder="Last Name*" onBlur={() => {
                             trigger('last_name'); 
                         }}/>
-                        <label htmlFor="last_name">Last Name</label>
-                        <p className={styles.error_signup_form}>{errors.last_name?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="last_name">Last Name</label>
+                            <p className={styles.error_signup_form}>{errors.last_name?.message}</p>
+                        </div>
                     </div>          
                     <div>
                         <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
                             trigger('email'); 
                         }}/>
-                        <label htmlFor="email">Enter your email</label>
-                        <p className={styles.error_signup_form}>{errors.email?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="email">Enter your email</label>
+                            <p className={styles.error_signup_form}>{errors.email?.message}</p>
+                        </div>  
                     </div>
                     <div>
                         <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {
                             trigger('password'); 
                         }}/>
-                        <label htmlFor="password">Enter your password</label>
-                        <p className={styles.error_signup_form}>{errors.password?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="password">Enter your password</label>
+                            <p className={styles.error_signup_form}>{errors.password?.message}</p>
+                        </div>
                     </div>
                     <div>
                         <input {...register('confirmationPassword')} type="password" name="confirmationPassword" id="confirmationPassword" placeholder="Confirm Password*" onBlur={() => {
                             trigger('confirmationPassword'); 
                         }} />
-                        <label htmlFor="confirmationPassword">Confirm your password</label>
-                        <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
+                        <div className={styles.error_label_container}>
+                            <label htmlFor="confirmationPassword">Confirm your password</label>
+                            <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
+                        </div>
                     </div>
                     <button type="submit" disabled={isSubmitting} className={styles.signup_submit_button}>Sign up</button>
                 </form>        
