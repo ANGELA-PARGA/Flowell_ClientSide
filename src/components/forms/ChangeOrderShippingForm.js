@@ -10,7 +10,7 @@ import { signOut } from 'next-auth/react';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
-    contact_phone: yup.string().required('The phone is required and must be valid')
+    phone: yup.string().required('The phone is required and must be valid')
         .transform((value) => {
             const cleaned = ('' + value).replace(/\D/g, '');
             const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
@@ -30,17 +30,27 @@ const schema = yup.object().shape({
 const ChangeOrderShippingForm = ({data, handleClose}) => {
     const [updateError, setupdateError] = useState(); 
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, trigger, setValue} = useForm({
-        resolver: yupResolver(schema)
+    const { register, handleSubmit, formState: { errors, isSubmitting, isDirty, dirtyFields }, trigger, setValue} = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: data.shipping_info
     });
 
     const onSubmit = async (formData) => {
-        await schema.validate(formData)
-        const shipping_info = {
-            ...formData,
-        }        
+        const updatedData = Object.keys(dirtyFields).reduce((acc, key) =>{
+            acc[key] = formData[key]
+            return acc            
+        }, {})
+
+        // ✅ If no fields were changed, prevent unnecessary update
+        if (!isDirty) { 
+            console.log('not changed')
+            handleClose();           
+            return;
+        }
+
+        await schema.validate(formData)         
         try {
-            const response = await updateOrderShippingInfo(shipping_info, data.id)
+            const response = await updateOrderShippingInfo(updatedData, data.id)
             if(response.expired){
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
@@ -68,9 +78,9 @@ const ChangeOrderShippingForm = ({data, handleClose}) => {
         const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
         if (match) {
             const formattedPhone = '(' + match[1] + ') ' + match[2] + '-' + match[3];
-            setValue('contact_phone', formattedPhone, { shouldValidate: true });
+            setValue('phone', formattedPhone, { shouldValidate: true, shouldDirty: true });
         } else {
-            setValue('contact_phone', e.target.value, { shouldValidate: true });
+            setValue('phone', e.target.value, { shouldValidate: true, shouldDirty: true });
         }
     };
 
@@ -78,39 +88,39 @@ const ChangeOrderShippingForm = ({data, handleClose}) => {
         <div className={styles.update_info_container}>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
                 <div className={styles.update_form_input_container}>
-                    <input {...register('address')} type="text" name="address" id="address" defaultValue={data.shipping_info.address} onBlur={() => {
+                    <input {...register('address')} type="text" name="address" id="address" onBlur={() => {
                         trigger('address'); 
                     }} />
                     <label htmlFor="address">Enter your address</label>
                     <p className={styles.error_updating_info}>{errors.address?.message}</p>
                 </div>
                 <div className={styles.update_form_input_container}>
-                    <input {...register('city')} type="text" name="city" id="city" defaultValue={data.shipping_info.city} onBlur={() => {
+                    <input {...register('city')} type="text" name="city" id="city" onBlur={() => {
                         trigger('city');
                     }} />
                     <label htmlFor="city">Enter the city</label>
                     <p className={styles.error_updating_info}>{errors.city?.message}</p>
                 </div>
                 <div className={styles.update_form_input_container}>
-                    <input {...register('state')} type="text" name="state" id="state" defaultValue={data.shipping_info.state} onBlur={() => {
+                    <input {...register('state')} type="text" name="state" id="state" onBlur={() => {
                         trigger('state'); 
                     }} />
                     <label htmlFor="state">Enter the state</label>
                     <p className={styles.error_updating_info}>{errors.state?.message}</p>
                 </div>
                 <div className={styles.update_form_input_container}>
-                    <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" defaultValue={data.shipping_info.zip_code} onBlur={() => {
+                    <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" onBlur={() => {
                         trigger('zip_code'); 
                     }} />
                     <label htmlFor="zip_code">Enter a valid zip code</label>
                     <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
                 </div>
                 <div className={styles.update_form_input_container}>
-                    <input {...register('contact_phone')} type="text" name="contact_phone" id="contact_phone" defaultValue={data.shipping_info.phone} onBlur={() => {
-                        trigger('contact_phone'); 
+                    <input {...register('phone')} type="text" name="phone" id="phone" onBlur={() => {
+                        trigger('phone'); 
                     }} onChange={handlePhoneChange}/>
-                    <label htmlFor="contact_phone">Enter phone number</label>
-                    <p className={styles.error_updating_info}>{errors.contact_phone?.message}</p>
+                    <label htmlFor="phone">Enter phone number</label>
+                    <p className={styles.error_updating_info}>{errors.phone?.message}</p>
                 </div>
                 <div className={styles.buttons_profile_container}>
                     <button type="submit" className={styles.pay_button} disabled={isSubmitting}>Update</button>

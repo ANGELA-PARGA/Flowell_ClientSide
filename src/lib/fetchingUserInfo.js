@@ -11,8 +11,9 @@ export async function fetchAllUserInfo(){
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`, {
+            cache: 'force-cache',
             headers : {cookie: cookieForServer}
-        }, { cache: 'force-cache', next: { revalidate: 1800 }})
+        })
 
         if (!response.ok) { 
             if (response.status === 401 || response.status === 403) {
@@ -47,8 +48,9 @@ export async function fetchAllOrdersByUser(){
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
+            cache: 'force-cache',
             headers : {cookie: cookieForServer}
-        }, { cache: 'force-cache', next: { revalidate: 1800 }})
+        })
         
         if (!response.ok) { 
             if (response.status === 401 || response.status === 403) {
@@ -82,8 +84,11 @@ export async function fetchOrdersById(id){
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders/${id}`, {
+            cache: 'force-cache',
             headers : {cookie: cookieForServer}
-        } , { cache: 'force-cache', next: { revalidate: 1800 }})
+        })
+
+        
         if (!response.ok) {       
             if (response.status === 401 || response.status === 403) {
                 console.log('Session expired on the backend. Triggering logout.');

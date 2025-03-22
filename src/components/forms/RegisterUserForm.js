@@ -59,6 +59,7 @@ export default function RegisterUserForm() {
         <main className={styles.signup_main_container}>
             <div className={styles.signup_form_container}>
                 <h2>Become a Flowell Member</h2>
+                <br />
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.signup_form}>
                     <div>
                         <input {...register('first_name')} type="text" name="first_name" id="first_name" placeholder="First Name*" onBlur={() => {

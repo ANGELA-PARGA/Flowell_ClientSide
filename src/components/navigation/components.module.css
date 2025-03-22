@@ -81,9 +81,9 @@
     background-color: white;
     align-items: center;
     padding: 0.5rem;
-    border-radius: 1rem;
-    
+    border-radius: 1rem; 
 }
+
 .search_container input{
     border: none;
     padding-left: 0.5rem;

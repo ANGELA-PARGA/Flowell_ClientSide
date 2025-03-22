@@ -7,6 +7,7 @@ import StoreProvider from "@/provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from './page.module.css'
+
 const monserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata = {

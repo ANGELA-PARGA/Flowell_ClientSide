@@ -2,9 +2,9 @@
 
 import styles from './components.module.css'
 import Image from 'next/image';
-import image1 from '../../../public/banner_complete1.png'
-import image2 from '../../../public/banner_complete2.png'
-import image3 from '../../../public/banner_complete3.png'
+import image1 from '../../../public/banner_complete1.webp'
+import image2 from '../../../public/banner_complete2.webp'
+import image3 from '../../../public/banner_complete3.webp'
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
@@ -55,8 +55,7 @@ export default function Banner() {
                                             width: '100%',
                                             height: 'auto',
                                             borderRadius: '0.5rem'
-                                        }} 
-                                        priority                               
+                                        }}                                
                                         alt="Picture of a rose crop inside a greenhouse"/>
                                 </Link>
                             </div>

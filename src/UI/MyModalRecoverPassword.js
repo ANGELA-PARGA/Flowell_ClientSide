@@ -1,8 +1,10 @@
 'use client'
 import {useState} from 'react'
-import Modal from 'react-modal'
-import RecoverPasswordForm from '@/components/forms/RecoverPasswordForm'
 import styles from './components.module.css'
+import dynamic from 'next/dynamic'
+
+const Modal = dynamic(() => import('react-modal'), {ssr:false})
+const RecoverPasswordForm = dynamic(() => import('@/components/forms/RecoverPasswordForm'))
 
 const MyModalRecoverPassword = () => {
     const [modalIsOpen, setIsOpen] = useState(false); 

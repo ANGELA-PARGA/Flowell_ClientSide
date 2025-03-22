@@ -1,19 +1,20 @@
 import styles from './components.module.css'
-import MyModalDelete from '@/UI/MyModalDelete';
-import MyModalEdit from '@/UI/MyModalUpdate';
-import MyModalAdd from '@/UI/MyModalAdd';
+import dynamic from 'next/dynamic'
 
-export default function ProfileAddressInfo({userData}) {    
+const MyModalDelete = dynamic(() => import('@/UI/MyModalDelete'))
+const MyModalAdd = dynamic(() => import('@/UI/MyModalAdd'))
+const MyModalEdit = dynamic(() => import('@/UI/MyModalUpdate'))
 
+export default async function ProfileAddressInfo({userData}) {    
     return (
         <>
         <section className={styles.profile_info_container}>
             <div className={styles.profile_info_subcontainer}>
                 <h3>Addresses</h3>
                 <div className={styles.profile_addresses_subcontainer}>
-                    {userData.user.addresses && userData.user.addresses.length > 0 ? (                        
+                    {userData && userData.length > 0 ? (                        
                     <ul className={styles.subcontainer_info_details}>
-                        {userData.user.addresses.map((address) => (
+                        {userData.map((address) => (
                         <li key={address.addressID} className={styles.profile_info_details_container}>
                             <div >
                                 <p>{address.address}</p>
@@ -38,7 +39,7 @@ export default function ProfileAddressInfo({userData}) {
                     )}
                     <div>
                         {
-                            userData.user.addresses && userData.user.addresses.length < 2 ?
+                            userData && userData.length < 2 ?
                             <MyModalAdd resourceType={'address_inf'}/> 
                             : null
                         }

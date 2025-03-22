@@ -1,7 +1,10 @@
 import Link from "next/link";
 import styles from './components.module.css'
-import { format, parseISO } from "date-fns";
-import MyModalCancelOrder from "@/UI/MyModalCancel";
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
+import dynamic from "next/dynamic";
+
+const MyModalCancelOrder = dynamic(() => import("@/UI/MyModalCancel"))
 
 export default function OrderCard({order}) {
     return (
@@ -15,7 +18,9 @@ export default function OrderCard({order}) {
             <div >
                 <Link href={`/account/orders/${order.id}`}><button>View Order</button></Link>
             </div>
-            <MyModalCancelOrder id={order.id}/>            
+            {
+                order.status === 'PENDING' || order.status === 'PAID' && <MyModalCancelOrder id={order.id} />
+            }            
         </li>
     );
 }

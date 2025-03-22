@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './page.module.css'
+import styles from '../page.module.css'
 import ProductCartInfo from '@/components/product/ProductCartInfo'
 import { StoreContext } from '@/context'
 import { useContext } from 'react'

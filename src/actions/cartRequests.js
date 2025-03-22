@@ -71,7 +71,7 @@ export async function updateCartItem({product_id, qty}){
 
         const responseObject = await response.json()
         console.log('UPDATING CART ITEM RESULT:', responseObject)
-        revalidatePath(`/account/cart`, "page")
+        revalidatePath(`/account/cart`)
         return responseObject; 
 
     } catch (error) {
@@ -109,7 +109,7 @@ export async function deleteCartItem(id){
 
         const responseObject = await response.json()
         console.log('DELETE CART ITEM RESULT:', responseObject)
-        revalidatePath(`/account/cart`, "page")
+        revalidatePath(`/account/cart`)
         return responseObject; 
 
     } catch (error) {

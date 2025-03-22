@@ -14,7 +14,7 @@ import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { StoreContext } from '@/context';
 import { signOut } from 'next-auth/react';
 import { cookieVerification } from '@/lib/cookieVerification';
-import { debounce } from 'lodash';
+import debounce from "lodash.debounce";
 import Link from 'next/link';
 
 
@@ -168,7 +168,7 @@ const AddToCart = ({id}) => {
                 )}
                 </div>
             ) : (
-                <Link href={'/login'}><button className={styles.add_to_cart_button} type="button">Log in to buy</button></Link>  
+                <button className={styles.add_to_cart_button} type="button"><Link href={'/login'}>Log in to buy</Link></button>  
             )}
             </>
         );

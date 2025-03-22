@@ -15,7 +15,7 @@ export default function Home() {
             <BannerInformative/>            
           </div>
         </div>
-        <Category></Category>
+        <Category/>
       </div>
     </section>
   );

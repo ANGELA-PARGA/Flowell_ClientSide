@@ -1,11 +1,12 @@
 'use client'
 import {useState} from 'react'
-import Modal from 'react-modal'
+import dynamic from 'next/dynamic'
 import styles from './components.module.css'
-import UpdateAddressInfo from '@/components/forms/UpdateAddressInfo'
-import UpdatePhoneInfo from '@/components/forms/UpdatePhoneInfo'
-import UpdateProfileInfo from '@/components/forms/UpdateProfileInfo'
 
+const Modal = dynamic(() => import('react-modal'), {ssr:false})
+const UpdateAddressInfo = dynamic(() => import('@/components/forms/UpdateAddressInfo'))
+const UpdateProfileInfo = dynamic(() => import('@/components/forms/UpdateProfileInfo'))
+const UpdatePhoneInfo = dynamic(() => import('@/components/forms/UpdatePhoneInfo'))
 
 const MyModalEdit = ({resourceId, resourceType, resource}) => {
     const [modalIsOpen, setIsOpen] = useState(false)   
@@ -15,7 +16,7 @@ const MyModalEdit = ({resourceId, resourceType, resource}) => {
 
     return (
         <div>
-            <button className={styles.deleteOutside} onClick={openModal}>Edit</button>
+            <button className={styles.modalEditButton} onClick={openModal}>Edit</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

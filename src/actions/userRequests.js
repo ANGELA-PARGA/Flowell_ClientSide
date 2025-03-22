@@ -36,7 +36,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
 
         const responseObject = await response.json()
         console.log('UPDATE PERSONAL USER INFO RESPONSE:', responseObject)
-        revalidatePath(`/account/profile`, "page")
+        revalidatePath(`/account/profile`)
         return { data: responseObject, expired: false };
         
     } catch (error) {
@@ -78,7 +78,7 @@ export async function updatePassword(password){
 
         const responseObject = await response.json()
         console.log('UPDATING PASSWORD RESPONSE:', responseObject)
-        revalidatePath(`/account/profile`, "page")
+        revalidatePath(`/account/profile`)
         return { data: responseObject, expired: false };
         
     } catch (error) {
@@ -121,7 +121,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
 
         const responseObject = await response.json()
         console.log('ADDING NEW PERSONAL INFO RESPONSE:', responseObject)
-        revalidatePath(`/account/profile`, "page")
+        revalidatePath(`/account/profile`)
         return { data: responseObject, expired: false };
         
     } catch (error) {
@@ -158,7 +158,7 @@ export async function deletePersonalInfo(resourceType,resourceId){
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
-        revalidatePath(`/account/profile`, "page")
+        revalidatePath(`/account/profile`)
     
     } catch (error) {
         console.error('NETWORK ERROR DELETING PERSONAL INFO:', error);

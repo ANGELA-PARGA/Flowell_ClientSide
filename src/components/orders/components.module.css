@@ -1,11 +1,10 @@
 /*order card component styles*/
-
 .order_details_subcontainer p{
-    color: rgb(58, 57, 57);
+    color: var(--text-color);
     line-height: 2;    
 }
 .order_details_subcontainer span{
-    font-weight: 600;    
+    font-weight: var(--font-medium-weight);    
 }
 
 .order_details_buttons{
@@ -15,29 +14,32 @@
 
 .order_details_buttons button, .order_details_subcontainer button, .orderInfo_container button{
     width: 100px;
-    background-color: #0068a0cc;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.25rem;
+    background-color:var(--primary-color);
     border: none;
-    border-radius: 0.5rem;
+    border-radius:var(--border-radius-buttons);    
     cursor: pointer;
-}
-.order_details_buttons button:hover, .order_details_subcontainer button:hover, .orderInfo_container button:hover{
-    background-color:#0067a0;
+    color: white;
+    font-weight: var(--font-medium-weight);
+    font-size: var(--font-size-small);
+    padding: 0.4rem;
 }
 
-button:disabled{
-    cursor: not-allowed; 
-    background-color: #c9c7c7;
-    color: #424242;   
+.order_details_buttons button:hover, 
+.order_details_subcontainer button:hover, .orderInfo_container button:hover{
+    background-color: var(--hover-primary-color);
+    color: var(--text-hover-color)
 }
-  
-button:disabled:hover{
+
+#buttonDisabled{
     cursor: not-allowed; 
     background-color: #c9c7c7;
-    color: #424242;   
+    color: var(--text-color);   
+}
+
+#buttonDisabled:hover{
+    cursor: not-allowed; 
+    background-color: #c9c7c7;
+    color: var(--text-color);   
 }
 
 /*Order Info*/
@@ -65,7 +67,7 @@ button:disabled:hover{
 }
 
 .notUserOrdersMessage{
-    color: #424242;
+    color: var(--text-color);
 }
 
 @media screen and (max-width: 468px) {

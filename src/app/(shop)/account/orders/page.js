@@ -1,8 +1,9 @@
 import OrderCard from "@/components/orders/OrderCard";
 import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo"; 
-import MyModalLogin from "@/UI/MyModalLogin";
-import styles from './page.module.css'
+import styles from '../page.module.css'
+import dynamic from 'next/dynamic'
 
+const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default async function Orders() {
   const {orders, expired} = await fetchAllOrdersByUser();

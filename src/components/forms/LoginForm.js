@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import styles from './components.module.css'
+import dynamic from 'next/dynamic'
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,8 +11,8 @@ import { useRouter } from "next/navigation";
 import { useState, useContext } from "react";
 import { StoreContext } from "@/context";
 import { toast } from 'react-toastify';
-import MyModalRecoverPassword from "@/UI/MyModalRecoverPassword";
 
+const MyModalRecoverPassword = dynamic(() => import("@/UI/MyModalRecoverPassword"), {ssr: false})
 
 const schema = yup.object({
     email: yup.string().email('Email format is not valid').required('The email is required'),

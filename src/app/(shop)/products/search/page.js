@@ -2,7 +2,8 @@ import styles from '../page.module.css'
 import ProductCard from '@/components/product/ProductCard';
 import { fetchProductsBySearch } from '@/lib/fetchingRequests';
 import { AddAllFilters } from '@/components/product/AddFilters';
-
+import { Suspense } from 'react';
+import LoadingAllProducts from '@/UI/LoadingAllProducts';
 
 export default async function SearchResults(props) {
     const searchParams = await props.searchParams;
@@ -13,6 +14,7 @@ export default async function SearchResults(props) {
 
 
     return (
+        <Suspense fallback={<LoadingAllProducts />}>
         <section className={styles.main_container}>
             <h2>Search: <span>{data.product_found.length} Results</span></h2>
             <AddAllFilters/>
@@ -25,6 +27,7 @@ export default async function SearchResults(props) {
                     <h3>Products not found, try another search or clear the filters!</h3>
                 )}                
             </section>
-        </section> 
+        </section>
+        </Suspense> 
     );
 }

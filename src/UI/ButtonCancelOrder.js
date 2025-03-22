@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteOrder } from '@/actions/ordersRequest';
+import { cancelOrder } from '@/actions/ordersRequest';
 import { toast } from 'react-toastify';
 import styles from './components.module.css'
 
@@ -10,7 +10,7 @@ const ButtonCancelOrder = ({id, handleClose}) => {
     const handleOnClick = async (e) =>{
         e.preventDefault();
         try {
-            await deleteOrder(id);
+            await cancelOrder(id);
             handleClose()
             toast.success(`order cancelled succesfully`)            
         } catch (error) {

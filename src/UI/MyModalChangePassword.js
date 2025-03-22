@@ -1,8 +1,10 @@
 'use client'
 import {useState} from 'react'
-import Modal from 'react-modal'
-import UpdatePassword from '@/components/forms/UpdatePasswordForm'
 import styles from './components.module.css'
+import dynamic from 'next/dynamic'
+
+const Modal = dynamic(() => import('react-modal'), {ssr:false})
+const UpdatePassword = dynamic(() => import('@/components/forms/UpdatePasswordForm'))
 
 const MyModalChangePassword = () => {
     const [modalIsOpen, setIsOpen] = useState(false);    
@@ -18,7 +20,7 @@ const MyModalChangePassword = () => {
 
     return (                   
         <div>
-            <button onClick={openModal}>Change password</button>
+            <button className={styles.modalEditButton} onClick={openModal}>Change password</button>
             <Modal
                 isOpen={modalIsOpen}            
                 onRequestClose={closeModal}

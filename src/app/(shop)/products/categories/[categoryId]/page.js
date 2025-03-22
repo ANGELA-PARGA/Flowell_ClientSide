@@ -3,6 +3,8 @@ import ProductCard from '@/components/product/ProductCard';
 import { fetchProductsByCategory, fetchCategories } from '@/lib/fetchingRequests';
 import { AddColorFilter } from '@/components/product/AddFilters';
 import PaginationButton from '@/UI/PaginationButton';
+import { Suspense } from 'react';
+import LoadingAllProducts from '@/UI/LoadingAllProducts';
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -26,7 +28,7 @@ export default async function CategoryProducts(props) {
   const totalProducts = data.pagination.totalProducts
 
   return (
-    <>
+    <Suspense fallback={<LoadingAllProducts/>}>
     { data.products_by_category.length === 0 ?
         <section className={styles.main_container}>
           <h2>Found: <span>0 Results</span></h2>
@@ -41,7 +43,7 @@ export default async function CategoryProducts(props) {
             {data.products_by_category.map(product => (              
               <ProductCard key={product.id} data={product} />              
             ))}         
-          </section>
+          </section>  
           <div className={styles.paginationContainer}>
               {Array.from({ length: pages }, (_, index) => (
                   <PaginationButton key={index + 1} number={index + 1} />
@@ -49,6 +51,6 @@ export default async function CategoryProducts(props) {
           </div>
         </section>        
         }
-    </>
+    </Suspense>
   );
 }

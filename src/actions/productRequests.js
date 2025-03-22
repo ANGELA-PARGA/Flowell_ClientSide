@@ -37,7 +37,7 @@ export async function addProductToCart({product_id, qty}){
 
         const responseObject = await response.json()
         console.log('ADD TO CART ITEM RESPONSE:', responseObject)
-        revalidatePath(`/account/cart`, "page")
+        revalidatePath(`/account/cart`)
         return { data: responseObject, expired: false };  
             
     } catch (error) {

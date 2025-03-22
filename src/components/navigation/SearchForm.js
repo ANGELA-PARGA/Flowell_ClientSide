@@ -7,7 +7,7 @@ import styles from './components.module.css';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { fetchProductsBySearch } from '@/lib/fetchingRequests'
 

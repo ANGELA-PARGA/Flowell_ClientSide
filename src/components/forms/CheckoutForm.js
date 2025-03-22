@@ -6,14 +6,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
-import { addDays, addBusinessDays, getDay} from 'date-fns';
+import addDays from "date-fns/addDays";
+import addBusinessDays from "date-fns/addBusinessDays";
+import getDay from "date-fns/getDay";
 import { createNewOrder } from '@/actions/ordersRequest';
 import { signOut } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
-    contact_phone: yup.string().required('Please select a phone number'),
+    phone: yup.string().required('Please select a phone number'),
     address: yup.string().required('Please select a shipping address'), 
     city: yup.string().required(),
     state: yup.string().required(),
@@ -84,12 +86,12 @@ const CheckoutForm = ({data}) => {
                             <input
                                 type="radio"
                                 value={phone.phone}
-                                {...register('contact_phone')}
+                                {...register('phone')}
                             />
                             <label>{phone.phone}</label>
                         </div>
                     ))}
-                    {errors.contact_phone && <p className={styles.error_updating_info}>{errors.contact_phone.message}</p>}
+                    {errors.phone && <p className={styles.error_updating_info}>{errors.phone.message}</p>}
                 </div>
                 <div className={styles.checkoutBoxes}>
                     <h4>Select Shipping Address</h4>
@@ -119,7 +121,7 @@ const CheckoutForm = ({data}) => {
                         closeOnScroll={true}
                         selected={watch('delivery_date')}
                         onChange={handleDateChange}
-                        minDate={addBusinessDays(new Date(), 10)}
+                        minDate={addBusinessDays(new Date(), 5)}
                         maxDate={addDays(new Date(), 90)}
                         filterDate={isWeekday}
                         dateFormat="MM-dd-yyyy"

@@ -1,8 +1,10 @@
 'use client'
 import {useState} from 'react'
-import Modal from 'react-modal'
 import ButtonCancelOrder from './ButtonCancelOrder'
+import dynamic from 'next/dynamic'
 import styles from './components.module.css'
+
+const Modal = dynamic(() => import('react-modal'), {ssr:false})
 
 const MyModalCancelOrder = ({id}) => {
     const [modalIsOpen, setIsOpen] = useState(false) 
@@ -13,7 +15,7 @@ const MyModalCancelOrder = ({id}) => {
 
     return (
         <div>
-            <button className={styles.deleteOutside} onClick={openModal}>Cancel Order</button>
+            <button className={styles.modalDeleteButton} onClick={openModal}>Cancel Order</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -26,8 +28,7 @@ const MyModalCancelOrder = ({id}) => {
                 <div className={styles.modalButtons}>
                     <ButtonCancelOrder id={id} handleClose={()=> closeModal()}/>
                     <button className={styles.cancelModalButton} onClick={closeModal}>Keep order</button>
-                </div>
-                
+                </div>                
             </Modal>
         </div>
     )

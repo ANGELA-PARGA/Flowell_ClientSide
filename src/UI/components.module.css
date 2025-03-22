@@ -1,68 +1,36 @@
-/* Spinner CSS */
+
 .spinner {
-    border: 16px solid rgba(0, 0, 255, 0.151); /* Light blue border */
-    border-top: 16px solid #0067a0; /* Blue color */
+    border: 8px solid rgba(0, 0, 255, 0.151); /* Light blue border */
+    border-top: 8px solid var(--primary-color); /* Blue color */
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
   }
 
-  .paginationButton{
-    width: 50px;
-    background-color: #0068a0cc;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.25rem;
-    margin: 0.25rem;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-
-  .paginationButton:hover{
-    background-color:#0067a0;
-}
-
-.button_sign_in_modal{
-  pointer-events: auto;
-  width: 80px;
-  border-radius: 0.5rem; 
-  height: 1.5rem;
-  background-color:#0067a0;
-  border: none;
-  cursor: pointer;
-  color: white;
-  font-weight: 600;
-}
-
-.button_sign_in_modal:hover{
-  background-color:#0f80bd;
-}
-
-.delete_button{
-  width: 100px;
-  background-color: #fa0000cc;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-
-.delete_button:hover{
-  background-color: #f82c2ccc;
-}
-  
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
 
-  /* ModalStyles.module.css */
+  .paginationButton{
+    margin: 0.25rem;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: var(--font-size-small);
+    font-weight: var( --font-medium-weight);  
+  }
+
+.paginationButton:hover{
+    background-color: var( --hover-primary-color);
+    color: var(--text-hover-color);
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -72,21 +40,6 @@
   background-color: rgba(0, 0, 0, 0.692);
   z-index: 1000;
 }
-.deleteOutside, .cancelModalButton{
-  width: 100px;
-  background-color: #0068a0cc;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-.deleteOutside:hover, .cancelModalButton:hover{
-  background-color:#0067a0;
-}
-
 
 .content{
   position: fixed;
@@ -106,35 +59,93 @@
   z-index: 1100;
 }
 
+.modalEditButton, .modalDeleteButton, .cancelModalButton, .delete_button, .button_sign_in_modal{
+  width: 80px;
+  border: none;
+  border-radius:var(--border-radius-buttons);    
+  cursor: pointer;
+  color: white;
+  font-weight: var(--font-medium-weight);
+  font-size: var(--font-size-small);
+  padding: 0.4rem;
+}
+
+.button_sign_in_modal{
+  pointer-events: auto;
+  height: 1rem;  
+}
+
+.delete_button{
+  width: fit-content;
+}
+
+.modalDeleteButton, .delete_button{
+  background-color:var( --cancel-color);
+}
+.modalEditButton, .cancelModalButton, .button_sign_in_modal{
+  background-color:var(--primary-color);
+}
+
+.modalEditButton:hover, .cancelModalButton:hover, .button_sign_in_modal:hover{
+  background-color: var(--hover-primary-color);
+  color: var(--text-hover-color)
+}
+
+.modalDeleteButton:hover, .delete_button:hover{
+  background-color: var(--cancel-hover-color);
+  color: var(--cancel-text-hover-color)
+}
+
 .modalButtons{
   display: flex;
   gap: 1rem;
 }
 
 .recover_modalText{
-  color: #424242;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.modalText{
-  color: #424242;
-  font-size: 1rem;
-  font-weight: 400;
+  color: var(--text-color);
+  font-size: var(--font-size-large);
+  font-weight: var(--font-medium-weight);
 }
 
 /*skeletong for loading a product*/
-.skeletonContainer{
+.skeletonProductContainer, .skeletonCheckoutContainer{
   width: 100%;
   height: 80dvh;
   margin: 0 auto;
   display: flex;
+  gap: 1rem;  
+}
+
+.skeletonProductsListContainer{
+  margin-top: 160px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1rem;
 }
 
-.loadingProductImage, .loadingProductInformation{
-  background-color: rgba(235, 234, 234, 0.993);
-  border-radius: 5%;  
+.loadingProduct{
+  height: 500px;
+}
+
+.skeletonCheckoutContainer{
+  height: 100dvh;
+}
+
+.skeletonOrderContainer, .loadingPersonalInfo, .loadingCartInfo{
+  width: 100%;
+  height: 100dvh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px;
+  gap: 1rem
+}
+
+.loadingPersonalInfo, .loadingCartInfo{
+  width: 50%;
 }
 
 .loadingProductImage{
@@ -145,16 +156,27 @@
   width: 60%;
 }
 
+.loadingProductCheckout{
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.loadingProductImage, .loadingProduct, .loadingProductInformation, .loadingOrderNumber, .loadingPersonalInfo, .loadingProductCheckout{
+  background-color: rgba(235, 234, 234, 0.993);
+  border-radius: 5%;  
+}
+
 /*recover password button*/
 .recover_password_link{
   border: none;
   background: none;
   background-color: none;
   cursor: pointer;
-  color: #383838;
+  color: var(--text-color);
   font-size: 0.825rem;
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--font-large-weight);
 }
 
 .recover_password_link:hover{
@@ -162,9 +184,9 @@
 }
 
 .sent_email_confirmation{
-  color: #ee0707;
+  color: var(--text-error-color);
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: var(--font-large-weight);
 }
 
 @media screen and (max-width: 468px) {
@@ -173,4 +195,10 @@
     left: 5%;
     right: 5%;
   }    
+}
+
+@media (max-width: 430px) {
+  .skeletonProductsListContainer{   
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }

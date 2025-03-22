@@ -1,13 +1,20 @@
+'use client'
+
 import Link from "next/link";
 import styles from './page.module.css'
 import ButtonLogOut from "@/UI/ButtonLogOut";
 import { UserIcon, CartIcon, OrdersIcon } from "../../../../public/svgIcons";
+import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
+import { Suspense } from "react";
+import LoadingOrders from "@/UI/LoadingOrders";
 
 export default function AccountLayout({ children }) {
+  const pathname = usePathname();
 
   const sidebarLinks = [
     {
-      name: 'Profile Information',
+      name: 'Profile',
       href: '/account/profile',
       icon: <UserIcon width={28} height={28} weight={2}/>
     },
@@ -27,13 +34,11 @@ export default function AccountLayout({ children }) {
   return (
     <section className={styles.dashboard}>
       <div className={styles.sidebar}>
-        <h1>My account</h1>
         <ul className={styles.sidebar_list_options}>
           {sidebarLinks.map((link, index) => (
-              <li key={index}>
-                <Link href={link.href}>
+              <li key={index} className={clsx({[styles.active]: pathname === link.href})}>
+                <Link href={link.href} prefetch={true}>
                   {link.icon}
-                  <span className={styles.tooltip}>{link.name}</span>
                   <span className={styles.linkName}>{link.name}</span>
                 </Link>
               </li>
@@ -44,7 +49,9 @@ export default function AccountLayout({ children }) {
         </ul>
       </div>
       <div className={styles.info_dashboard}>
-        {children}
+        <Suspense fallback={<LoadingOrders/>}>
+          {children}
+        </Suspense>
       </div>
     </section>
   );

@@ -8,7 +8,7 @@ import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { signOut } from 'next-auth/react';
 import { cookieVerification } from '@/lib/cookieVerification';
 import { TrashIcon } from '../../../public/svgIcons';
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 
 const UpdateCartItems = ({data, id}) => {
     const { updateProductQtyInCart, populateCartData } = useContext(StoreContext);

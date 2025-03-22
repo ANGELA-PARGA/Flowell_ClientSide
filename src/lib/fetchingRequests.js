@@ -8,7 +8,7 @@ export async function fetchAllProducts(page, filters ={}) {
     });
 
     try {
-        const response = await fetch( `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${query.toString()}`, { cache: 'force-cache', next: { revalidate: 1800 }});
+        const response = await fetch( `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${query.toString()}`, { cache: 'force-cache'});
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -29,7 +29,7 @@ export async function fetchProductsById(id){
     console.log('calling fetch product by id:', id)
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`, { cache: 'force-cache', next: { revalidate: 1800 }})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${id}`, { cache: 'force-cache'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -38,7 +38,6 @@ export async function fetchProductsById(id){
         } 
 
         const responseObject = await response.json()
-        console.log(`fetching products by id RESPONSE:`, responseObject);
         return responseObject; 
 
     } catch (error) {
@@ -55,7 +54,7 @@ export async function fetchProductsByCategory(categoryId, page, filters ={}){
     });
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}?${query.toString()}`, { cache: 'force-cache', next: { revalidate: 1800 }})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}?${query.toString()}`, { cache: 'force-cache'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -64,7 +63,6 @@ export async function fetchProductsByCategory(categoryId, page, filters ={}){
         } 
 
         const data = await response.json()
-        console.log('all products by category RESPONSE:', data)
         return data;  
 
     } catch (error) {
@@ -81,7 +79,7 @@ export async function fetchProductsBySearch(term, filters ={}){
     });
     
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/search?term=${term}&${query.toString()}`, { cache: 'force-cache', next: { revalidate: 1800 }})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/search?term=${term}&${query.toString()}`, { cache: 'force-cache'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -90,7 +88,6 @@ export async function fetchProductsBySearch(term, filters ={}){
         } 
 
         const data = await response.json()
-        console.log(`fetch products by search response:`, data);
         return data;  
 
     } catch (error) {
@@ -102,7 +99,7 @@ export async function fetchProductsBySearch(term, filters ={}){
 
 export async function fetchCategories(){
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories`, { cache: 'force-cache', next: { revalidate: 1800 }})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories`, { cache: 'force-cache'})
 
         if (!response.ok) {        
             const errorResponse = await response.json();
