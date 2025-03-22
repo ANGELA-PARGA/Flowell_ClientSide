@@ -8,6 +8,7 @@ import DropdownUnauth from './DropdownUnauth';
 import DropdownAuthUser from './DropdownAuthUser';
 import { SearchForm } from './SearchForm';
 import { useSession } from 'next-auth/react';
+import { Suspense } from 'react';
 import { LeafIconNavBar, UserIconNavBar, CartIconNavBar, MenuIconNavBar, CloseIcon, SearchIconNavBar } from '../../../public/svgIcons';
 
 const NavigationPhone = () => {
@@ -92,7 +93,9 @@ const NavigationPhone = () => {
                     </div>
                     {showingMenu === 'search' && (
                         <div className={styles.search_dropdown_menu} ref={menuRef} >
-                            <SearchForm handleClose={handleClose}/>
+                            <Suspense fallback={<p>Loading...</p>}>
+                                <SearchForm handleClose={handleClose}/>
+                            </Suspense>
                         </div>                        
                     )}
                 </li>

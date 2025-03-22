@@ -14,20 +14,21 @@ export default async function SearchResults(props) {
 
 
     return (
-        <Suspense fallback={<LoadingAllProducts />}>
         <section className={styles.main_container}>
-            <h2>Search: <span>{data.product_found.length} Results</span></h2>
-            <AddAllFilters/>
-            <section className={styles.products_main_container}>                
-                { results.length > 0 ? (
-                    results.map(product => (
-                        <ProductCard key={product.id} data={product} />
-                    ))                    
-                ) : (
-                    <h3>Products not found, try another search or clear the filters!</h3>
-                )}                
-            </section>
+            <Suspense fallback={<LoadingAllProducts />}>
+                <h2>Search: <span>{data.product_found.length} Results</span></h2>
+                <AddAllFilters/>
+                <section className={styles.products_main_container}>                
+                    { results.length > 0 ? (
+                        results.map(product => (
+                            <ProductCard key={product.id} data={product} />
+                        ))                    
+                    ) : (
+                        <h3>Products not found, try another search or clear the filters!</h3>
+                    )}                
+                </section>
+            </Suspense>
         </section>
-        </Suspense> 
+
     );
 }

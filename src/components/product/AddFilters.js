@@ -4,6 +4,7 @@ import { useState } from 'react'
 import styles from './components.module.css'
 import { ChevronDown } from '../../../public/svgIcons'
 import FilterForm from '../forms/FilterForm'
+import { Suspense } from 'react'
 
 export const AddAllFilters = () => {
   const [openFilters, setOpenFilters] = useState(false)
@@ -31,7 +32,11 @@ export const AddAllFilters = () => {
           <ChevronDown width={16} height={16} weight={3}/>
         </button>
       </div>
-      { openFilters && <FilterForm type={filterType} handleClose={handleCloseFilters} />}
+      { openFilters && 
+        <Suspense fallback={<div>Loading...</div>}>
+          <FilterForm type={filterType} handleClose={handleCloseFilters} />
+        </Suspense>
+      }
     </>
   )
 }
@@ -61,7 +66,11 @@ export const AddColorFilter = () => {
           <ChevronDown width={16} height={16} weight={3}/>
         </button>
       </div>
-      { openFilters && <FilterForm type={filterType} handleClose={handleCloseFilters} />}
+      { openFilters && 
+        <Suspense fallback={<div>Loading...</div>}>
+          <FilterForm type={filterType} handleClose={handleCloseFilters} />
+        </Suspense>
+      }
     </>
   )
 }

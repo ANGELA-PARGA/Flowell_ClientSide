@@ -9,8 +9,9 @@ import DropdownAuthUser from './DropdownAuthUser';
 import CartItems from './CartItems';
 import { SearchForm } from './SearchForm';
 import { useSession } from 'next-auth/react';
-import { LeafIconNavBar, UserIconNavBar, CloseIcon, ChevronDownNavBar } from '../../../public/svgIcons';
+import { LeafIconNavBar, UserIconNavBar, CloseIcon } from '../../../public/svgIcons';
 import NavigationPhone from './NavigationPhone';
+import { Suspense } from 'react';
 
 const Navigation = () => {
     const [active, setActive] = useState('');
@@ -81,7 +82,9 @@ const Navigation = () => {
                 setActive('')
                 setShowingMenu('')}}
             >
-                <SearchForm handleClose={handleClose}/> 
+                <Suspense fallback={<div>Loading...</div>}>
+                    <SearchForm />  
+                </Suspense> 
             </div>                       
             <ul className={styles.navbar_options}>
                 <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`}>

@@ -2,6 +2,8 @@ import styles from './components.module.css'
 import ProductCard from '@/components/product/ProductCard';
 import { fetchAllProducts } from '@/lib/fetchingRequests';
 import PaginationButton from '@/UI/PaginationButton';
+import { Suspense } from 'react';
+import LoadingAllProducts from '@/UI/LoadingAllProducts';
 
 /*The component uses searchParams to apply pagination and filters (color, category) 
 the number of pages is determined by the backend*/
@@ -17,7 +19,7 @@ export default async function ProductsList(props) {
     const totalProducts = data.pagination.totalProducts
 
     return (
-        <>
+        <Suspense fallback={<LoadingAllProducts/>}>
         <h2>All Results: <span>{totalProducts} products found</span></h2>
         { data.products_and_categories.length === 0 && 
             <h3>Products not found, clear some filters and try again!</h3>
@@ -32,6 +34,6 @@ export default async function ProductsList(props) {
                 <PaginationButton key={index + 1} number={index + 1} />
             ))}                    
         </div>                 
-        </>   
+        </Suspense>   
     );
 }

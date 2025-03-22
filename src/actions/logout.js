@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import { cookieFetchVerification } from "@/lib/cookieVerification";
 
 export default async function handleLogOut() {
-    console.log('HANDLE LOGOUT FROM SERVER FUNCTION')
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
