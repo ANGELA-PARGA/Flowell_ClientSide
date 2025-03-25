@@ -33,9 +33,10 @@ const handler = NextAuth({
                     }
                     if(response.ok){
                         const userRetrieved = await response.json();
+                        console.log("🟢 User Retrieved:", userRetrieved); 
                         
                         /*setting the cookie manually to the browser*/
-                        console.log(response.headers.get('Set-Cookie'))
+                        console.log(response.headers)
                         
                         const apiCookies = (await response.headers).get('Set-Cookie');
                         const cookieParts = apiCookies.split(';');
@@ -94,6 +95,7 @@ const handler = NextAuth({
                 token.username = user.username;
                 token.cart_id = user.cart_id;
             }
+            console.log("🟢 JWT Token Created:", token);
             return token;
         },
         async session({ session, token }) {
@@ -101,6 +103,7 @@ const handler = NextAuth({
             session.user.email = token.email;
             session.user.username = token.username;
             session.user.cart_id = token.cart_id;
+            console.log("🟢 Session Created:", session); 
             return session;
         }
     },
