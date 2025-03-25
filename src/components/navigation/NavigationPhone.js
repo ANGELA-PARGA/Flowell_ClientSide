@@ -93,7 +93,7 @@ const NavigationPhone = () => {
                     </div>
                     {showingMenu === 'search' && (
                         <div className={styles.search_dropdown_menu} ref={menuRef} >
-                            <Suspense fallback={<p>Loading...</p>}>
+                            <Suspense fallback={<div></div>}>
                                 <SearchForm handleClose={handleClose}/>
                             </Suspense>
                         </div>                        

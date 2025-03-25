@@ -80,7 +80,7 @@ export const SearchForm = ({handleClose}) => {
             setResults([]);
             setNotFound(null);
             handleClose()
-            if (searchTerm) {                
+            if (searchTerm) {               
                 push(`/products/search?t=${searchTerm}`);
                 inputRef.current.value = ''; // Clear the input field
             }  
@@ -93,7 +93,7 @@ export const SearchForm = ({handleClose}) => {
         setResults([]);
         setNotFound(null);
         handleClose()
-        if (searchTerm) {                
+        if (searchTerm) {              
             push(`/products/search?t=${searchTerm}`);
             inputRef.current.value = ''; // Clear the input field
         }

@@ -7,9 +7,10 @@ import LoadingAllProducts from '@/UI/LoadingAllProducts';
 
 export default async function SearchResults(props) {
     const searchParams = await props.searchParams;
+    const searchTerm = searchParams?.t;
     const colorFilter = searchParams?.color || [];
     const categoryFilter = searchParams?.category || [];
-    const data = await fetchProductsBySearch(searchParams.t, { color: colorFilter, category: categoryFilter });
+    const data = await fetchProductsBySearch(searchTerm, { color: colorFilter, category: categoryFilter });
     const results = data.product_found
 
 

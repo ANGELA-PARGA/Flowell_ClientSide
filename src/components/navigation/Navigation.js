@@ -82,8 +82,8 @@ const Navigation = () => {
                 setActive('')
                 setShowingMenu('')}}
             >
-                <Suspense fallback={<div>Loading...</div>}>
-                    <SearchForm />  
+                <Suspense fallback={<div></div>}>
+                    <SearchForm handleClose={handleClose} />  
                 </Suspense> 
             </div>                       
             <ul className={styles.navbar_options}>
