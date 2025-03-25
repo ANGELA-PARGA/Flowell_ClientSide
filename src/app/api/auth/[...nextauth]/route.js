@@ -23,6 +23,7 @@ const handler = NextAuth({
                             password: credentials?.password,
                             }),
                             headers: { "Content-Type": "application/json" },
+                            credentials: "include",
                         }
                     );
                     if(!response.ok){
@@ -34,6 +35,7 @@ const handler = NextAuth({
                         const userRetrieved = await response.json();
                         
                         /*setting the cookie manually to the browser*/
+                        console.log(response.headers.get('Set-Cookie'))
                         
                         const apiCookies = (await response.headers).get('Set-Cookie');
                         const cookieParts = apiCookies.split(';');
