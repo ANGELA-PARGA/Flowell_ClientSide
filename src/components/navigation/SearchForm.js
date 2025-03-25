@@ -35,6 +35,7 @@ export const SearchForm = ({handleClose}) => {
             if(searchTerm){
                 const result = await fetchProductsBySearch(searchTerm);
                 const itemsList = result.product_found;
+                console.log('itemsList:', itemsList)
                 if(itemsList.length === 0){
                     setNotFound('No results');
                     setResults([])                    
