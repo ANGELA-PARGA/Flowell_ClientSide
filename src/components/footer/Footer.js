@@ -38,9 +38,9 @@ const Footer = () => {
                     <li>Email: <span>customerservice@flowell.com.us</span></li>
                 </ul>
                 <div className={styles.social_icons}>
-                        <Link href={'https://www.instagram.com/'}><InstagramIcon width={32} height={32} weight={1.5}/></Link> 
-                        <Link href={'https://www.tiktok.com/'}><TiktokIcon width={32} height={32} weight={1.5}/></Link>
-                        <Link href={'https://x.com/X'}><XIcon width={32} height={32} weight={1.5}/></Link>
+                        <Link href={'https://www.instagram.com/'} aria-label="Go to instagram page"><InstagramIcon width={32} height={32} weight={1.5}/></Link> 
+                        <Link href={'https://www.tiktok.com/'} aria-label="Go to tik tok page"><TiktokIcon width={32} height={32} weight={1.5}/></Link>
+                        <Link href={'https://x.com/X'} aria-label="Go to x page"><XIcon width={32} height={32} weight={1.5}/></Link>
                 </div>                
                 <div  className={styles.logo_icon}>
                     <LeafIcon width={48} height={48} weight={1.5}/> 

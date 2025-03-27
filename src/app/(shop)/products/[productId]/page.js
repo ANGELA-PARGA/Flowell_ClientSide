@@ -16,6 +16,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Product(props) {
+  
   const params = await props.params;
 
   return (

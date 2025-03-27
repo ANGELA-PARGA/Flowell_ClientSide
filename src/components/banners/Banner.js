@@ -23,7 +23,7 @@ export default function Banner() {
                             <div className={styles.embla_slide_img_container}>
                                 <Link href={'/products'}>
                                     <Image  src={image1}
-                                        sizes="100vw"
+                                        
                                         style={{
                                             width: '100%',
                                             height: 'auto'
@@ -37,7 +37,7 @@ export default function Banner() {
                             <div className={styles.embla_slide_img_container}>
                                 <Link href={'/products'}>
                                     <Image  src={image2}
-                                        sizes="100vw"
+                                        
                                         style={{
                                             width: '100%',
                                             height: 'auto',
@@ -50,7 +50,7 @@ export default function Banner() {
                             <div className={styles.embla_slide_img_container}>
                                 <Link href={'/products'}>
                                     <Image  src={image3}
-                                        sizes="100vw"
+                                        
                                         style={{
                                             width: '100%',
                                             height: 'auto',

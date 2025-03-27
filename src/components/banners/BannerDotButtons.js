@@ -40,7 +40,7 @@ export const DotButton = (props) => {
     const { children, index, selectedIndex, onClick } = props
 
     return (
-        <button type="button" 
+        <button type="button" aria-label="banner_button"  role="none"
         className={`${styles.emblaDot} ${index === selectedIndex ? styles.emblaDotSelected : ''}`}
         onClick={onClick}
         >

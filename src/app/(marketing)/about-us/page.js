@@ -1,6 +1,7 @@
 import styles from '../page.module.css'
 
 export default function AboutUs() {
+  
   return (
     <section className={styles.section_blog_containers}>
       <h1><span>About our company:</span> Flowell's history</h1>

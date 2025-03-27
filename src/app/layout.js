@@ -16,6 +16,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       <body className={monserrat.className}>
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
               <Navigation/>
             </header>
             <main className={styles.mainBody}>{children}</main>
-          </StoreProvider>
+          </StoreProvider>          
             <footer> 
               <Footer/>         
             </footer>

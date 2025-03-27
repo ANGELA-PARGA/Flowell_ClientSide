@@ -79,7 +79,7 @@
 
 .place_order_button, .returnCart, .try_again_button, .return_main_page_button{
     width: 100px;
-    background-color: #0068a0cc;
+    background-color: #0067a0;
     color: white;
     font-size: 0.75rem;
     font-weight: 600;
@@ -90,7 +90,7 @@
 }
 
 .place_order_button:hover, .returnCart:hover{
-    background-color:#0067a0;
+    background-color:#0068a0cc;
 }
 
 .error_container{

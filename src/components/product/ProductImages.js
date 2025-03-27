@@ -17,7 +17,7 @@ const ProductImages = ({images}) => {
         <div className={styles.main_image_container}>
             <Image src={selectedImage}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 390px) 300px, (max-width: 853px) 350px, (max-width: 1064px) 450px, 450px"
                 style={{
                     borderRadius: '5%',
                 }}

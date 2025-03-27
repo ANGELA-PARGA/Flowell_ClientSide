@@ -1,6 +1,7 @@
 import styles from '../page.module.css'
 
 export default function HowToBuy() {
+  
   return (
     <section className={styles.section_blog_containers}>
       <h1><span>A guide to buy your flowers:</span> How to purchase flowers for your business</h1>

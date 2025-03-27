@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default async function Profile() {
+    
     const {data, expired} = await fetchAllUserInfo();
 
     if (expired) {

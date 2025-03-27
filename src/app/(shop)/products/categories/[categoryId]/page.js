@@ -18,6 +18,7 @@ export async function generateStaticParams() {
 }
 
 export default async function CategoryProducts(props) {
+  
   const searchParams = await props.searchParams;
   const params = await props.params;
   

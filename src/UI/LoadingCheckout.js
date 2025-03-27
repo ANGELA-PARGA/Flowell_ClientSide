@@ -12,7 +12,7 @@ const LoadingCheckout = () => {
                     <div></div>
                     <div></div>
                 </div>
-                <div></div>
+                <div className={styles.loadingProductCheckout}></div>
             </div>
             <div className={styles.loadingPersonalInfo}>
                 <div></div>

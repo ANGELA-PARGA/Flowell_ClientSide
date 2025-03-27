@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import LoadingOrders from "@/UI/LoadingOrders";
 
 export default function AccountLayout({ children }) {
+ 
   const pathname = usePathname();
 
   const sidebarLinks = [

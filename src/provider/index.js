@@ -17,9 +17,7 @@ export default function StoreProvider({children}){
 
     const populateCartData = useCallback(async () =>{
         try {
-            console.log('calling populate data')
             const data = await fetchCartInfoByUser();
-            console.log('cart data received from server', data)
             setCartData(data.cart)
             localStorage.setItem('cartData', JSON.stringify(data.cart));        
         } catch (error) {
@@ -28,14 +26,12 @@ export default function StoreProvider({children}){
     }, [])
 
     const getProductQtyInCart = useCallback ((cartData, productId) => {
-        console.log('calling get product qty in cart')
         if (!cartData?.items?.length) return false;
         const cartItem = cartData.items.find((item) => item.product_id === productId);
         return cartItem ? cartItem.qty : false;
     }, [])
 
     const updateProductQtyInCart = useCallback (async (newQty, productId) => {
-        console.log('calling update product qty in cart', newQty, productId)
         let {total, total_items, items, id} = cartData;
         const itemToUpdate = items?.find(item => item.product_id === productId);
         if (!itemToUpdate) return false;

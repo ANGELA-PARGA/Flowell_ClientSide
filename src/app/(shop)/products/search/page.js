@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import LoadingAllProducts from '@/UI/LoadingAllProducts';
 
 export default async function SearchResults(props) {
+    
     const searchParams = await props.searchParams;
     const searchTerm = searchParams?.t;
     const colorFilter = searchParams?.color || [];

@@ -194,7 +194,13 @@
     width: 90%;   
     left: 5%;
     right: 5%;
-  }    
+  }   
+  .skeletonCheckoutContainer{
+    flex-direction: column;
+  } 
+  .loadingCartInfo, .loadingPersonalInfo{
+    width: 100%;
+  }
 }
 
 @media (max-width: 430px) {

@@ -1,6 +1,7 @@
 import styles from '../page.module.css'
 
 export default function FloralHandling() {
+  
   return (
     <section className={styles.section_blog_containers}>
       <h1><span>Handling your product:</span> How to handle dry pack flowers</h1>

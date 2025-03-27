@@ -52,7 +52,7 @@ const NavigationPhone = () => {
         <>
         <nav className={`${styles.navbar} ${styles.small_screen_navbar}`}>
             <div className={styles.logo_container}>
-                <Link href="/" className={styles.logo}>
+                <Link href="/" className={styles.logo} aria-label="Go to main page">
                     <LeafIconNavBar width={40} height={40} weight={2} />
                 </Link>
             </div>

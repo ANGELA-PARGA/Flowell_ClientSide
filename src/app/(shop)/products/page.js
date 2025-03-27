@@ -9,6 +9,7 @@ import LoadingAllProducts from '@/UI/LoadingAllProducts';
 /*The component uses searchParams to apply pagination and filters (color, category) 
 the number of pages is determined by the backend*/
 export default async function AllProducts(props) {
+  
     const searchParams = await props.searchParams;
     const page = Number(searchParams?.p) || 1;
     const colorFilter = searchParams?.color || [];

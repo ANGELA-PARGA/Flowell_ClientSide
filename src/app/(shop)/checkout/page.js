@@ -8,6 +8,7 @@ import LoadingCheckout from "@/UI/LoadingCheckout";
 const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default async function Checkout() { 
+
   const {data, expired} = await fetchAllUserInfo();
 
     if (expired) {
@@ -18,9 +19,9 @@ export default async function Checkout() {
   return (
     <section className={styles.cartContainer}>
       <h2>Checkout</h2>
-      <Suspense fallback={<LoadingCheckout/>}>
-        <CheckoutDashboard data={data.user}/> 
-      </Suspense>     
+        <Suspense fallback={<LoadingCheckout/>}>
+          <CheckoutDashboard data={data.user}/> 
+        </Suspense>
     </section>
   );
 }

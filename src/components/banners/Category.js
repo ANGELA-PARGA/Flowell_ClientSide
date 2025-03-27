@@ -86,7 +86,6 @@ return (
                                 <div className={styles.embla_slide_img_category_container}>                            
                                     <Image  
                                         src={item.src}
-                                        sizes="100vw"
                                         style={{
                                             width: '100%',
                                             height: 'auto',
