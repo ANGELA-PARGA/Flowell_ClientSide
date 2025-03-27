@@ -11,7 +11,7 @@ const MenuAuthCart = ({handleClose}) => {
 
     return (
         cartData.total ? 
-            <div className={`${styles.dropdown_menu_authenticated} ${styles.dropdown_menu_authenticated_cart}`}>                
+                <div className={`${styles.dropdown_menu_authenticated} ${styles.dropdown_menu_authenticated_cart}`}>                
             {
                 <>                    
                 {cartData.items.map((item) => (

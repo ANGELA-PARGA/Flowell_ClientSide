@@ -12,7 +12,7 @@ const monserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata = {
   title: "Flowell",
-  description: "E-commerce for floral businesses",
+  description: "E-commerce for Flowell a floral businesses that sells flowers from south America to USA.",
 };
 
 export default function RootLayout({ children }) {

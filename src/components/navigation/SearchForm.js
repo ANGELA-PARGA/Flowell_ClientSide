@@ -35,7 +35,6 @@ export const SearchForm = ({handleClose}) => {
             if(searchTerm){
                 const result = await fetchProductsBySearch(searchTerm);
                 const itemsList = result.product_found;
-                console.log('itemsList:', itemsList)
                 if(itemsList.length === 0){
                     setNotFound('No results');
                     setResults([])                    
@@ -115,48 +114,50 @@ export const SearchForm = ({handleClose}) => {
         };
     }, [dropdownRef]);
 
-    return (
-        <>
-            <form className={styles.search_container} onKeyDown={handleOnKeyDown}>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    {...register("search", { onChange: handleChange })}
-                    defaultValue={searchParams.get('q')?.toString()}
-                    ref={inputRef} // Add the ref to the input field
-                />
-                
-            {notFound !== null && (
-                <div className={styles.search_dropdown_menu} ref={dropdownRef}>
-                    <p>No results</p>
-                </div>
-            )}
-            {results?.length > 0 && 
-                <div className={styles.search_dropdown_menu} ref={dropdownRef}>
-                    <h4>Best results</h4>
-                    <ul className={styles.search}>                
-                    {results.slice(0, 6).map((item) => (
-                        <li key={item.id} className={styles.searchResults} onClick={() => setResults([])}>
-                            <Image
-                                src={item.images_urls[0]}
-                                width={50}
-                                height={50}
-                                style={{ borderRadius: '5%' }}
-                                alt={item.name}
-                            /> 
-                            <Link href={`/products/${item.id}`}>                           
-                                {item.name}                           
-                            </Link>
-                        </li>                    
-                    ))}
-                    </ul>
-                    <button type="submit" onClick={handleOnClick} className={styles.see_results_link}>See all results</button> 
-                    {updateError && (
-                        <p>{updateError}</p>
-                    )}
-                </div>
-            }          
+    return (        
+        <form className={styles.search_container} onKeyDown={handleOnKeyDown}>
+            <input
+                type="text"
+                placeholder="Search..."
+                {...register("search", { onChange: handleChange })}
+                defaultValue={searchParams.get('q')?.toString()}
+                ref={inputRef} // Add the ref to the input field
+            />
+            
+        {notFound !== null && (
+            <div className={styles.search_dropdown_menu} ref={dropdownRef}>
+                <p>No results</p>
+            </div>
+        )}
+        {results?.length > 0 && 
+            <div className={styles.search_dropdown_menu} ref={dropdownRef}>
+                <h4>Best results</h4>
+                <ul className={styles.search}>                
+                {results.slice(0, 6).map((item) => (
+                    <li key={item.id} className={styles.searchResults} onClick={() => {
+                        setResults([]);
+                        setNotFound(null);
+                        handleClose();
+                    }}>
+                        <Image
+                            src={item.images_urls[0]}
+                            width={50}
+                            height={50}
+                            style={{ borderRadius: '5%' }}
+                            alt={item.name}
+                        /> 
+                        <Link href={`/products/${item.id}`}>                           
+                            {item.name}                           
+                        </Link>
+                    </li>                    
+                ))}
+                </ul>
+                <button type="submit" onClick={handleOnClick} className={styles.see_results_link}>See all results</button> 
+                {updateError && (
+                    <p>{updateError}</p>
+                )}
+            </div>
+        }          
         </form>
-        </>
     );
 };

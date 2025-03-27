@@ -2,7 +2,7 @@
 
 import styles from './components.module.css'
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
+import { useContext,useState } from 'react';
 import { StoreContext } from '@/context';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { signOut } from 'next-auth/react';
@@ -11,6 +11,7 @@ import { TrashIcon } from '../../../public/svgIcons';
 import debounce from "lodash.debounce";
 
 const UpdateCartItems = ({data, id}) => {
+    const [isLoading, setIsLoading] = useState(false); 
     const { updateProductQtyInCart, populateCartData } = useContext(StoreContext);
     const productId = parseInt(id);    
 
@@ -32,6 +33,9 @@ const UpdateCartItems = ({data, id}) => {
     };
 
     const debouncedUpdate = debounce(async (productToUpdate) => {
+        const previousQty = data.qty;
+        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
+        setIsLoading(true);
         try {
             const response = await updateCartItem(productToUpdate);
             if(response.expired){
@@ -44,9 +48,10 @@ const UpdateCartItems = ({data, id}) => {
         } catch (error) {
             console.error('Failed to update item in cart:', error);
             toast.error('Failed to update item in cart');
-            return            
+            updateProductQtyInCart(previousQty, productToUpdate.product_id); // Rollback            
+        } finally {
+            setIsLoading(false); 
         }
-        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
     }, 300);
 
     const handleDelete = async (e) => {
@@ -75,12 +80,12 @@ const UpdateCartItems = ({data, id}) => {
         <div className={styles.product_cart_buttons_container}>
             <div className={styles.product_cart_button_minicontainer}>
                 {data.qty > 1 ? (
-                    <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> 
+                    <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)} disabled={isLoading}> - </button> 
                 )
                 : <button disabled className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> }
                 <p className={styles.dataQty}>{data.qty}</p>
-                <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)}> + </button>
-                <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)}><TrashIcon width={14} height={14} weight={2}/></button>
+                <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)} disabled={isLoading}> + </button>
+                <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)} disabled={isLoading}><TrashIcon width={14} height={14} weight={2}/></button>
             </div>                                             
         </div>
         <div>

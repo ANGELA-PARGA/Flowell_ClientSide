@@ -25,10 +25,25 @@
     align-self: self-start;
 }
 
+.instructions_card{
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    
+}
+
 .section_blog_containers h1 > span{
     font-weight: 500;
 }
 
 .blog_instructions_text {
     color:red
+}
+
+@media screen and (max-width: 768px){
+    .section_blog_containers{
+        width: 80%;
+    }
+    
 }

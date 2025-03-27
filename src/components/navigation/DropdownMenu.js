@@ -29,6 +29,7 @@ const categoryData = [
     { src: mini_image11, href: '/products', alt: 'bouquet of multiple kinds of flowers', name: 'All products' }
 ];
 
+
 const DropdownMenu = ({linkActive, handleClose}) => {
 
     if (linkActive === 'products') {
@@ -78,8 +79,8 @@ const DropdownMenu = ({linkActive, handleClose}) => {
     }
 
     if(linkActive === 'menu'){
-        return (
-            <div className={styles.dropdown_menu}>
+        return (            
+                <div className={styles.dropdown_menu}>
                 <ul className={styles.dropdown_menu_phone_version}>
                     <li className={styles.dropdown_menu_phone_version_options}>
                         <CategoryIcon width={20} height={20} weight={2}/>

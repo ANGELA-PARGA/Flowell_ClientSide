@@ -20,12 +20,12 @@ export default function AccountLayout({ children }) {
       icon: <UserIcon width={28} height={28} weight={2}/>
     },
     {
-      name: 'My orders',
+      name: 'Orders',
       href: '/account/orders',
       icon: <OrdersIcon width={28} height={28} weight={2}/>
     },
     {
-      name: 'My cart',
+      name: 'Cart',
       href: '/account/cart',
       icon: <CartIcon width={28} height={28} weight={2}/>
     }

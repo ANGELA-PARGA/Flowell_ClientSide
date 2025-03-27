@@ -3,12 +3,12 @@ import styles from './components.module.css'
 
 const MenuAuthAccount = ({handleClose}) => {
     return (        
-        <div className={styles.dropdown_menu_unauthenticated_options}>
-            <ul>
-                <li className={styles.dropdown_menu_unauthenticated_options_list}>
+        <div>
+            <ul className={styles.dropdown_menu_authenticated_options}>
+                <li >
                     <Link href='/account/profile' onClick={()=> handleClose()}>Account</Link>
                 </li>
-                <li className={styles.dropdown_menu_unauthenticated_options_list}>
+                <li>
                     <Link href='/account/orders' onClick={()=> handleClose()}>Orders</Link>
                 </li>
             </ul>

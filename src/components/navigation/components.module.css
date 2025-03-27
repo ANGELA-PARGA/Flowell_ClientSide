@@ -19,7 +19,7 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
 }
-  
+
 .logo_container{
     border-right: 1px solid rgb(255, 255, 255);
 }
@@ -121,17 +121,9 @@
 }
 
 /* menu dropdown styles */
-.dropdown_menu, .search_dropdown_menu{
+.search_dropdown_menu{
     position: absolute;
     top: 73px;
-    left:80px;
-}
-
-.dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
-    position: absolute;
-    top: 73px;
-    right:5px;
-    gap: 0.5rem;
 }
 
 .dropdown_menu, .dropdown_menu_unauthenticated, .dropdown_menu_authenticated, .search_dropdown_menu{
@@ -140,30 +132,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: fit-content;
-    height: fit-content;
     padding: 1rem;
-    border-radius: 0.5rem;
     box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
     -webkit-box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
     -moz-box-shadow: 0px 2px 4px 2px rgba(97, 97, 97, 0.75);
 }
 
-.dropdown_menu_unauthenticated,
-.dropdown_menu_authenticated {
-    position: absolute;
-    top: 73px;
-    right: 5px;
-    gap: 0.5rem;
-}
-
-.dropdown_menu_authenticated {
-    width: 250px;
-}
-
 .dropdown_menu_authenticated_cart {
-    width: 300px;
-    height: 88svh;
     overflow-y: scroll;
     z-index: 101;
 }
@@ -228,6 +203,7 @@
 .dropdown_menu_phone_version_options p,
 .dropdown_menu_category_list,
 .dropdown_menu_unauthenticated_options a,
+.dropdown_menu_authenticated_options a, 
 .searchResults a {
     color: #211f1f;
     font-size: 0.85rem;
@@ -242,11 +218,11 @@
     gap: 2rem;
 }
 
-.dropdown_menu_unauthenticated_options {
+.dropdown_menu_unauthenticated_options, .dropdown_menu_authenticated_options {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .dropdown_menu_unauthenticated_options p {
@@ -316,6 +292,52 @@
     width: 100%;
 }
 
+.overlay{
+    position: fixed; 
+    top: 73px;
+    left: 0;
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 99; 
+    display: flex; 
+    justify-content: flex-start;
+    
+}
+
+.overlay > div{
+    width: fit-content;
+}
+
+
+.cart_dropdown_menu, .authenticated_dropdown_menu{
+    margin-left: auto;
+}
+
+.dropdown_menu,  .dropdown_menu_authenticated_cart, .dropdown_menu_authenticated,  .dropdown_menu_unauthenticated{
+    position: relative;
+    z-index: 100;
+    top:0; 
+    left: 0;
+    width: 100%;
+    height: fit-content; 
+}
+
+.dropdown_menu_authenticated,  .dropdown_menu_unauthenticated{
+    width: 300px;
+    margin-left: 5px;
+    align-items: center;
+    align-self: flex-end;
+    gap: 1rem;
+}
+
+.dropdown_menu_authenticated_cart{
+    width: 500px;
+    height: 100dvh;
+    
+}
+
+
 /* Media queries */
 @media screen and (max-width: 790px) {
     .menu_button_secondary {
@@ -336,27 +358,48 @@
         justify-content: space-between;
     }
 
-    .dropdown_menu{
+    .overlay{
+        position: fixed; 
+        top: 73px;
         left: 0;
+        width: 100vw; 
+        height: 100vh; 
+        background-color: rgba(0, 0, 0, 0.5); 
+        z-index: 99; 
+        display: flex; 
+        align-items: flex-start;
+    }
+
+    .overlay > div{
         width: 85%;
+    }
+
+
+    .dropdown_menu,  .dropdown_menu_authenticated_cart, .dropdown_menu_authenticated,  .dropdown_menu_unauthenticated{
+        position: relative;
+        z-index: 100;
+        top:0; 
+        left: 0;
+        width: 100%;
         align-items: flex-start;
         height: 100svh;
-        border-radius: 0;
+        border-radius: 0; 
     }
+
+    
+    .dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
     .search_dropdown_menu {
         left: 0;
         width: 100%;
         align-items: flex-start;
         height: fit-content;
         border-radius: 0;
-    }
-
-    .dropdown_menu_unauthenticated, .dropdown_menu_authenticated{
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 80vw;
     }
 
     .button_log_out {

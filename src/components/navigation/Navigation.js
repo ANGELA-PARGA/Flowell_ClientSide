@@ -62,8 +62,10 @@ const Navigation = () => {
                         <span>Products</span>
                     </div>
                     {showingMenu === 'products' && (
-                    <div ref={menuRef}>
-                        <DropdownMenu linkActive={active} handleClose={handleClose}/>
+                    <div className={`${styles.overlay} ${showingMenu === 'products' ? styles.active : ''}`}>
+                        <div ref={menuRef}>
+                            <DropdownMenu linkActive={active} handleClose={handleClose}/>
+                        </div>
                     </div>
                     )}
                 </li>
@@ -72,8 +74,10 @@ const Navigation = () => {
                         <span>Flowell</span>
                     </div>
                     {showingMenu === 'services' && (
-                    <div ref={menuRef}>
-                        <DropdownMenu linkActive={active} handleClose={handleClose} />
+                    <div className={`${styles.overlay} ${showingMenu === 'services' ? styles.active : ''}`}>
+                        <div ref={menuRef}>
+                            <DropdownMenu linkActive={active} handleClose={handleClose} />
+                        </div>
                     </div>
                     )}
                 </li>
@@ -95,9 +99,11 @@ const Navigation = () => {
                         </div>
                     </div>
                     {showingMenu === 'sign_in' && (
-                        <div ref={menuRef}>
+                    <div className={`${styles.overlay} ${showingMenu === 'sign_in' ? styles.active : ''}`}>
+                        <div ref={menuRef} className={styles.authenticated_dropdown_menu}>
                             {session?.user?.email ? <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
                         </div>
+                    </div>
                     )}
                 </li>
                 <li className={`${styles.menu_button_li} ${styles.menu_button_primary} ${styles.cart_button_container}`}>
@@ -107,10 +113,12 @@ const Navigation = () => {
                         </div>
                     </div>
                     {showingMenu === 'cart' && (
-                        <div ref={menuRef}>
+                    <div className={`${styles.overlay} ${showingMenu === 'cart' ? styles.active : ''}`}>
+                        <div ref={menuRef} className={styles.cart_dropdown_menu}>
                             {session?.user?.email ? 
                                 <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
                         </div>
+                    </div>
                     )}
                 </li>                
             </ul>

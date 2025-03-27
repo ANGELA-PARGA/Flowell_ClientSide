@@ -40,9 +40,7 @@ const NavigationPhone = () => {
                 setShowingMenu('');
             }
         };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        
+        document.addEventListener('mousedown', handleClickOutside);        
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -62,8 +60,10 @@ const NavigationPhone = () => {
                     {showingMenu === 'menu' ? <CloseIcon width={22} height={22} weight={2} /> : <MenuIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'menu' && (
-                        <div ref={menuRef}>
-                            <DropdownMenu linkActive={active} handleClose={handleClose}/>
+                        <div className={`${styles.overlay} ${showingMenu === 'menu' ? styles.active : ''}`}>
+                            <div ref={menuRef} >
+                                <DropdownMenu linkActive={active} handleClose={handleClose}/>
+                            </div>
                         </div>
                     )}                                        
                 </li>
@@ -72,8 +72,10 @@ const NavigationPhone = () => {
                         {showingMenu === 'sign_in' ? <CloseIcon width={22} height={22} weight={2} /> : <UserIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'sign_in' && (
-                        <div ref={menuRef}>
-                            {session?.user?.email ? <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
+                        <div className={`${styles.overlay} ${showingMenu === 'sign_in' ? styles.active : ''}`}>
+                            <div ref={menuRef}>
+                                {session?.user?.email ? <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
+                            </div>
                         </div>
                     )}
                 </li>
@@ -82,8 +84,10 @@ const NavigationPhone = () => {
                         {showingMenu === 'cart' ? <CloseIcon width={22} height={22} weight={2} /> : <CartIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'cart' && (
-                        <div ref={menuRef}>
-                            {session?.user?.email ? <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
+                        <div className={`${styles.overlay} ${showingMenu === 'cart' ? styles.active : ''}`}>
+                            <div ref={menuRef}>
+                                {session?.user?.email ? <DropdownAuthUser linkActive={active} handleClose={handleClose}/> : <DropdownUnauth linkActive={active} handleClose={handleClose}/>}
+                            </div>
                         </div>
                     )}
                 </li>

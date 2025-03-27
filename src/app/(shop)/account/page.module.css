@@ -47,7 +47,7 @@
 }
 
 .linkName{
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .sidebar_list_options a:hover{
@@ -55,7 +55,7 @@
 }
 
 .info_dashboard{
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 /*cart page, order page, profile  page styles*/
@@ -119,12 +119,10 @@
     }
 
     .sidebar {
-        margin-top: 50px;
-        flex-direction: column;        
+        margin-top: 50px;        
         align-items: center;
         width: 100%;
         height: auto;
-        padding: 0.5rem;
     }
 
     .sidebar h2 {
@@ -135,10 +133,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .linkName{
-        display: none;
     }
 
     .ordersListContainer{
