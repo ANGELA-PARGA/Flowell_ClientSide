@@ -71,7 +71,6 @@ export async function updateCartItem({product_id, qty}){
 }
 
 export async function deleteCartItem(id){
-    console.log('DELETE CART ITEM ID FETCH:', id)
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {

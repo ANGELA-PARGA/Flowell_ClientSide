@@ -12,7 +12,6 @@ export default async function Profile() {
     const {data, expired} = await fetchAllUserInfo();
 
     if (expired) {
-        console.log('data is expired on PROFILE server component')
         return <MyModalLogin />;
     }
     

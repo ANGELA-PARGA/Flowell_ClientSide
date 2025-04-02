@@ -28,7 +28,7 @@ const schema = yup.object().shape({
 });
 
 const ChangeOrderShippingForm = ({ data, handleClose }) => {
-    const [updateError, setupdateError] = useState(); 
+    const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, formState: { errors, isSubmitting, isDirty, dirtyFields }, trigger, setValue } = useForm({
         resolver: yupResolver(schema),
@@ -42,7 +42,6 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
         }, {});
 
         if (!isDirty) { 
-            console.log('not changed');
             handleClose();           
             return;
         }
@@ -58,7 +57,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                 }, 2000);
             } else {
                 handleClose();
-                toast.success(`Shipping information updated successfully`);  
+                toast.success(`Shipping information updated successfully`);                  
             } 
         } catch (error) {
             console.log(error);

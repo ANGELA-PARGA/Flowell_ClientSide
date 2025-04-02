@@ -14,7 +14,6 @@ export default function Success() {
   useEffect(()=>{
     const fetchUpdatedCartData = async () => {
       if (session_id) {
-        console.log('session_id detected, refreshing cart data...');
         await populateCartData();
       }
     };

@@ -33,7 +33,7 @@ export const AddAllFilters = () => {
         </button>
       </div>
       { openFilters && 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div></div>}>
           <FilterForm type={filterType} handleClose={handleCloseFilters} />
         </Suspense>
       }

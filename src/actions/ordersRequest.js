@@ -76,6 +76,7 @@ export async function updateOrderShippingInfo(data, id){
 
         const responseObject = await response.json()     
         revalidatePath(`/account/orders/${id}`)
+        revalidatePath(`/account/orders`)
         return responseObject; 
 
     } catch (error) {
@@ -113,6 +114,7 @@ export async function updateOrderDeliverydateInfo(data, id){
 
         const responseObject = await response.json()      
         revalidatePath(`/account/orders/${id}`)
+        revalidatePath(`/account/orders`)
         return responseObject; 
 
     } catch (error) {

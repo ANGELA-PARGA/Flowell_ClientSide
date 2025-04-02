@@ -4,8 +4,9 @@ import LoadingProduct from '@/UI/LoadingProduct';
 import ProductInfo from '@/components/product/ProductInfo';
 import { Suspense } from 'react';
 
-export const dynamicParams = true
+
 export const revalidate = 3600
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const allProducts = await fetchAllProducts();

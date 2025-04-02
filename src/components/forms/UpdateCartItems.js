@@ -32,6 +32,7 @@ const UpdateCartItems = ({data, id}) => {
         }        
     };
 
+    /*using optimistics updates */
     const debouncedUpdate = debounce(async (productToUpdate) => {
         const previousQty = data.qty;
         updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);

@@ -10,16 +10,6 @@
     padding: 0 0.5rem;
 }
 
-/* ModalStyles.module.css */
-.backdrop {
-    position: fixed;
-    top: 73px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .logo_container{
     border-right: 1px solid rgb(255, 255, 255);
 }
@@ -265,16 +255,6 @@
     color: #0067a0;
 }
 
-/* Modal styles */
-.backdrop {
-    position: fixed;
-    top: 73px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .see_results_link{
     align-self: flex-end;
     border: none;
@@ -348,7 +328,6 @@
     }
 
     .menu_button_primary,
-    #arrow_down,
     .large_screen_navbar {
         display: none;
     }
@@ -358,29 +337,12 @@
         justify-content: space-between;
     }
 
-    .overlay{
-        position: fixed; 
-        top: 73px;
-        left: 0;
-        width: 100vw; 
-        height: 100vh; 
-        background-color: rgba(0, 0, 0, 0.5); 
-        z-index: 99; 
-        display: flex; 
-        align-items: flex-start;
-    }
-
     .overlay > div{
         width: 85%;
     }
 
 
     .dropdown_menu,  .dropdown_menu_authenticated_cart, .dropdown_menu_authenticated,  .dropdown_menu_unauthenticated{
-        position: relative;
-        z-index: 100;
-        top:0; 
-        left: 0;
-        width: 100%;
         align-items: flex-start;
         height: 100svh;
         border-radius: 0; 

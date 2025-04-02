@@ -44,7 +44,7 @@ export default function LoginForm() {
             await populateCartData();  
             toast.success(`Login succesfull!`)   
         } catch (error) {
-            console.log('error catched:', error.message)
+            console.error(error)
             setLoginError(error.message);
             toast.error('Failed to login to the account, try again')         
         }

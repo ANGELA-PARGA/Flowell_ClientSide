@@ -26,7 +26,6 @@ export default function UpdatePassword({ handleClose, closeModal }) {
     });
 
     const onSubmit = async (data) => {
-        console.log('calling update password in form', data);
         await schema.validate(data);
         try {
             const response = await updatePassword(data.password);

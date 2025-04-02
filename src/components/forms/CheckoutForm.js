@@ -27,7 +27,6 @@ const schema = yup.object().shape({
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = ({data}) => {
-    console.log(data)
     const [updateError, setupdateError] = useState();    
     const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, watch} = useForm({
         resolver: yupResolver(schema)

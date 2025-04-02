@@ -42,6 +42,8 @@ export async function fetchAllOrdersByUser(){
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
+            cache: 'force-cache',
+            next: { tags: ['orders'] },
             headers : {cookie: cookieForServer}
         })
         

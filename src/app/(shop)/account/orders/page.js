@@ -10,7 +10,6 @@ export default async function Orders() {
   const {orders, expired} = await fetchAllOrdersByUser();
 
   if (expired) {
-    console.log('data is expired on ORDERS server component')
       return <MyModalLogin />;
   }
 
