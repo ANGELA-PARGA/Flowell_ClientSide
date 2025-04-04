@@ -1,4 +1,3 @@
-// pages/api/logout.js
 'use server'
 import { cookies } from "next/headers";
 import { cookieFetchVerification } from "@/lib/cookieVerification";

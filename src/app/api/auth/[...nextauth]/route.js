@@ -33,6 +33,7 @@ const handler = NextAuth({
                     }
                     if(response.ok){
                         const userRetrieved = await response.json();
+                        console.log("User Retrieved:", userRetrieved);
                         
                         /*setting the cookie manually to the browser*/                        
                         const apiCookies = (await response.headers).get('Set-Cookie');
