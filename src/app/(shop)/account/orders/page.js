@@ -1,14 +1,14 @@
 import OrderCard from "@/components/orders/OrderCard";
 import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo"; 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSessionUser } from "@/lib/getSessionUser";
 import styles from '../page.module.css'
 import dynamic from 'next/dynamic'
 
 const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default async function Orders() {
-  const session = await getServerSession(authOptions);
+  /* @next-codemod-ignore */
+  const session = await getSessionUser();
   if (!session) {
       return <MyModalLogin />;
   }

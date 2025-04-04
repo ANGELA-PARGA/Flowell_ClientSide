@@ -1,5 +1,4 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSessionUser } from "@/lib/getSessionUser";
 import ProfilePersonalInfo from "@/components/profile/ProfilePersonalInfo";
 import ProfileAddressInfo from "@/components/profile/ProfileAddressInfo";
 import ProfilePhoneInfo from "@/components/profile/ProfilePhoneInfo";
@@ -9,8 +8,10 @@ import dynamic from 'next/dynamic'
 
 const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
+
 export default async function Profile() {
-    const session = await getServerSession(authOptions);
+    /* @next-codemod-ignore */
+    const session = await getSessionUser();
     if (!session) {
         return <MyModalLogin />;
     }

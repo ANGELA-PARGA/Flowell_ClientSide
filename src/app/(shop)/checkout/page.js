@@ -1,5 +1,4 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSessionUser } from "@/lib/getSessionUser";
 import { fetchAllUserInfo } from "@/lib/fetchingUserInfo";
 import CheckoutDashboard from "@/components/checkout/CheckoutDashboard";
 import styles from './page.module.css'
@@ -10,7 +9,8 @@ import LoadingCheckout from "@/UI/LoadingCheckout";
 const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default async function Checkout() { 
-  const session = await getServerSession(authOptions);
+  /* @next-codemod-ignore */
+  const session = await getSessionUser();
   if (!session) {
       return <MyModalLogin />;
   }

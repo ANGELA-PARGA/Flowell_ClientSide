@@ -92,7 +92,7 @@ return (
                                             borderRadius: '50%'
                                         }}                                
                                         alt={`Picture of the ${item.name} category`}/>
-                                    <Link href={`/products/categories/${item.id}`}>{item.name}</Link>
+                                    <Link href={`/products/categories/${item.id}`} prefetch={false}>{item.name}</Link>
                                 </div>
                             </div>
                         ))}
