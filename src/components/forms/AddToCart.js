@@ -1,22 +1,22 @@
 'use client'
 
-import styles from './components.module.css';
-import { TrashIcon } from '../../../public/svgIcons';
-import { toast } from 'react-toastify';
-import Spinner from '@/UI/Spinner';
 import { useState, useContext, useEffect } from 'react';
+import { StoreContext } from '@/context';
 import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addProductToCart } from '@/actions/productRequests';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
-import { StoreContext } from '@/context';
-import { signOut } from 'next-auth/react';
 import handleLogOut from '@/actions/logout';
 import { cookieVerification } from '@/lib/cookieVerification';
 import debounce from "lodash.debounce";
 import Link from 'next/link';
+import styles from './components.module.css';
+import { TrashIcon } from '../../../public/svgIcons';
+import { toast } from 'react-toastify';
+import Spinner from '@/UI/Spinner';
 
 
 const schema = yup.object().shape({
@@ -131,7 +131,7 @@ const AddToCart = ({id}) => {
         <>
             {status === 'loading' ? (
                 <Spinner />
-            ) : session?.user?.email ? (
+            ) : status === 'authenticated' ? (
                 <div className={styles.add_to_cart_container}>
                 {!itemQty ? (
                     <form className={styles.add_to_cart_form} onSubmit={handleSubmit(onSubmit)}>

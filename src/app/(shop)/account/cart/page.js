@@ -1,14 +1,27 @@
 'use client'
 
-import styles from '../page.module.css'
-import ProductCartInfo from '@/components/product/ProductCartInfo'
-import { StoreContext } from '@/context'
 import { useContext } from 'react'
+import { StoreContext } from '@/context'
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic'
+import ProductCartInfo from '@/components/product/ProductCartInfo'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import styles from '../page.module.css'
 
+const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
 
 export default function Cart() {
+  const { data: session, status} = useSession();
+
+  if(status === 'loading') {
+    return <h2>Loading cart...</h2>; 
+  }
+
+  if(status === 'unauthenticated') { 
+    return <MyModalLogin />;
+  }
+
   const { cartData } = useContext(StoreContext);  
 
   if (!cartData || !cartData.items) {

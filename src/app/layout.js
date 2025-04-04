@@ -5,7 +5,6 @@ import Footer from "@/components/footer/Footer";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
 import StoreProvider from "@/provider";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import styles from './page.module.css'
 
 const monserrat = Montserrat({ subsets: ["latin"]});
@@ -34,6 +33,8 @@ export default function RootLayout({ children }) {
         <ToastContainer
           position="bottom-right"
           autoClose={2000}
+          hideProgressBar={true}
+          theme="light"
         />       
       </body>
     </html>

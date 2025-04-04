@@ -19,7 +19,7 @@
     "embla-carousel-class-names": "^8.0.2",
     "embla-carousel-react": "^8.0.2",
     "lodash.debounce": "^4.0.8",
-    "next": "^15.2.3",
+    "next": "^15.2.4",
     "next-auth": "^4.24.7",
     "react": "19.0.0",
     "react-datepicker": "^7.4.0",
@@ -27,7 +27,7 @@
     "react-hook-form": "^7.51.3",
     "react-modal": "^3.16.1",
     "react-responsive": "^10.0.0",
-    "react-toastify": "^10.0.5",
+    "react-toastify": "^11.0.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {
