@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from 'react-toastify';
-import { signOut } from 'next-auth/react';
+import { forceLogOut } from '@/lib/forceLogout';
 import styles from './components.module.css';
 
 const schema = yup.object().shape({
@@ -51,10 +51,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
             const response = await updateOrderShippingInfo(updatedData, data.id);
             if (response.expired) {
                 toast.error('Your session has expired, please login again');
-                setTimeout(async () => {
-                    handleClose();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                await forceLogOut(handleClose);
             } else {
                 handleClose();
                 toast.success(`Shipping information updated successfully`);                  

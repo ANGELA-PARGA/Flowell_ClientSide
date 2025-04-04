@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { updatePassword } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
-import { signOut } from 'next-auth/react';
+import { forceLogOut } from '@/lib/forceLogout';
 
 const schema = yup.object({
     password: yup.string().required('The password is required')
@@ -31,10 +31,7 @@ export default function UpdatePassword({ handleClose, closeModal }) {
             const response = await updatePassword(data.password);
             if (response.expired) {
                 toast.error('Your session has expired, please login again');
-                setTimeout(async () => {
-                    handleClose();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                await forceLogOut(handleClose);
             } else {
                 handleClose();
                 toast.success(`Password information updated successfully`);

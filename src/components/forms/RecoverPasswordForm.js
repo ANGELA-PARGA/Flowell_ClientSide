@@ -23,7 +23,6 @@ export default function RecoverPasswordForm({handleClose, setMessage, closeModal
         await schema.validate(data);
         try {
             const response = await sentResetEmail(data);
-            console.log(response)
             setMessage(response.message)
             handleClose()            
         } catch (error) {

@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { updatePersonalInfo } from '@/actions/userRequests';
-import { signOut } from 'next-auth/react';
+import { forceLogOut } from '@/lib/forceLogout';
 import { toast } from 'react-toastify';
 
 const schema = yup.object({
@@ -31,10 +31,7 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
             const response = await updatePersonalInfo(data, resourceType, resourceId);
             if (response.expired) {
                 toast.error('Your session has expired, please login again');
-                setTimeout(async () => {
-                    handleClose();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                await forceLogOut(handleClose);
             } else {
                 handleClose();
                 toast.success(`Address information updated successfully`);

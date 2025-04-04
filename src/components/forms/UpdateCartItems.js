@@ -6,6 +6,7 @@ import { useContext,useState } from 'react';
 import { StoreContext } from '@/context';
 import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
 import { signOut } from 'next-auth/react';
+import handleLogOut from '@/actions/logout';
 import { cookieVerification } from '@/lib/cookieVerification';
 import { TrashIcon } from '../../../public/svgIcons';
 import debounce from "lodash.debounce";
@@ -22,6 +23,7 @@ const UpdateCartItems = ({data, id}) => {
         if(response.expired){
             toast.error('Your session has expired, please login again')
             setTimeout(async () => {
+                await handleLogOut()
                 await signOut({ callbackUrl: '/login' });
             }, 2000);
         } else {                    
@@ -42,6 +44,7 @@ const UpdateCartItems = ({data, id}) => {
             if(response.expired){
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
+                    await handleLogOut()
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
                 return 
@@ -63,6 +66,7 @@ const UpdateCartItems = ({data, id}) => {
             if(response.expired){
                 toast.error('Your session has expired, please login again')
                 setTimeout(async () => {
+                    await handleLogOut()
                     await signOut({ callbackUrl: '/login' });
                 }, 2000);
             } else {

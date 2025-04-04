@@ -10,7 +10,7 @@ import addDays from "date-fns/addDays";
 import addBusinessDays from "date-fns/addBusinessDays";
 import getDay from "date-fns/getDay";
 import { updateOrderDeliverydateInfo } from '@/actions/ordersRequest';
-import { signOut } from 'next-auth/react';
+import { forceLogOut } from '@/lib/forceLogout';
 import { toast } from 'react-toastify';
 import styles from './components.module.css';
 
@@ -35,10 +35,7 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
             const response = await updateOrderDeliverydateInfo(delivery_info, id);
             if(response.expired){
                 toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    handleClose();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                await forceLogOut(handleClose);
             } else {
                 handleClose()
                 toast.success(`Delivery date updated succesfully`)  

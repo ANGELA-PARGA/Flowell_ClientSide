@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { addNewPersonalInfo } from '@/actions/userRequests';
-import { signOut } from 'next-auth/react';
+import { forceLogOut } from '@/lib/forceLogout';
 
 const schema = yup.object({
     address: yup.string().required('The address is required').min(3),
@@ -31,9 +31,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
             const response = await addNewPersonalInfo(data, resourceType);
             if(response.expired){
                 toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await signOut({ callbackUrl: '/login' });
-                }, 3000);
+                await forceLogOut(handleClose);
             } else {
                 handleClose()
                 toast.success(`Address information added succesfully`);
