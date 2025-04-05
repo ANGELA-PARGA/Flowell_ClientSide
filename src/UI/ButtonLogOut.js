@@ -9,9 +9,8 @@ export default function ButtonLogOut(){
 
     const onClickLogOut = async () => {
         localStorage.removeItem('cartData');
-        await signOut({ redirect: false });
-        await handleLogOut();
-        window.location.href = '/login';
+        await signOut();
+        await handleLogOut();        
     }
 
     return (
