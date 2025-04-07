@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { forceLogOut } from '@/lib/forceLogout';
+import { addNewPersonalInfo } from '@/actions/userRequests';
 
 const schema = yup.object({
     phone: yup

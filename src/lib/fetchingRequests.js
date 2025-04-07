@@ -7,7 +7,10 @@ export async function fetchAllProducts(page, filters ={}) {
     });
 
     try {
-        const response = await fetch( `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${query.toString()}`, { cache: 'force-cache'});
+        const response = await fetch( `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${query.toString()}`, { 
+            cache: 'force-cache',
+            next: { tags: ['products'] }
+        });
 
         if (!response.ok) {        
             const errorResponse = await response.json();
@@ -48,7 +51,10 @@ export async function fetchProductsByCategory(categoryId, page, filters ={}){
     });
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}?${query.toString()}`, { cache: 'force-cache'})
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/categories/${categoryId}?${query.toString()}`, { 
+            cache: 'force-cache',
+            next: { tags: ['products'] }
+        })
 
         if (!response.ok) {        
             const errorResponse = await response.json();
