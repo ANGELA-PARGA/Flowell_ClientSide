@@ -36,10 +36,10 @@ const DropdownMenu = ({linkActive, handleClose}) => {
         return (
             <div className={styles.dropdown_menu}>
                 <h3>Categories</h3>
-                <ul className={styles.dropdown_menu_category_list}>
+                <ul className={styles.category_list}>
                     {categoryData.map((category, index) => (
                         <li key={index}>
-                            <Link href={category.href} onClick={()=> handleClose()} className={styles.dropdown_menu_category_box}>
+                            <Link href={category.href} onClick={()=> handleClose()} className={styles.category_item}>
                                 <Image
                                     src={category.src}
                                     width={60}
@@ -60,16 +60,16 @@ const DropdownMenu = ({linkActive, handleClose}) => {
         return (
             <div className={styles.dropdown_menu}>
                 <h3>Flowell Services</h3>
-                <ul className={styles.dropdown_menu_category_list}>
-                    <li className={styles.dropdown_menu_flowell_list}>
+                <ul className={styles.aboutUs_list}>
+                    <li className={styles.flowell_list}>
                         <LeafIcon width={40} height={40} weight={2}/>
                         <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>
-                    <li className={styles.dropdown_menu_flowell_list}>
+                    <li className={styles.flowell_list}>
                         <ShoppingBagIcon width={40} height={40} weight={2} />
                         <Link href='/how-to' onClick={()=> handleClose()}>How to Buy</Link>
                     </li>
-                    <li className={styles.dropdown_menu_flowell_list}>
+                    <li className={styles.flowell_list}>
                         <PlantIcon width={40} height={40} weight={2}/>
                         <Link href='/floral-care' onClick={()=> handleClose()}>Handling flowers</Link>
                     </li>
@@ -81,29 +81,29 @@ const DropdownMenu = ({linkActive, handleClose}) => {
     if(linkActive === 'menu'){
         return (            
                 <div className={styles.dropdown_menu}>
-                <ul className={styles.dropdown_menu_phone_version}>
-                    <li className={styles.dropdown_menu_phone_version_options}>
+                <ul className={styles.mobile_nav}>
+                    <li className={styles.mobile_nav_options}>
                         <CategoryIcon width={20} height={20} weight={2}/>
                         <p>Categories</p>
                     </li>
                     <ul>
                         {categoryData.map((category, index) => (
-                            <li key={index} className={styles.dropdown_menu_phone_version_options}>
+                            <li key={index} className={styles.mobile_nav_options}>
                                 <Link href={category.href} onClick={()=> handleClose()}>
                                     {category.name}
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <li className={styles.dropdown_menu_phone_version_options}>
+                    <li className={styles.mobile_nav_options}>
                         <ShoppingBagIcon width={20} height={20} weight={2} />       
                         <Link href='/how-to' onClick={()=> handleClose()}>How to buy</Link>
                     </li>
-                    <li className={styles.dropdown_menu_phone_version_options}>
+                    <li className={styles.mobile_nav_options}>
                         <PlantIcon width={20} height={20} weight={2}/>
                         <Link href='/floral-care' onClick={()=> handleClose()}>Handling your flowers</Link>
                     </li>
-                    <li className={styles.dropdown_menu_phone_version_options}>
+                    <li className={styles.mobile_nav_options}>
                         <LeafIcon width={20} height={20} weight={2}/>
                         <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>                    

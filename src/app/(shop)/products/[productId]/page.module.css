@@ -1,6 +1,6 @@
 .main_container{
-    margin-top: 73px;
-    padding: 2rem;
+    margin-top: var(--navbar-offset);
+    padding: var(--spacing-xl);
 }
 
 

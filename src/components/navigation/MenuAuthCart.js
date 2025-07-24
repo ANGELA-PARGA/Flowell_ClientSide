@@ -17,18 +17,18 @@ const MenuAuthCart = ({handleClose}) => {
                 {cartData.items.map((item) => (
                     <ProductCartMenu data={item} id={item.product_id} key={item.product_id} />          
                 ))}                    
-                <h3 className={styles.dropdown_menu_total_cart}>Total: ${cartData.total.toFixed(2)}</h3>
+                <h3 className={styles.dropdown_total_cart}>Total: ${cartData.total.toFixed(2)}</h3>
                 <div>
-                    <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.button_sign_in}>View</button></Link>
+                    <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.btn_signin}>View</button></Link>
                 </div>
                 </>
             }
             </div> :
             <div className={styles.dropdown_menu_unauthenticated}>
-                <div className={styles.dropdown_menu_unauthenticated_options}>
+                <div className={styles.unauthenticated_options}>
                     <p>Your cart is empty</p>
                     <div>
-                        <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.button_sign_in}>View cart</button></Link>
+                        <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.btn_signin}>View cart</button></Link>
                     </div>
                 </div>   
             </div>

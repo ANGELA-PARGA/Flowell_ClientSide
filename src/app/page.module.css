@@ -1,11 +1,11 @@
 .banner{
-    margin-top: 73px;
+    margin-top: var(--navbar-offset);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
 }
 .bannerGrid{
-    margin: 1rem auto;
+    margin: var(--spacing-base) auto;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-rows: auto;
@@ -13,13 +13,13 @@
     
 }
 .mainBody{
-    min-height: 100dvh;
+    min-height: var(--container-height-full);
 }
 
 @media screen and (max-width: 768px) {
     .bannerGrid{
         grid-template-columns: 1fr; 
-        gap: 1.5rem;
+        gap: var(--spacing-lg);
         
     }
 }

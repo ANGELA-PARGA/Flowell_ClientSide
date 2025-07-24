@@ -57,7 +57,7 @@ const Navigation = () => {
                 </Link>
             </div>
             <ul className={styles.navbar_options}>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`}>
+                <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
                     <div className={styles.menu_button} onClick={() => handleClickToggle('products')} >
                         <span>Products</span>
                     </div>
@@ -69,7 +69,7 @@ const Navigation = () => {
                     </div>
                     )}
                 </li>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`}>
+                <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
                     <div className={styles.menu_button} onClick={() => handleClickToggle('services')}>
                         <span>Flowell</span>
                     </div>
@@ -91,7 +91,7 @@ const Navigation = () => {
                 </Suspense> 
             </div>                       
             <ul className={styles.navbar_options}>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary}`}>
+                <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
                     <div className={styles.menu_button} onClick={() => handleClickToggle('sign_in')}>
                         <div className={styles.auth_button_account}>
                             <UserIconNavBar width={22} height={22} weight={2} />
@@ -106,7 +106,7 @@ const Navigation = () => {
                     </div>
                     )}
                 </li>
-                <li className={`${styles.menu_button_li} ${styles.menu_button_primary} ${styles.cart_button_container}`}>
+                <li className={`${styles.nav_item} ${styles.nav_item_desktop} ${styles.cart_button_container}`}>
                     <div className={styles.menu_button} onClick={() => handleClickToggle('cart')}> 
                         <div className={styles.auth_button_cart}>
                             {showingMenu === 'cart' ? <CloseIcon width={28} height={28} weight={2} /> : <CartItems/>}  

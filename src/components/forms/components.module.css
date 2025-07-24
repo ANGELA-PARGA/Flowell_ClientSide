@@ -4,23 +4,22 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
-    gap: 0.5rem;
+    width: var(--container-width-full);
+    gap: var(--spacing-sm);
 }
 
 .update_info_container h2{
     color: var(--primary-color);
-    font-weight: var(--font-large-weight);
+    font-weight: var(--font-weight-bold);
 }
-
 
 .update_form label, 
 .signup_form label, 
 .checkoutBoxes label, 
 .login_form label{
     color: var(--primary-color);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-large-weight);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
 }
 
 .error_label_container{
@@ -31,35 +30,35 @@
 .update_form input, 
 .login_form input, 
 .signup_form input{
-    height: 2rem;
-    border-radius: 0.25rem;
-    border: 1px solid #8d8d8d;
-    padding: 0.5rem;
-    transition: border-color 0.3s ease;
+    height: var(--spacing-xl);
+    border-radius: var(--border-radius-xs);
+    border: var(--border-medium);
+    padding: var(--spacing-sm);
+    transition: var(--transition-base);
 }
 
 .update_form input{
-    width: 100%;
-    color: var( --text-color);
-    font-weight: var(--font-large-weight);
+    width: var(--container-width-full);
+    color: var(--text-color);
+    font-weight: var(--font-weight-bold);
 }
 
 .login_form input, 
 .signup_form input{
-    min-width: 100%;
+    min-width: var(--container-width-full);
 }
 
 .update_form input:focus, 
 .login_form input:focus, 
 .signup_form input:focus{
-    border-color: #059beb;
+    border-color: var(--focus-color);
     outline: none;
 }
 
 .update_form input::placeholder, 
 .signup_form input::placeholder, 
 .login_form input::placeholder {
-    color: #8a8a8a;  
+    color: var(--placeholder-color);
     opacity: 0.5; 
 }
 
@@ -69,35 +68,35 @@
 .add_to_cart_button, 
 .signup_submit_button,
 .login_submit_button{
-    background-color:var(--primary-color);
+    background-color: var(--primary-color);
     border: none;
-    border-radius:var(--border-radius-buttons);    
+    border-radius: var(--border-radius-md);    
     cursor: pointer;
-    color: white;
-    font-weight: var(--font-medium-weight);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: var(--background-white);
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-base);
 }
 
 .update_button, 
 .cancel_update_button, 
 .pay_button{
-    width: 80px;
-    padding: 0.5rem;
-    font-size: var(--font-size-small);
+    width: var(--button-width-md);
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xs);
 }
 
 .add_to_cart_button{
     align-self: center;
-    width: 50%;
-    height: 2rem;
-    font-size: var(--font-size-large);
+    width: var(--container-width-half);
+    height: var(--button-height-md);
+    font-size: var(--font-size-lg);
 }
 
 .signup_submit_button, 
 .login_submit_button{
-    width: 100%;
-    height: 2rem;
-    font-size: var(--font-size-large);
+    width: var(--container-width-full);
+    height: var(--button-height-md);
+    font-size: var(--font-size-lg);
 }
 
 .cancel_update_button{
@@ -106,7 +105,7 @@
 
 .cancel_update_button:hover{
     background-color: var(--cancel-hover-color);
-    color: var(--cancel-text-hover-color)
+    color: var(--cancel-text-hover-color);
 }
 
 .update_button:hover, 
@@ -114,15 +113,15 @@
 .add_to_cart_button:hover, 
 .signup_submit_button:hover, 
 .login_submit_button:hover{
-    background-color: var(--hover-primary-color);
-    color: var(--text-hover-color)
+    background-color: var(--primary-transparent);
+    color: var(--text-hover-color);
 }
 
 .login_submit_button:disabled, .signup_submit_button:disabled {
-    background: linear-gradient(90deg, #042030d0 25%, #059beb 50%, #042030d0 75%);
+    background: linear-gradient(90deg, var(--transition-color) 25%, var(--focus-color) 50%, var(--transition-color) 75%);
     background-size: 400% 100%;
     animation: loading-animation 1.5s infinite;
-    color: #ffffff; /* Keep text visible */
+    color: var(--background-white); 
     cursor: not-allowed;
     border: none;
 }
@@ -142,47 +141,46 @@
 }
 
 .update_cart_items_button{
-    width: 24px;
-    height: 24px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--border-radius-full);
     cursor: pointer;
-    color: #0c0c0c;
-    font-weight: 500;
-    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-md);
     background: none;
 }
 
 .update_cart_items_button:hover{
-    background-color:#dbe0e2;
-    
+    background-color: var(--background-gray-dark);
 }
 
 .buttons_profile_container{
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    width: 100%;
+    gap: var(--spacing-base);
+    width: var(--container-width-full);
 }
 
 .add_to_cart_form{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .add_to_cart_form select{
-    border: 1px solid #c9c7c7;
-    padding: 0.85rem;
-    border-radius: var(--border-radius-buttons);
+    border: var(--border-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
     color: var(--primary-color);
-    font-weight: var(--font-large-weight);
+    font-weight: var(--font-weight-bold);
 }
 
 .subtotal_paragraph{
     display: flex;
-    gap: 0.5rem;
+    gap: var(--spacing-xs);
 }
 
 .product_cart_buttons_container, 
@@ -194,28 +192,28 @@
 
 .product_cart_button_minicontainer{
     flex-wrap: nowrap;
-    gap: 0.5rem;
-    border: 2px solid #2783b4;
-    border-radius: 2rem;
-    padding: 0.5rem;
+    gap: var(--spacing-xs);
+    border: var(--border-gray);
+    border-radius: var(--border-radius-xs);
+    padding: var(--spacing-xs);
 }
 
 .dataQty{
     color: var(--primary-color);
-    font-weight: var(--font-large-weight);
+    font-weight: var(--font-weight-bold);
 }
 
 .subtotal_cart p{
-    font-size: var(--font-size-medium); 
+    font-size: var(--font-size-base); 
     color: var(--text-color); 
 }
 
 .error_updating_info, 
 .error_login_form, 
 .error_signup_form{
-    color: var(--text-error-color);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-large-weight);
+    color: var(--error-color);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
 }
 
 .checkoutForm, 
@@ -223,22 +221,22 @@
 .checkoutBoxes{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 0.5rem;
+    gap: var(--spacing-base);
+    padding: var(--spacing-sm);
 }
 
 .checkoutBoxes{
-    border-radius: 0.5rem;
-    border: 1px solid #d6d6d6;
+    border-radius: var(--border-radius-sm);
+    border: var(--border-light);
 }
 
 .radioInput{
     display: flex;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
 }
 
 .radioInput label{
-    font-size: 0.9rem;  
+    font-size: var(--font-size-lg);  
 }
 
 /*login form  styles*/
@@ -252,17 +250,17 @@
 .signup_form_container a, 
 .recover_password_button
 {
-    color: #383838;
-    font-size: 0.8rem;
-    line-height: 1.5rem;
-    font-weight: 700;         
+    color: var(--text-gray-medium);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-bold);         
 }
 
 .signup_main_container a:hover, 
 .login_form_container a:hover, 
 .login_main_container a:hover, 
 .signup_form_container a:hover{
-    color: #444343;  
+    color: var(--text-color);  
     text-decoration: underline;    
 }
 
@@ -273,35 +271,34 @@
 .login_main_container{
     display: flex;
     flex-direction: column;
-    /*align-items: flex-start;*/
-    gap: 2rem;
+    gap: var(--spacing-xl);
     height: fit-content;
-    border-radius: 1rem;
+    border-radius: var(--border-radius-md);
 }
 
 .signup_main_container, 
 .login_main_container{
-    margin: 73px auto 0 auto;
-    padding-top: 2rem;
-    width: 380px;
+    margin: var(--navbar-offset) auto 0 auto;
+    padding-top: var(--spacing-xl);
+    width: var(--authorization-width);
 }
 
 .signup_main_container{
-    align-items:stretch;
+    align-items: stretch;
 }
 
 .signup_form_container h2, 
 .login_main_container h2{
-    color:#232424;
-    font-weight: var(--font-medium-weight);
-    font-size: var(--font-size-large);     
+    color: var(--text-dark);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-lg);     
 }
 
 .signup_inside_login_container h2, 
 .login_inside_signup_container h2{
     color: var(--primary-color);
-    font-size: var(--font-size-large);
-    font-weight: var(--font-large-weight);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
 }
 
 
@@ -312,21 +309,21 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    width: var(--container-width-full);
 }
 
 .signup_form div, 
 .login_form div{
-    width: 100%;
+    width: var(--container-width-full);
 }
 
 .login_form_container{
-    gap: 2rem;
+    gap: var(--spacing-xl);
 }
 
 .login_form, 
 .signup_form {
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .signup_after_update_container,
@@ -335,21 +332,21 @@
 .filterMenu{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .filterForm{
-    width: 450px;
+    width: var(--filters-container-width);
 }
 
 .filterMenu{
     position: absolute;
-    background-color: rgb(255, 255, 255);
-    top: 180px;
-    z-index: 1000;
+    background-color: var(--background-white);
+    top: var(--filter-menu-top);
+    z-index: var(--z-index-modal);
     width: min-content;
-    padding: 0.5rem;
-    border: 0.5px solid gray;
+    padding: var(--spacing-sm);
+    border: var(--border-light);
 }
 
 .recover_password_button{
@@ -359,78 +356,78 @@
 }
 
 .filterButtonsContainer{
-    flex-direction: row ;
+    flex-direction: row;
 }
 
 .filterBoxes label{
     display: flex;
-    gap: 0.25rem;
-    font-size: 0.825rem;
-    color: #232424;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-dark);
 }
 
 .filterBoxes{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 0.25rem;
-    font-size: .825rem;
-    color: #232424;
+    grid-template-columns: var(--grid-columns-4);
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-dark);
     align-items: center;
     justify-items: start;
 }
 
 .filterButtons, .filterTag{
-    border-radius: var( --border-radius-buttons);
-    background-color:white;
-    border: 1px solid #c5c5c5;
+    border-radius: var(--border-radius-md);
+    background-color: var(--background-white);
+    border: var(--border-light);
     cursor: pointer;
-    color: #3a3939;
-    font-weight: var(--font-medium-weight);
-    font-size: 0.825rem;
+    color: var(--text-lighter);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
 }
 
 .filterButtons{
-    width: 80px;
+    width: var(--button-width-md);
     text-align: center;
-    height: 1.5rem;
-    line-height: 1rem;
+    height: var(--icon-size-sm);
+    line-height: var(--spacing-base);
 }
 
 .filterTag{
     width: fit-content;
-    padding: 0.5rem;
+    padding: var(--spacing-sm);
     text-align: center; 
 }
 
 .appliedFilters{
     display: flex;
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .removeFilterButton{
     cursor: pointer;
     border: none;
     background-color: transparent;  
-    font-weight: var(--font-medium-weight);
-    font-size: 0.825rem;      
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);      
 }
 
 .filterButtons:hover, .removeFilterButton:hover{
-    color: #1dabf8;
+    color: var(--accent-blue);
 }
 
 .filterBoxesInputs{
     accent-color: var(--primary-color);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .signup_main_container{
-        width: 90vw;
+        width: var(--container-width-mobile);
     }
     .login_main_container{
-        width: 90vw;
+        width: var(--container-width-mobile);
     }
-    .filterForm{
-        width: 340px;
+    .filterMenu{
+        width: var(--filters-container-width-mobile);
     }
 }

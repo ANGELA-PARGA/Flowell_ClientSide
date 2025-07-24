@@ -1,19 +1,19 @@
 .main_container{
-    margin-top: 73px;
-    padding: 1rem 3rem;
+    margin-top: var(--navbar-offset);
+    padding: var(--spacing-base) var(--spacing-3xl);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .main_container span{
-    font-weight: 500;
+    font-weight: var(--font-weight-normal);
 }
 
 .products_main_container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1rem;
+    grid-template-columns: var(--grid-columns-auto);
+    gap: var(--spacing-base);
 }
 
 .paginationContainer{
@@ -27,18 +27,18 @@
 }
 
 .button_sort_and_filter{
-    width: 80px;
-    border-radius: 1rem; 
+    width: var(--button-width-md);
+    border-radius: var(--border-radius-md); 
     text-align: center;
-    height: 2rem;
-    line-height: 2rem;
-    background-color:white;
-    border: 1px solid rgb(197, 197, 197);
+    height: var(--button-height-md);
+    line-height: var(--button-height-md);
+    background-color: var(--background-white);
+    border: var(--border-gray);
     cursor: pointer;
-    color: rgb(58, 57, 57);
-    font-weight: 600;
-    font-size: 0.825rem;
-    transition: transform 0.3s;
+    color: var(--text-lighter);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    transition: var(--transition-transform);
 }
 .button_sort_and_filter svg{
     vertical-align: middle;
@@ -49,51 +49,51 @@
 }
 
 .button_sort_and_filter:hover{
-    color: #1dabf8;
-    background-color: #52bbf325;
+    color: var(--accent-blue);
+    background-color: var(--accent-blue-bg);
 }
 
 .error_container{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-base);
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ee0707;
-    margin-top: 73px;
+    padding: var(--spacing-base);
+    border-radius: var(--border-radius-sm);
+    border: var(--border-error);
+    margin-top: var(--navbar-offset);
 }
   .error_container h2{
-    color: #ee0707;
-    font-size: 1rem;
-    font-weight: 700;
+    color: var(--error-color);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
   }
 
 .try_again_button, .return_main_page_button{
-    width: 100px;
-    padding: 0.25rem;
-    background-color:#0068a0cc;
-    border-radius: 0.5rem;
+    width: var(--button-width-lg);
+    padding: var(--spacing-xs);
+    background-color: var(--primary-transparent);
+    border-radius: var(--border-radius-sm);
     border: none;
     cursor: pointer;
-    color: white;
-    font-weight: 600;
-    font-size: 0.75rem;
+    color: var(--background-white);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
     }
   
 .error_updating_info {
-    color: #ee0707;
-    font-size: 0.75rem;
-    font-weight: 700;
+    color: var(--error-color);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
     }
     
 
 @media (max-width: 430px) {
     .main_container {
-        padding: 1rem;
+        padding: var(--spacing-base);
     }
     .products_main_container{   
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-template-columns: var(--grid-columns-auto-sm);
     }
 }

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin: 73px auto 0 auto;
-  padding: 1rem;    
+  gap: var(--spacing-base);
+  margin: var(--navbar-offset) auto 0 auto;
+  padding: var(--spacing-base);    
 }

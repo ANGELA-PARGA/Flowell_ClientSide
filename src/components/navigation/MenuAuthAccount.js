@@ -4,7 +4,7 @@ import styles from './components.module.css'
 const MenuAuthAccount = ({handleClose}) => {
     return (        
         <div>
-            <ul className={styles.dropdown_menu_authenticated_options}>
+            <ul className={styles.authenticated_options}>
                 <li >
                     <Link href='/account/profile' onClick={()=> handleClose()}>Account</Link>
                 </li>

@@ -1,10 +1,9 @@
-
 .spinner {
-    border: 8px solid rgba(0, 0, 255, 0.151); /* Light blue border */
-    border-top: 8px solid var(--primary-color); /* Blue color */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    border: var(--border-width-lg) solid var(--background-blue-light); /* Light blue border */
+    border-top: var(--border-width-lg) solid var(--primary-color); /* Blue color */
+    border-radius: var(--border-radius-full);
+    width: var(--spinner-size);
+    height: var(--spinner-size);
     animation: spin 1s linear infinite;
   }
 
@@ -14,20 +13,20 @@
   }
 
   .paginationButton{
-    margin: 0.25rem;
-    width: 50px;
-    height: 50px;
+    margin: var(--spacing-xs);
+    width: var(--button-size-square);
+    height: var(--button-size-square);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--border-radius-full);
     cursor: pointer;
     background-color: var(--primary-color);
-    color: white;
-    font-size: var(--font-size-small);
-    font-weight: var( --font-medium-weight);  
+    color: var(--background-white);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);  
   }
 
 .paginationButton:hover{
-    background-color: var( --hover-primary-color);
+    background-color: var(--primary-transparent);
     color: var(--text-hover-color);
 }
 
@@ -37,8 +36,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.692);
-  z-index: 1000;
+  background-color: var(--overlay-modal);
+  z-index: var(--z-index-overlay);
 }
 
 .content{
@@ -47,32 +46,32 @@
   left: 15%;
   right: 15%;
   width: 70%;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background: #fff;
+  padding: var(--spacing-base);
+  border: var(--border-gray);
+  background: var(--background-white);
   overflow: 'auto';
-  border-radius: 4px;
+  border-radius: var(--border-radius-xs);
   outline: none;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  z-index: 1100;
+  gap: var(--spacing-base);
+  z-index: var(--z-index-modal);
 }
 
 .modalEditButton, .modalDeleteButton, .cancelModalButton, .delete_button, .button_sign_in_modal{
-  width: 80px;
+  width: var(--button-width-md);
   border: none;
-  border-radius:var(--border-radius-buttons);    
+  border-radius: var(--border-radius-md);    
   cursor: pointer;
-  color: white;
-  font-weight: var(--font-medium-weight);
-  font-size: var(--font-size-small);
-  padding: 0.4rem;
+  color: var(--background-white);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-base);
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-xs);
 }
 
 .button_sign_in_modal{
   pointer-events: auto;
-  /*height: 1rem;  */
 }
 
 .delete_button{
@@ -80,14 +79,14 @@
 }
 
 .modalDeleteButton, .delete_button{
-  background-color:var( --cancel-color);
+  background-color: var(--cancel-color);
 }
 .modalEditButton, .cancelModalButton, .button_sign_in_modal{
-  background-color:var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 .modalEditButton:hover, .cancelModalButton:hover, .button_sign_in_modal:hover{
-  background-color: var(--hover-primary-color);
+  background-color: var(--primary-transparent);
   color: var(--text-hover-color)
 }
 
@@ -98,54 +97,54 @@
 
 .modalButtons{
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-base);
 }
 
 .recover_modalText{
   color: var(--text-color);
-  font-size: var(--font-size-large);
-  font-weight: var(--font-medium-weight);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
 }
 
-/*skeletong for loading a product*/
+/*skeleton for loading a product*/
 .skeletonProductContainer, .skeletonCheckoutContainer{
-  width: 100%;
-  height: 80dvh;
+  width: var(--container-width-full);
+  height: var(--container-height-lg);
   margin: 0 auto;
   display: flex;
-  gap: 1rem;  
+  gap: var(--spacing-base);  
 }
 
 .skeletonProductsListContainer{
-  margin-top: 160px;
+  margin-top: var(--margin-top-xl);
   margin-left: auto;
   margin-right: auto;
-  width: 90%;
+  width: var(--container-width-lg);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1rem;
+  grid-template-columns: var(--grid-columns-auto-lg);
+  gap: var(--spacing-base);
 }
 
 .loadingProduct{
-  height: 500px;
+  height: var(--image-size-xxl);
 }
 
 .skeletonCheckoutContainer{
-  height: 100dvh;
+  height: var(--container-height-full);
 }
 
 .skeletonOrderContainer, .loadingPersonalInfo, .loadingCartInfo{
-  width: 100%;
-  height: 100dvh;
+  width: var(--container-width-full);
+  height: var(--container-height-full);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 100px;
-  gap: 1rem
+  grid-template-rows: var(--button-width-lg);
+  gap: var(--spacing-base)
 }
 
 .loadingPersonalInfo, .loadingCartInfo{
-  width: 50%;
+  width: var(--container-width-half);
 }
 
 .loadingProductImage{
@@ -153,18 +152,18 @@
 }
 
 .loadingProductInformation{
-  width: 60%;
+  width: var(--container-width-sm);
 }
 
 .loadingProductCheckout{
   display: flex;
-  width: 100%;
-  gap: 1rem;
+  width: var(--container-width-full);
+  gap: var(--spacing-base);
 }
 
 .loadingProductImage, .loadingProduct, .loadingProductInformation, .loadingOrderNumber, .loadingPersonalInfo, .loadingProductCheckout{
-  background-color: rgba(235, 234, 234, 0.993);
-  border-radius: 5%;  
+  background-color: var(--skeleton-bg);
+  border-radius: var(--border-radius-lg);  
 }
 
 /*recover password button*/
@@ -174,9 +173,9 @@
   background-color: none;
   cursor: pointer;
   color: var(--text-color);
-  font-size: 0.825rem;
-  line-height: 1.5rem;
-  font-weight: var(--font-large-weight);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
 }
 
 .recover_password_link:hover{
@@ -184,9 +183,9 @@
 }
 
 .sent_email_confirmation{
-  color: var(--text-error-color);
-  font-size: 0.85rem;
-  font-weight: var(--font-large-weight);
+  color: var(--error-color);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
 }
 
 @media screen and (max-width: 468px) {
@@ -199,12 +198,12 @@
     flex-direction: column;
   } 
   .loadingCartInfo, .loadingPersonalInfo{
-    width: 100%;
+    width: var(--container-width-full);
   }
 }
 
 @media (max-width: 430px) {
   .skeletonProductsListContainer{   
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: var(--grid-columns-auto-sm);
   }
 }

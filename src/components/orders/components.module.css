@@ -1,44 +1,44 @@
 /*order card component styles*/
 .order_details_subcontainer p{
     color: var(--text-color);
-    line-height: 2;    
+    line-height: var(--line-height-normal);    
 }
 .order_details_subcontainer span{
-    font-weight: var(--font-medium-weight);    
+    font-weight: var(--font-weight-medium);    
 }
 
 .order_details_buttons{
     display: flex;
-    gap: 1rem;
+    gap: var(--spacing-base);
 }
 
 .order_details_buttons button, .order_details_subcontainer button, .orderInfo_container button{
-    width: 100px;
-    background-color:var(--primary-color);
+    width: var(--button-width-lg);
+    background-color: var(--primary-color);
     border: none;
-    border-radius:var(--border-radius-buttons);    
+    border-radius: var(--border-radius-buttons);    
     cursor: pointer;
-    color: white;
-    font-weight: var(--font-medium-weight);
-    font-size: var(--font-size-small);
-    padding: 0.4rem;
+    color: var(--background-white);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-sm);
 }
 
 .order_details_buttons button:hover, 
 .order_details_subcontainer button:hover, .orderInfo_container button:hover{
-    background-color: var(--hover-primary-color);
+    background-color: var(--primary-transparent);
     color: var(--text-hover-color)
 }
 
 #buttonDisabled{
     cursor: not-allowed; 
-    background-color: #c9c7c7;
+    background-color: var(--background-gray-dark);
     color: var(--text-color);   
 }
 
 #buttonDisabled:hover{
     cursor: not-allowed; 
-    background-color: #c9c7c7;
+    background-color: var(--background-gray-dark);
     color: var(--text-color);   
 }
 
@@ -46,15 +46,15 @@
 .orderInfo_container, .order_details_subcontainer, .orderInfo_subcontainer, .ordered_items_container, .ordered_items{
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    border: 0.85px solid #0068a09f;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+    gap: var(--spacing-sm);
+    border: var(--border-primary);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-sm);
 }
 
 .orderInfo_container, .ordered_items_container, .ordered_items{
-    border:none;
-    gap: 0.5rem;
+    border: none;
+    gap: var(--spacing-sm);
 }
 
 .ordered_items_container, .ordered_items{
@@ -62,8 +62,8 @@
 }
 
 .orderInfo_subcontainer p{
-    font-size: 0.875rem; 
-    color: #2b2a2a;    
+    font-size: var(--font-size-base); 
+    color: var(--text-light);    
 }
 
 .notUserOrdersMessage{
@@ -72,8 +72,8 @@
 
 @media screen and (max-width: 468px) {
     .orderInfo_subcontainer h3{
-        font-size: 1rem;    
+        font-size: var(--font-size-base);    
     }   
-  }
+}
 
 
