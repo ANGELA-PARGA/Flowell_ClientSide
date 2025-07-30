@@ -6,59 +6,15 @@
 .order_details_subcontainer span{
     font-weight: var(--font-weight-medium);    
 }
-
-.order_details_buttons{
-    display: flex;
-    gap: var(--spacing-base);
-}
-
-.order_details_buttons button, .order_details_subcontainer button, .orderInfo_container button{
-    width: var(--button-width-lg);
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius-buttons);    
-    cursor: pointer;
-    color: var(--background-white);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
-    padding: var(--spacing-sm);
-}
-
-.order_details_buttons button:hover, 
-.order_details_subcontainer button:hover, .orderInfo_container button:hover{
-    background-color: var(--primary-transparent);
-    color: var(--text-hover-color)
-}
-
-#buttonDisabled{
-    cursor: not-allowed; 
-    background-color: var(--background-gray-dark);
-    color: var(--text-color);   
-}
-
-#buttonDisabled:hover{
-    cursor: not-allowed; 
-    background-color: var(--background-gray-dark);
-    color: var(--text-color);   
-}
-
 /*Order Info*/
-.orderInfo_container, .order_details_subcontainer, .orderInfo_subcontainer, .ordered_items_container, .ordered_items{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
+.order_details_subcontainer, .orderInfo_subcontainer{
     border: var(--border-primary);
     border-radius: var(--border-radius-sm);
     padding: var(--spacing-sm);
 }
 
 .orderInfo_container, .ordered_items_container, .ordered_items{
-    border: none;
-    gap: var(--spacing-sm);
-}
-
-.ordered_items_container, .ordered_items{
-    padding: 0;
+    padding: var(--spacing-sm);
 }
 
 .orderInfo_subcontainer p{

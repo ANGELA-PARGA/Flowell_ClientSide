@@ -19,7 +19,7 @@ const categoryData = [
 const Footer = () => {
     return (
         <section className={styles.footer_main_container}>
-            <div className={styles.footer_products}>
+            <div className={`${styles.footer_products} flex-col-gap`}>
                 <h3>Products</h3>
                 <ul>
                     {categoryData.map((category, index) => (
@@ -31,24 +31,24 @@ const Footer = () => {
                     ))}
                 </ul>
             </div>
-            <div className={styles.footer_contact}>
+            <div className={`${styles.footer_contact} flex-col-gap`}>
                 <h3>Contact</h3>
-                <ul >
+                <ul>
                     <li>Phone: <span>1-855-000-0707</span></li>
                     <li>Email: <span>customerservice@flowell.com.us</span></li>
                 </ul>
-                <div className={styles.social_icons}>
+                <div className={`${styles.social_icons} flex-row-gap`}>
                         <Link href={'https://www.instagram.com/'} aria-label="Go to instagram page"><InstagramIcon width={32} height={32} weight={1.5}/></Link> 
                         <Link href={'https://www.tiktok.com/'} aria-label="Go to tik tok page"><TiktokIcon width={32} height={32} weight={1.5}/></Link>
                         <Link href={'https://x.com/X'} aria-label="Go to x page"><XIcon width={32} height={32} weight={1.5}/></Link>
                 </div>                
-                <div  className={styles.logo_icon}>
+                <div  className={`${styles.logo_icon} flex-row-gap-xs`}>
                     <LeafIcon width={48} height={48} weight={1.5}/> 
                     <p>Flowell</p>
                 </div>
                 
             </div>
-            <div className={styles.footer_resources}>
+            <div className={`${styles.footer_resources} flex-col-gap`}>
                 <h3>Resources</h3>
                 <ul className={styles}>
                     <li className={styles}>

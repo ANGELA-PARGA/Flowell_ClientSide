@@ -19,22 +19,22 @@ export default async function OrderInfo({id}) {
     const order = data.orders[0];
 
     return (
-        <section className={styles.orderInfo_container}>
-            <div className={styles.orderInfo_subcontainer}>
+        <section className={`${styles.orderInfo_container} flex-col-gap-sm`}>
+            <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
                 <h3>Order #{order.id}</h3>
                 <p>Created: {format(parseISO(order.created_at), 'EE, MMMM d yyyy')}</p>
                 <p>Status: {order.status}</p>
             </div>
-            <div className={styles.orderInfo_subcontainer}>
+            <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
                 <h3>Delivery Date</h3>
                 <p>Delivery date: {format(parseISO(order.delivery_date), 'EE, MMMM d yyyy')}</p>
                 {
                     order.status !== 'PAID' ?
-                    <button type='button' disabled id={styles.buttonDisabled}>Edit</button>: 
+                    <button type='button' className='btn_primary_standard btn_sizeM disabled-state'>Edit</button>: 
                     <MyModalUpdateOrder id={order.id} resourceType={'date'}/>                          
                 }           
             </div>
-            <div className={styles.orderInfo_subcontainer}>
+            <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
                 <h3>Items</h3>
                 <ul className={styles.ordered_items_container}>
                     {order.items.map((item)=>{            
@@ -52,7 +52,7 @@ export default async function OrderInfo({id}) {
                 <h3>Total: ${order.total.toFixed(2)}</h3>
                 <br />
             </div>
-            <div className={styles.orderInfo_subcontainer}>
+            <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
                 <h3>Shipping Information</h3>
                 <p>{order.shipping_info.address}</p>
                 <p>{order.shipping_info.city}</p>
@@ -61,7 +61,7 @@ export default async function OrderInfo({id}) {
                 <p>Phone: {order.shipping_info.phone}</p>
                 {
                     order.status !== 'PAID' ?
-                    <button disabled id={styles.buttonDisabled}>Edit</button>:
+                    <button className='btn_primary_standard btn_sizeM disabled-state'>Edit</button>:
                     <MyModalUpdateOrder data={order} resourceType={'address'}/>
                 }
                 

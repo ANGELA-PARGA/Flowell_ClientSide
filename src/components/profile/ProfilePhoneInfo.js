@@ -9,13 +9,13 @@ export default function ProfilePhoneInfo({userData}) {
     return (
         <>
         <section className={styles.profile_info_container}>
-            <div className={styles.profile_info_subcontainer}>
+            <div className='flex-col-gap'>
                 <h3>Phone numbers</h3>
                 <div>
                     {userData && userData.length > 0 ? (
                     <ul className={styles.subcontainer_info_details}>
                         {userData.map((phone) => (
-                        <li key={phone.phoneID} className={styles.profile_info_details_container}>
+                        <li key={phone.phoneID} className={`${styles.profile_info_details_container} flex-col-gap`}>
                             <p>{phone.phone}</p>
                             <div className={styles.profile_info_edition_buttons}>
                                 <MyModalEdit resourceId={phone.phoneID} resourceType={'contact_inf'} resource={phone}/>

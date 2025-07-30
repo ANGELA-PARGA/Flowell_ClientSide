@@ -11,13 +11,10 @@
 }
 
 .footer_products, .footer_contact, .footer_resources{
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
     line-height: var(--line-height-normal);
     font-size: var(--font-size-md);
-    color: var(--text-link);
-    gap: var(--spacing-base);
+    color: var(--text-link);    
 }
 
 .footer_products a:hover, .footer_contact a:hover, .footer_resources a:hover{
@@ -25,8 +22,6 @@
 }
 
 .social_icons,.logo_icon{
-    display: flex;
-    gap: var(--spacing-base);
     align-items: center;
 }
 
@@ -52,6 +47,6 @@
     }
 
     .footer_products, .footer_contact, .footer_resources{
-        line-height: var(--line-height-tight);
+        line-height: var(--line-height-normal);
     }
 }

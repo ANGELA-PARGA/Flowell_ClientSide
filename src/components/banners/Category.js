@@ -76,7 +76,7 @@ export default function Category() {
     const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
 
 return (
-    <section className={styles.categories_container}>
+    <section className={`${styles.categories_container} flex-col-gap-plus`}>
         <div className={styles.banner_container}>
             <div className={styles.embla}>
                 <div className={styles.embla_viewport} ref={emblaRef}>

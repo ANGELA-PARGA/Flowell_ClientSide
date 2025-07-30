@@ -21,7 +21,7 @@ const ButtonCancelOrder = ({id, handleClose}) => {
     }
 
     return (
-        <button className={styles.delete_button} type='button' onClick={(e) => handleOnClick(e)}>Cancel Order</button>
+        <button className={`${styles.delete_button} btn_primary_standard btn_sizeS btn-destructive`} type='button' onClick={(e) => handleOnClick(e)}>Cancel Order</button>
     )
 }
 

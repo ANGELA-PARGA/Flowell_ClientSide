@@ -51,10 +51,10 @@ export default function LoginForm() {
     };
 
     return (    
-        <main className={styles.login_main_container}>
-            <div className={styles.login_form_container}>
+        <main className={`${styles.login_main_container} flex-col-gap-xl`}>
+            <div className={`${styles.login_form_container} flex-col-gap-xl`}>
                 <h2>Sign in to your account</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>          
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.login_form} flex-col-gap`}>          
                     <div>
                         <input {...register('email')} type="email" name="email" id="email" placeholder="Email*" onBlur={() => {
                             trigger('email'); 
@@ -73,14 +73,14 @@ export default function LoginForm() {
                             <p className={styles.error_login_form}>{errors.password?.message}</p>
                         </div>
                     </div>
-                    <button type="submit" disabled={isSubmitting} className={styles.login_submit_button}>Log in</button>
+                    <button type="submit" disabled={isSubmitting} className="btn_primary_standard btn_sizeXl">Log in</button>
                 </form> 
                 <MyModalRecoverPassword />
             </div>
             <div>
                 <p className={styles.error_login_form}>{loginError}</p>
             </div>
-            <section className={styles.signup_inside_login_container}>
+            <section className={`${styles.signup_inside_login_container} flex-col-gap-xl`}>
                 <h2>Not registered yet?</h2>
                 <Link href={"/register"}>Become a member</Link>
             </section>

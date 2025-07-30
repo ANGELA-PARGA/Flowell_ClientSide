@@ -80,9 +80,9 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
     };
 
     return (
-        <div className={styles.update_info_container}>
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
-                <div className={styles.update_form_input_container}>
+        <div className={`${styles.update_info_container} flex-col-gap-sm`}>
+            <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>          
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('address')} type="text" name="address" id="address" onBlur={() => {
                         trigger('address'); 
                     }} />
@@ -91,7 +91,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                         <p className={styles.error_updating_info}>{errors.address?.message}</p>
                     </div>
                 </div>
-                <div className={styles.update_form_input_container}>
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('city')} type="text" name="city" id="city" onBlur={() => {
                         trigger('city');
                     }} />
@@ -100,7 +100,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                         <p className={styles.error_updating_info}>{errors.city?.message}</p>
                     </div>
                 </div>
-                <div className={styles.update_form_input_container}>
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('state')} type="text" name="state" id="state" onBlur={() => {
                         trigger('state'); 
                     }} />
@@ -109,7 +109,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                         <p className={styles.error_updating_info}>{errors.state?.message}</p>
                     </div>
                 </div>
-                <div className={styles.update_form_input_container}>
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" onBlur={() => {
                         trigger('zip_code'); 
                     }} />
@@ -118,7 +118,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                         <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
                     </div>
                 </div>
-                <div className={styles.update_form_input_container}>
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('phone')} type="text" name="phone" id="phone" onBlur={() => {
                         trigger('phone'); 
                     }} onChange={handlePhoneChange} />
@@ -127,9 +127,9 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                         <p className={styles.error_updating_info}>{errors.phone?.message}</p>
                     </div>
                 </div>
-                <div className={styles.buttons_profile_container}>
-                    <button type="submit" className={styles.pay_button} disabled={isSubmitting}>Update</button>
-                    <button type='button' className={styles.cancel_update_button} onClick={(e) => handleOnCancel(e)}>Cancel</button>
+                <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                    <button type="submit" className="btn_primary_standard btn_sizeS alignCenter" disabled={isSubmitting}>Update</button>
+                    <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={(e) => handleOnCancel(e)}>Cancel</button>
                 </div>
                 <div>
                     <p className={styles.error_updating_info}>{updateError}</p>

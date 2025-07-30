@@ -22,7 +22,7 @@ export default async function Checkout() {
     }
 
   return (
-    <section className={styles.cartContainer}>
+    <section className={`${styles.cartContainer} flex-col-gap`}>
       <h2>Checkout</h2>
         <Suspense fallback={<LoadingCheckout/>}>
           <CheckoutDashboard data={data.user}/> 

@@ -20,7 +20,7 @@ export default async function Orders() {
   }
 
   return (
-    <section className={styles.orders_container}>
+    <section className='flex-col-gap'>
       <h3>My Orders</h3>
       {orders.orders.length > 0 ? (
         <ul className={styles.ordersListContainer}>

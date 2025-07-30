@@ -31,13 +31,13 @@ export default async function CategoryProducts(props) {
   return (
     <Suspense fallback={<LoadingAllProducts/>}>
     { data.products_by_category.length === 0 ?
-        <section className={styles.main_container}>
+        <section className={`${styles.main_container} flex-col-gap`}>
           <h2>Found: <span>0 Results</span></h2>
           <AddColorFilter/>
           <h3>Products not found, clear some filters and try again</h3>
         </section> 
         : 
-        <section className={styles.main_container}>
+        <section className={`${styles.main_container} flex-col-gap`}>
           <h2>All {data.products_by_category[0].category_name} <span>{totalProducts} Results</span></h2>
           <AddColorFilter/>
           <section className={styles.products_main_container}>         
@@ -45,7 +45,7 @@ export default async function CategoryProducts(props) {
               <ProductCard key={product.id} data={product} />              
             ))}         
           </section>  
-          <div className={styles.paginationContainer}>
+          <div className='pagination-container'>
               {Array.from({ length: pages }, (_, index) => (
                   <PaginationButton key={index + 1} number={index + 1} />
               ))}                    

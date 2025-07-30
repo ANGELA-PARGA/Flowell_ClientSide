@@ -15,7 +15,7 @@ const MyModalUpdateOrder = ({data, id, resourceType}) => {
 
     return (
         <div>
-            <button className={styles.modalEditButton} onClick={openModal}>Edit</button>
+            <button className='btn_primary_standard btn_sizeS' onClick={openModal}>Edit</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

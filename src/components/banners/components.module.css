@@ -26,20 +26,6 @@
     flex: 0 0 100%;
 }
 
-.banner_text_image{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-color);
-    padding-left: var(--spacing-xl);
-    gap: var(--spacing-xl);
-}
-
-.banner_text_image h2{
-    font-size: var(--font-size-5xl);
-}
-
 .banner_logo{
     display: flex;
     flex-direction: column;
@@ -59,7 +45,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: var(--spacing-base);
 }
 
 .emblaDot {
@@ -113,9 +98,6 @@
 .categories_container{
     width: var(--container-width-lg);
     margin: var(--spacing-xl) auto;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-plus);
 }
 
 .embla_container_categories{
@@ -162,10 +144,7 @@
 
 /*banner informative*/
 
-.banner_informative_container, .banner_info{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-base);
+.banner_informative_container{
     align-items: center;
 }
 
@@ -178,6 +157,7 @@
 }
 
 .banner_info{
+    align-items: center;
     padding: var(--spacing-base);
     border: var(--border-light-gray);
     border-radius: var(--border-radius-md);

@@ -50,9 +50,9 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
 
     return (
         <main className={styles.edit_profile_main_container}>
-            <div className={styles.update_info_container}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>
-                    <div className={styles.update_form_input_container}>
+            <div className={`${styles.update_info_container} flex-col-gap-sm`}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('address')}
                             type="text"
@@ -68,7 +68,7 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
                             <p className={styles.error_updating_info}>{errors.address?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('city')}
                             type="text"
@@ -84,7 +84,7 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
                             <p className={styles.error_updating_info}>{errors.city?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('state')}
                             type="text"
@@ -100,7 +100,7 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
                             <p className={styles.error_updating_info}>{errors.state?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('zip_code')}
                             type="text"
@@ -116,11 +116,11 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
                             <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>
+                    <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                        <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>
                             Update
                         </button>
-                        <button type="button" onClick={(e) => onCancel(e)} className={styles.cancel_update_button}>
+                        <button type="button" onClick={(e) => onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">
                             Cancel
                         </button>
                     </div>

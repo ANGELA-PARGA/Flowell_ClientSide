@@ -9,13 +9,13 @@ export default async function ProfileAddressInfo({userData}) {
     return (
         <>
         <section className={styles.profile_info_container}>
-            <div className={styles.profile_info_subcontainer}>
+            <div className='flex-col-gap'>
                 <h3>Addresses</h3>
-                <div className={styles.profile_addresses_subcontainer}>
+                <div className='flex-col-gap'>
                     {userData && userData.length > 0 ? (                        
                     <ul className={styles.subcontainer_info_details}>
                         {userData.map((address) => (
-                        <li key={address.addressID} className={styles.profile_info_details_container}>
+                        <li key={address.addressID} className={`${styles.profile_info_details_container} flex-col-gap`}>
                             <div >
                                 <p>{address.address}</p>
                                 <p>{address.city}</p>

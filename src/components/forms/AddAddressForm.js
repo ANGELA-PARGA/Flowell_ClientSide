@@ -51,10 +51,10 @@ export default function AddAddressForm({resourceType, handleClose}) {
 
     return (    
         <section className={styles.edit_profile_main_container}>
-            <div className={styles.update_info_container}>
+            <div className={`${styles.update_info_container} flex-col-gap-sm`}>
                 <h2>Add new address information</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
-                    <div className={styles.update_form_input_container}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>          
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input {...register('address')} type="text" name="address" id="address" placeholder='address' onBlur={() => {
                             trigger('address'); 
                         }} />
@@ -63,7 +63,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
                             <p className={styles.error_updating_info}>{errors.address?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input {...register('city')} type="text" name="city" id="city" placeholder='city' onBlur={() => {
                             trigger('city');
                         }} />
@@ -72,7 +72,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
                             <p className={styles.error_updating_info}>{errors.city?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input {...register('state')} type="text" name="state" id="state" placeholder='state' onBlur={() => {
                             trigger('state'); 
                         }} />
@@ -81,7 +81,7 @@ export default function AddAddressForm({resourceType, handleClose}) {
                             <p className={styles.error_updating_info}>{errors.state?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input {...register('zip_code')} type="text" name="zip_code" id="zip_code" placeholder='zip code' onBlur={() => {
                             trigger('zip_code'); 
                         }} />
@@ -90,9 +90,9 @@ export default function AddAddressForm({resourceType, handleClose}) {
                             <p className={styles.error_updating_info}>{errors.zip_code?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
-                        <button type="button" onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>
+                    <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                        <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>Add</button>
+                        <button type="button" onClick={(e)=> onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">Cancel</button>
                     </div>
                 </form>                        
             </div>

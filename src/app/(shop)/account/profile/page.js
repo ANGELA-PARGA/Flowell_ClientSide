@@ -24,7 +24,7 @@ export default async function Profile() {
     
     
     return (
-        <section className={styles.profile_main_container} >
+        <section className='flex-col-gap'>
             <ProfilePersonalInfo userData={data.user}/>
             <ProfileAddressInfo userData={data.user.addresses}/>
             <ProfilePhoneInfo userData={data.user.phones}/> 

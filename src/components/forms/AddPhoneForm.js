@@ -70,10 +70,10 @@ export default function AddPhoneForm({resourceType, handleClose}) {
 
     return (    
         <section className={styles.edit_profile_main_container}>
-            <div className={styles.update_info_container}>
+            <div className={`${styles.update_info_container} flex-col-gap-sm`}>
             <h2>Add new contact information</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>          
-                <div className={styles.update_form_input_container}>
+            <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>          
+                <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                     <input {...register('phone')} type="text" name="phone" id="phone" placeholder='(000) 000-0000' onBlur={() => {
                         trigger('phone'); 
                     }} onChange={handlePhoneChange}/>
@@ -82,9 +82,9 @@ export default function AddPhoneForm({resourceType, handleClose}) {
                         <p className={styles.error_updating_info}>{errors.phone?.message}</p>
                     </div>
                 </div>
-                <div className={styles.buttons_profile_container}>
-                    <button type="submit" className={styles.update_button} disabled={isSubmitting}>Add</button>
-                    <button onClick={(e)=> onCancel(e)} className={styles.cancel_update_button}>Cancel</button>  
+                <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                    <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>Add</button>
+                    <button onClick={(e)=> onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">Cancel</button>  
                 </div>
             </form>
             </div>

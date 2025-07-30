@@ -14,7 +14,7 @@ const MyModalDelete = ({type, resourceId, resourceType}) => {
 
     return (
         <div>
-            <button className={styles.modalDeleteButton} onClick={openModal}>Delete</button>
+            <button className='btn_primary_standard btn_sizeS btn-destructive' onClick={openModal}>Delete</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -24,9 +24,9 @@ const MyModalDelete = ({type, resourceId, resourceType}) => {
                 className={styles.content}                                          
             >
                 <h2>Are you sure you want to delete this information?</h2>
-                <div className={styles.modalButtons}>
+                <div className='flex-row-gap'>
                     <ButtonDelete type={type} resourceId={resourceId} resourceType={resourceType} handleClose={()=> closeModal()}/>
-                    <button className={styles.cancelModalButton} onClick={closeModal}>Cancel</button>
+                    <button className='btn_primary_standard btn_sizeS' onClick={closeModal}>Cancel</button>
                 </div>
             </Modal>            
         </div>

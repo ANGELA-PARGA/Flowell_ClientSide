@@ -125,16 +125,16 @@ export const SearchForm = ({handleClose}) => {
             />
             
         {notFound !== null && (
-            <div className={styles.search_dropdown_menu} ref={dropdownRef}>
+            <div className={`${styles.search_dropdown_menu} flex-col-gap`} ref={dropdownRef}>
                 <p>No results</p>
             </div>
         )}
         {results?.length > 0 && 
-            <div className={styles.search_dropdown_menu} ref={dropdownRef}>
+            <div className={`${styles.search_dropdown_menu} flex-col-gap`} ref={dropdownRef}>
                 <h4>Best results</h4>
                 <ul className={styles.search}>                
                 {results.slice(0, 6).map((item) => (
-                    <li key={item.id} className={styles.searchResults} onClick={() => {
+                    <li key={item.id} className={`${styles.searchResults} flex-row-gap`} onClick={() => {
                         setResults([]);
                         setNotFound(null);
                         handleClose();

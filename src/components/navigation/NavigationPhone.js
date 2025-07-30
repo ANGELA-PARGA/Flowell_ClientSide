@@ -68,7 +68,7 @@ const NavigationPhone = () => {
             </div>
             <ul className={styles.navbar_options}>
                 <li className={`${styles.nav_item} ${styles.nav_item_mobile}`}>
-                    <div className={styles.menu_button} onClick={(e) => handleClickToggle('menu', e)} ref={el => menuButtonsRef.current[0] = el}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={(e) => handleClickToggle('menu', e)} ref={el => menuButtonsRef.current[0] = el}>
                     {showingMenu === 'menu' ? <CloseIcon width={22} height={22} weight={2} /> : <MenuIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'menu' && (
@@ -80,7 +80,7 @@ const NavigationPhone = () => {
                     )}                                        
                 </li>
                 <li className={`${styles.nav_item} ${styles.nav_item_mobile}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('sign_in')} ref={el => menuButtonsRef.current[1] = el}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('sign_in')} ref={el => menuButtonsRef.current[1] = el}>
                         {showingMenu === 'sign_in' ? <CloseIcon width={22} height={22} weight={2} /> : <UserIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'sign_in' && (
@@ -92,7 +92,7 @@ const NavigationPhone = () => {
                     )}
                 </li>
                 <li className={`${styles.nav_item} ${styles.nav_item_mobile}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('cart')} ref={el => menuButtonsRef.current[2] = el}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('cart')} ref={el => menuButtonsRef.current[2] = el}>
                         {showingMenu === 'cart' ? <CloseIcon width={22} height={22} weight={2} /> : <CartIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'cart' && (
@@ -104,11 +104,11 @@ const NavigationPhone = () => {
                     )}
                 </li>
                 <li className={`${styles.nav_item} ${styles.nav_item_mobile}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('search')} ref={el => menuButtonsRef.current[3] = el}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('search')} ref={el => menuButtonsRef.current[3] = el}>
                         {showingMenu === 'search' ? <CloseIcon width={22} height={22} weight={2} /> : <SearchIconNavBar width={22} height={22} weight={2} />}
                     </div>
                     {showingMenu === 'search' && (
-                        <div className={styles.search_dropdown_menu} ref={menuRef} >
+                        <div className={`${styles.search_dropdown_menu} flex-col-gap`} ref={menuRef} >
                             <Suspense fallback={<div></div>}>
                                 <SearchForm handleClose={handleClose}/>
                             </Suspense>

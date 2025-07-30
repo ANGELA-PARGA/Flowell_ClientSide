@@ -58,7 +58,7 @@ const Navigation = () => {
             </div>
             <ul className={styles.navbar_options}>
                 <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('products')} >
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('products')} >
                         <span>Products</span>
                     </div>
                     {showingMenu === 'products' && (
@@ -70,7 +70,7 @@ const Navigation = () => {
                     )}
                 </li>
                 <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('services')}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('services')}>
                         <span>Flowell</span>
                     </div>
                     {showingMenu === 'services' && (
@@ -92,7 +92,7 @@ const Navigation = () => {
             </div>                       
             <ul className={styles.navbar_options}>
                 <li className={`${styles.nav_item} ${styles.nav_item_desktop}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('sign_in')}>
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('sign_in')}>
                         <div className={styles.auth_button_account}>
                             <UserIconNavBar width={22} height={22} weight={2} />
                             <span>Account</span>
@@ -107,7 +107,7 @@ const Navigation = () => {
                     )}
                 </li>
                 <li className={`${styles.nav_item} ${styles.nav_item_desktop} ${styles.cart_button_container}`}>
-                    <div className={styles.menu_button} onClick={() => handleClickToggle('cart')}> 
+                    <div className={`${styles.menu_button} flex-row-gap-sm`} onClick={() => handleClickToggle('cart')}> 
                         <div className={styles.auth_button_cart}>
                             {showingMenu === 'cart' ? <CloseIcon width={28} height={28} weight={2} /> : <CartItems/>}  
                         </div>

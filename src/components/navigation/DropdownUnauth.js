@@ -5,14 +5,14 @@ const DropdownUnauth = ({linkActive, handleClose}) => {
 
     if(linkActive === 'sign_in'){
         return (
-            <div className={styles.dropdown_menu_unauthenticated}>
-                <div className={styles.unauthenticated_options}>
+            <div className={`${styles.dropdown_menu_unauthenticated} flex-col-gap-xl`}>
+                <div className={`${styles.unauthenticated_options} flex-col-gap-xl`}>
                     <p>Access to your account and orders</p>
                     <div>
-                        <Link href='/login' onClick={()=> handleClose()}><button className={styles.btn_signin}>Log In</button></Link>
+                        <Link href='/login' onClick={()=> handleClose()}><button className='btn_primary_standard btn_sizeS'>Log In</button></Link>
                     </div>
                 </div>                  
-                <div className={styles.unauthenticated_options}>
+                <div className={`${styles.unauthenticated_options} flex-col-gap-xl`}>
                     <p>Not a member yet?</p>
                     <ul>
                         <li className={styles.unauthenticated_options_list}>
@@ -26,11 +26,11 @@ const DropdownUnauth = ({linkActive, handleClose}) => {
 
     if(linkActive === 'cart'){
         return (
-            <div className={styles.dropdown_menu_unauthenticated}>
+            <div className={`${styles.dropdown_menu_unauthenticated} flex-col-gap-xl`}>
                 <div className={styles.unauthenticated_options}>
                     <p>Access to your account and cart</p>
                     <div>
-                        <Link href='/login' onClick={()=> handleClose()}><button className={styles.btn_signin}>Sign In</button></Link>
+                        <Link href='/login' onClick={()=> handleClose()}><button className='btn_primary_standard btn_sizeS'>Sign In</button></Link>
                     </div>
                 </div>   
             </div>

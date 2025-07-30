@@ -30,7 +30,7 @@ export default function Cart() {
 
   
   return (
-    <section className={styles.cartContainer}>
+    <section className={`${styles.cartContainer} flex-col-gap`}>
       <h3>Cart</h3>
       {!cartData?.total ? (
         <h4>There aren't products in your cart, go ahead and purchase some flowers!</h4>
@@ -42,7 +42,7 @@ export default function Cart() {
         ))}
         </Suspense>
         <h3>Total: ${cartData.total.toFixed(2)}</h3>
-        <Link href={'/checkout'}><button className={styles.place_order_button}>Place Order</button></Link>
+        <Link href={'/checkout'}><button className='btn_primary_standard btn_sizeM'>Place Order</button></Link>
         </>
       )}
     </section>

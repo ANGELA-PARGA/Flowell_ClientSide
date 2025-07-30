@@ -25,12 +25,9 @@ export const AddAllFilters = () => {
     <>
       <div className={styles.filter_sort_buttons_container}>
         <div className={styles.filter_sort_buttons_container}>
-          <button className={styles.button_sort_and_filter} onClick={() => handleOpenFilters('color')}>color</button>
-          <button className={styles.button_sort_and_filter} onClick={() => handleOpenFilters('category')}>category</button>
+          <button className='btn-sort-filter' onClick={() => handleOpenFilters('color')}>color</button>
+          <button className='btn-sort-filter' onClick={() => handleOpenFilters('category')}>category</button>
         </div>
-        <button className={styles.button_sort_and_filter}>Sort by  
-          <ChevronDown width={16} height={16} weight={3}/>
-        </button>
       </div>
       { openFilters && 
         <Suspense fallback={<div></div>}>
@@ -60,11 +57,8 @@ export const AddColorFilter = () => {
     <>
       <div className={styles.filter_sort_buttons_container}>
         <div className={styles.filter_sort_buttons_container}>
-          <button className={styles.button_sort_and_filter} onClick={() => handleOpenFilters('color')}>color</button>
+          <button className='btn-sort-filter' onClick={() => handleOpenFilters('color')}>color</button>
         </div>
-        <button className={styles.button_sort_and_filter}>Sort by  
-          <ChevronDown width={16} height={16} weight={3}/>
-        </button>
       </div>
       { openFilters && 
         <Suspense fallback={<div>Loading...</div>}>

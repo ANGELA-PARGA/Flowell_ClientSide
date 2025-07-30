@@ -13,22 +13,22 @@ const ProductInfo = async ({id}) => {
         :        
         <div className={styles.main_info_container}>            
             <ProductImages images={data.product_found.images_urls} />
-            <div className={styles.product_info_container}>
+            <div className='flex-col-gap-md'>
                 <div className={styles.product_title_container}>
                     <h1>{data.product_found.name}</h1>
                     <p id={styles.price_presentation}>${data.product_found.price_per_case.toFixed(2)}</p>
                     <br />
                     <p>{data.product_found.description}</p>
                 </div> 
-                <div className={styles.product_presentation_container}>
+                <div className={`${styles.product_presentation_container} flex-col-gap-sm`}>
                         <p>{data.product_found.measure_per_case} count: {data.product_found.qty_per_case}</p>
                         <p>Color variety: {data.product_found.color}</p>
                 </div>                                    
-                <div className={styles.product_charact_container}>
+                <div>
                     <h3>Characteristics</h3>
                     <p>Remember: color shades variations are present, flowers are product of mother nature</p>
                     <br />
-                    <ul>
+                    <ul className='flex-col-gap-sm'>
                         <li className={styles.details_container}>
                             <p>Stem length: {data.product_found.stem_length_cm} cm</p>
                         </li>

@@ -34,8 +34,8 @@ export default function AccountLayout({ children }) {
 
   return (
     <section className={styles.dashboard}>
-      <div className={styles.sidebar}>
-        <ul className={styles.sidebar_list_options}>
+      <div className={`${styles.sidebar} flex-col-gap-xl`}>
+        <ul className={`${styles.sidebar_list_options} flex-col-gap`}>
           {sidebarLinks.map((link, index) => (
               <li key={index} className={clsx({[styles.active]: pathname === link.href})}>
                 <Link href={link.href} prefetch={true}>

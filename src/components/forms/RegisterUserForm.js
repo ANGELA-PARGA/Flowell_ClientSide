@@ -56,11 +56,11 @@ export default function RegisterUserForm() {
 
 
     return (
-        <main className={styles.signup_main_container}>
+        <main className={`${styles.signup_main_container} flex-col-gap-xl`}>
             <div className={styles.signup_form_container}>
                 <h2>Become a Flowell Member</h2>
                 <br />
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.signup_form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.signup_form} flex-col-gap`}>
                     <div>
                         <input {...register('first_name')} type="text" name="first_name" id="first_name" placeholder="First Name*" onBlur={() => {
                             trigger('first_name'); 
@@ -106,13 +106,13 @@ export default function RegisterUserForm() {
                             <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
                         </div>
                     </div>
-                    <button type="submit" disabled={isSubmitting} className={styles.signup_submit_button}>Sign up</button>
+                    <button type="submit" disabled={isSubmitting} className="btn_primary_standard btn_sizeXl">Sign up</button>
                 </form>        
             </div>
             <div>
                 <p className={styles.error_login_form}>{loginError}</p>
             </div>
-            <section className={styles.login_inside_signup_container}>
+            <section className={`${styles.login_inside_signup_container} flex-col-gap-xl`}>
                 <h2>Already registered?</h2>
                 <Link href={"/login"}>Sign in</Link>
             </section>

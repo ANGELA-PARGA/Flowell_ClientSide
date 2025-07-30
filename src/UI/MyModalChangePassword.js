@@ -20,7 +20,7 @@ const MyModalChangePassword = () => {
 
     return (                   
         <div>
-            <button className={styles.modalEditButton} onClick={openModal}>Change password</button>
+            <button className={`${styles.change_password_button} btn_primary_standard btn_sizeS`} onClick={openModal}>Change password</button>
             <Modal
                 isOpen={modalIsOpen}            
                 onRequestClose={closeModal}

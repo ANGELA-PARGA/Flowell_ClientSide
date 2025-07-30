@@ -20,7 +20,7 @@ const ButtonDelete = ({type, resourceId, resourceType, handleClose}) => {
     }
 
     return (
-        <button className={styles.delete_button} onClick={(e) => handleOnClick(e)}>Delete {type}</button>
+        <button className={`${styles.delete_button} btn_primary_standard btn_sizeS btn-destructive`} onClick={(e) => handleOnClick(e)}>Delete {type}</button>
     )
 }
 

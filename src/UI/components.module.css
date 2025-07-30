@@ -12,24 +12,6 @@
     100% { transform: rotate(360deg); }
   }
 
-  .paginationButton{
-    margin: var(--spacing-xs);
-    width: var(--button-size-square);
-    height: var(--button-size-square);
-    border: none;
-    border-radius: var(--border-radius-full);
-    cursor: pointer;
-    background-color: var(--primary-color);
-    color: var(--background-white);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);  
-  }
-
-.paginationButton:hover{
-    background-color: var(--primary-transparent);
-    color: var(--text-hover-color);
-}
-
 .overlay {
   position: fixed;
   top: 0;
@@ -58,46 +40,12 @@
   z-index: var(--z-index-modal);
 }
 
-.modalEditButton, .modalDeleteButton, .cancelModalButton, .delete_button, .button_sign_in_modal{
-  width: var(--button-width-md);
-  border: none;
-  border-radius: var(--border-radius-md);    
-  cursor: pointer;
-  color: var(--background-white);
-  font-weight: var(--font-weight-medium);
-  transition: var(--transition-base);
-  padding: var(--spacing-sm);
-  font-size: var(--font-size-xs);
-}
-
 .button_sign_in_modal{
   pointer-events: auto;
 }
 
-.delete_button{
+.delete_button, .change_password_button{
   width: fit-content;
-}
-
-.modalDeleteButton, .delete_button{
-  background-color: var(--cancel-color);
-}
-.modalEditButton, .cancelModalButton, .button_sign_in_modal{
-  background-color: var(--primary-color);
-}
-
-.modalEditButton:hover, .cancelModalButton:hover, .button_sign_in_modal:hover{
-  background-color: var(--primary-transparent);
-  color: var(--text-hover-color)
-}
-
-.modalDeleteButton:hover, .delete_button:hover{
-  background-color: var(--cancel-hover-color);
-  color: var(--cancel-text-hover-color)
-}
-
-.modalButtons{
-  display: flex;
-  gap: var(--spacing-base);
 }
 
 .recover_modalText{
@@ -111,8 +59,6 @@
   width: var(--container-width-full);
   height: var(--container-height-lg);
   margin: 0 auto;
-  display: flex;
-  gap: var(--spacing-base);  
 }
 
 .skeletonProductsListContainer{

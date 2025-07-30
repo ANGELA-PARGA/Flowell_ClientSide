@@ -11,7 +11,7 @@ const MenuAuthCart = ({handleClose}) => {
 
     return (
         cartData.total ? 
-                <div className={`${styles.dropdown_menu_authenticated} ${styles.dropdown_menu_authenticated_cart}`}>                
+                <div className={`${styles.dropdown_menu_authenticated} flex-col-gap-xl ${styles.dropdown_menu_authenticated_cart}`}>                
             {
                 <>                    
                 {cartData.items.map((item) => (
@@ -19,16 +19,16 @@ const MenuAuthCart = ({handleClose}) => {
                 ))}                    
                 <h3 className={styles.dropdown_total_cart}>Total: ${cartData.total.toFixed(2)}</h3>
                 <div>
-                    <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.btn_signin}>View</button></Link>
+                    <Link href='/account/cart' onClick={()=> handleClose()}><button className='btn_primary_standard btn_sizeS'>View</button></Link>
                 </div>
                 </>
             }
             </div> :
-            <div className={styles.dropdown_menu_unauthenticated}>
+            <div className={`${styles.dropdown_menu_unauthenticated} flex-col-gap-xl`}>
                 <div className={styles.unauthenticated_options}>
                     <p>Your cart is empty</p>
                     <div>
-                        <Link href='/account/cart' onClick={()=> handleClose()}><button className={styles.btn_signin}>View cart</button></Link>
+                        <Link href='/account/cart' onClick={()=> handleClose()}><button className='btn_primary_standard btn_sizeS'>View cart</button></Link>
                     </div>
                 </div>   
             </div>

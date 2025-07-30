@@ -73,14 +73,14 @@ const CheckoutForm = ({data}) => {
     };
 
     return (
-        <form className={styles.checkoutForm} onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.checkoutInfo}>
-                <div className={styles.checkoutBoxes}>
+        <form className={`${styles.checkoutForm} flex-col-gap`} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`${styles.checkoutInfo} flex-col-gap`}>
+                <div className={`${styles.checkoutBoxes} flex-col-gap`}>
                     <h4>Personal Information</h4>
                     <p>{data.first_name} {data.last_name}</p>
                     <p>{data.email}</p>
                 </div>
-                <div className={styles.checkoutBoxes}>
+                <div className={`${styles.checkoutBoxes} flex-col-gap`}>
                     <h4>Select Contact Phone Number</h4>
                     <p>Select one of your phone numbers. If the phone number has a mistypo go to 'Profile Information' and change it</p>
                     {data.phones?.map((phone, index) => (
@@ -95,7 +95,7 @@ const CheckoutForm = ({data}) => {
                     ))}
                     {errors.phone && <p className={styles.error_updating_info}>{errors.phone.message}</p>}
                 </div>
-                <div className={styles.checkoutBoxes}>
+                <div className={`${styles.checkoutBoxes} flex-col-gap`}>
                     <h4>Select Shipping Address</h4>
                     <p>Select one of your addresses. If the address has a mistypo go to 'Profile Information' and change it</p>
                     {data.addresses?.map((address, index) => (
@@ -117,7 +117,7 @@ const CheckoutForm = ({data}) => {
                 <input type="hidden" {...register('state')} />
                 <input type="hidden" {...register('zip_code')} />
 
-                <div className={styles.checkoutBoxes}>
+                <div className={`${styles.checkoutBoxes} flex-col-gap`}>
                     <h4>Select Shipping Date</h4>
                     <ReactDatePicker
                         showIcon
@@ -136,7 +136,7 @@ const CheckoutForm = ({data}) => {
                     {errors.delivery_date && <p className={styles.error_updating_info}>{errors.delivery_date.message}</p>}
                 </div>
             </div>            
-            <button type='submit' disabled={isSubmitting} className={styles.pay_button}>Pay</button>
+            <button type='submit' disabled={isSubmitting} className="btn_primary_standard btn_sizeS alignCenter">Pay</button>
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>
             </div>

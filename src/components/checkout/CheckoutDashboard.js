@@ -28,7 +28,7 @@ const CheckoutDashboard = ({data}) => {
         <div>
             <h4>There aren't products in your cart, go ahead and purchase some flowers!</h4>
             <br />
-            <Link href={'/account/cart'}><button className={styles.returnCart}>Cart</button></Link>
+            <Link href={'/account/cart'}><button className='btn_primary_standard btn_sizeM'>Cart</button></Link>
         </div>
 
         )
@@ -36,14 +36,14 @@ const CheckoutDashboard = ({data}) => {
 
     return (     
         <div className={styles.checkoutDashboard}>
-            <div className={styles.checkoutProducts}>
+            <div className={`${styles.checkoutProducts} flex-col-gap`}>
                 <div>
                 {cartData.items.map((item) => (
                     <ProductCheckoutInfo data={item} key={item.product_id} />          
                 ))}
                 </div>
                 <h3>Total: ${cartData.total.toFixed(2)}</h3>
-                <Link href={'/account/cart'}><button className={styles.place_order_button}>Return to Cart</button></Link>
+                <Link href={'/account/cart'}><button className='btn_primary_standard btn_sizeM'>Return to Cart</button></Link>
             </div>
             <div>
                 <CheckoutForm data={data}/>           

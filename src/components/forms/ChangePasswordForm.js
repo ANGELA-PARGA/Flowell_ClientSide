@@ -43,10 +43,10 @@ export default function ChangePasswordForm() {
 
 
     return (
-        <main className={styles.signup_main_container}>
+        <main className={`${styles.signup_main_container} flex-col-gap-xl`}>
             <div className={styles.signup_form_container}>
                 <h2>Change your password</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.signup_form}>         
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.signup_form} flex-col-gap`}>         
                     <div>
                         <input {...register('password')} type="password" name="password" id="password" placeholder="Password*" onBlur={() => {
                             trigger('password'); 
@@ -65,14 +65,14 @@ export default function ChangePasswordForm() {
                             <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
                         </div>
                     </div>
-                    { !change ? <button type="submit" disabled={isSubmitting} className={styles.signup_submit_button}>Submit changes</button> : <></>}
+                    { !change ? <button type="submit" disabled={isSubmitting} className="btn_primary_standard btn_sizeXl">Submit changes</button> : <></>}
                 </form>        
             </div>
             <div>
                 <p className={styles.error_login_form}>{loginError}</p>
             </div>
             {change && 
-                <section className={styles.signup_after_update_container}>
+                <section className='signup_after_update_container'>
                     <p className={styles.error_login_form}>Your password has been changed successfully. You will be redirected to login</p>
                 </section>
             }

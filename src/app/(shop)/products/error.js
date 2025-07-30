@@ -10,18 +10,18 @@ export default function Error({ error, reset }) {
     }, [error])
 
     return (
-        <div className={styles.error_container}>
+        <div className='error-container-standard'>
             <h2>Something went wrong!</h2>
             <p className={styles.error_updating_info}>{error.message}</p>
             <button
                 onClick={
                 () => reset()
                 }
-                className={styles.try_again_button}
+                className='btn_primary_standard btn_sizeM'
             >
                 Try again
             </button>
-            <Link href={'/'}><button className={styles.return_main_page_button}>Main Page</button></Link>
+            <Link href={'/'}><button className='btn_primary_standard btn_sizeM'>Main Page</button></Link>
         </div>
     )
 }

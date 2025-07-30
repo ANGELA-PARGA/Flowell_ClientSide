@@ -34,12 +34,12 @@ const DropdownMenu = ({linkActive, handleClose}) => {
 
     if (linkActive === 'products') {
         return (
-            <div className={styles.dropdown_menu}>
+            <div className={`${styles.dropdown_menu} flex-col-gap`}>
                 <h3>Categories</h3>
                 <ul className={styles.category_list}>
                     {categoryData.map((category, index) => (
                         <li key={index}>
-                            <Link href={category.href} onClick={()=> handleClose()} className={styles.category_item}>
+                            <Link href={category.href} onClick={()=> handleClose()} className={`${styles.category_item} flex-row-gap`}>
                                 <Image
                                     src={category.src}
                                     width={60}
@@ -58,18 +58,18 @@ const DropdownMenu = ({linkActive, handleClose}) => {
 
     if(linkActive === 'services'){
         return (
-            <div className={styles.dropdown_menu}>
+            <div className={`${styles.dropdown_menu} flex-col-gap`}>
                 <h3>Flowell Services</h3>
-                <ul className={styles.aboutUs_list}>
-                    <li className={styles.flowell_list}>
+                <ul className={`${styles.aboutUs_list} flex-col-gap`}>
+                    <li className={`${styles.flowell_list} flex-row-gap`}>
                         <LeafIcon width={40} height={40} weight={2}/>
                         <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>
-                    <li className={styles.flowell_list}>
+                    <li className={`${styles.flowell_list} flex-row-gap`}>
                         <ShoppingBagIcon width={40} height={40} weight={2} />
                         <Link href='/how-to' onClick={()=> handleClose()}>How to Buy</Link>
                     </li>
-                    <li className={styles.flowell_list}>
+                    <li className={`${styles.flowell_list} flex-row-gap`}>
                         <PlantIcon width={40} height={40} weight={2}/>
                         <Link href='/floral-care' onClick={()=> handleClose()}>Handling flowers</Link>
                     </li>
@@ -80,30 +80,30 @@ const DropdownMenu = ({linkActive, handleClose}) => {
 
     if(linkActive === 'menu'){
         return (            
-                <div className={styles.dropdown_menu}>
-                <ul className={styles.mobile_nav}>
-                    <li className={styles.mobile_nav_options}>
+                <div className={`${styles.dropdown_menu} flex-col-gap`}>
+                <ul className='flex-col-gap'>
+                    <li className={`${styles.mobile_nav_options} flex-row-gap`}>
                         <CategoryIcon width={20} height={20} weight={2}/>
                         <p>Categories</p>
                     </li>
                     <ul>
                         {categoryData.map((category, index) => (
-                            <li key={index} className={styles.mobile_nav_options}>
+                            <li key={index} className={`${styles.mobile_nav_options} flex-row-gap`}>
                                 <Link href={category.href} onClick={()=> handleClose()}>
                                     {category.name}
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <li className={styles.mobile_nav_options}>
+                    <li className={`${styles.mobile_nav_options} flex-row-gap`}>
                         <ShoppingBagIcon width={20} height={20} weight={2} />       
                         <Link href='/how-to' onClick={()=> handleClose()}>How to buy</Link>
                     </li>
-                    <li className={styles.mobile_nav_options}>
+                    <li className={`${styles.mobile_nav_options} flex-row-gap`}>
                         <PlantIcon width={20} height={20} weight={2}/>
                         <Link href='/floral-care' onClick={()=> handleClose()}>Handling your flowers</Link>
                     </li>
-                    <li className={styles.mobile_nav_options}>
+                    <li className={`${styles.mobile_nav_options} flex-row-gap`}>
                         <LeafIcon width={20} height={20} weight={2}/>
                         <Link href='/about-us' onClick={()=> handleClose()}>About us</Link>
                     </li>                    

@@ -6,7 +6,7 @@ import BannerInformative from '@/components/banners/BannerInformative';
 export default function Home() {
   return (
     <section>
-      <div className={styles.banner}>
+      <div className={`${styles.banner} flex-col-gap-xl`}>
         <div className={styles.bannerGrid}>
           <div className={styles.bannerCarrousel}>
             <Banner/>

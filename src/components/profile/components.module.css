@@ -8,11 +8,6 @@
     line-height: var(--line-height-normal);
 }
 
-.profile_info_subcontainer, .profile_info_details_container, .profile_addresses_subcontainer{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-base);
-}
 .subcontainer_info_details{
     width: var(--container-width-full);
     display: grid;

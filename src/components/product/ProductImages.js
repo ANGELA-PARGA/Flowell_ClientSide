@@ -13,7 +13,7 @@ const ProductImages = ({images}) => {
   };
 
   return (
-    <div className={styles.all_images_container}>
+    <div className={`${styles.all_images_container} flex-col-gap`}>
         <div className={styles.main_image_container}>
             <Image src={selectedImage}
                 fill
@@ -25,7 +25,7 @@ const ProductImages = ({images}) => {
                 alt={`Product thumbnail`}>
             </Image>
         </div>
-        <div className={styles.mini_images_container}>
+        <div className={`${styles.mini_images_container} flex-row-gap`}>
         {
             images.map((url, index) =>{
                 return(

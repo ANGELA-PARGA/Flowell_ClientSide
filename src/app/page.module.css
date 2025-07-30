@@ -1,9 +1,7 @@
 .banner{
     margin-top: var(--navbar-offset);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xl);
 }
+
 .bannerGrid{
     margin: var(--spacing-base) auto;
     display: grid;

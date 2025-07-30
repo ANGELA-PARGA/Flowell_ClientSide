@@ -23,7 +23,7 @@ export default async function AllProducts(props) {
 
     return (
         <Suspense fallback={<LoadingAllProducts/>}>
-            <section className={styles.main_container}>
+            <section className={`${styles.main_container} flex-col-gap`}>
                 <h2>All Products: <span>{totalProducts} Results</span></h2>
                 <AddAllFilters/>
                 { data.products_and_categories.length === 0 && 
@@ -34,7 +34,7 @@ export default async function AllProducts(props) {
                         <ProductCard key={product.id} data={product} />                       
                     ))}                    
                 </section>                
-                <div className={styles.paginationContainer}>
+                <div className='pagination-container'>
                     {Array.from({ length: pages }, (_, index) => (
                         <PaginationButton key={index + 1} number={index + 1} />
                     ))}                    

@@ -49,9 +49,9 @@ export default function UpdatePassword({ handleClose, closeModal }) {
     };
 
     return (
-        <main className={styles.update_info_container}>
-            <div className={styles.update_info_container}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.signup_form}>
+        <main className={`${styles.update_info_container} flex-col-gap-sm`}>
+            <div className={`${styles.update_info_container} flex-col-gap-sm`}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.signup_form} flex-col-gap`}>
                     <div>
                         <input
                             {...register('password')}
@@ -84,11 +84,11 @@ export default function UpdatePassword({ handleClose, closeModal }) {
                             <p className={styles.error_signup_form}>{errors.confirmationPassword?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>
+                    <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                        <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>
                             Update
                         </button>
-                        <button type="button" onClick={(e) => onCancel(e)} className={styles.cancel_update_button}>
+                        <button type="button" onClick={(e) => onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">
                             Cancel
                         </button>
                     </div>

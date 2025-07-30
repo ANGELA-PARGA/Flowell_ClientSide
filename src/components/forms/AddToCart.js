@@ -134,7 +134,7 @@ const AddToCart = ({id}) => {
             ) : status === 'authenticated' ? (
                 <div className={styles.add_to_cart_container}>
                 {!itemQty ? (
-                    <form className={styles.add_to_cart_form} onSubmit={handleSubmit(onSubmit)}>
+                    <form className={`${styles.add_to_cart_form} flex-row-gap`} onSubmit={handleSubmit(onSubmit)}>
                         <select {...register("qty")}>
                             {[...Array(15)].map((_, index) => (
                             <option key={index + 1} value={index + 1}>
@@ -142,7 +142,7 @@ const AddToCart = ({id}) => {
                             </option>
                             ))}
                         </select>
-                        <button className={styles.add_to_cart_button} type="submit" disabled={isSubmitting}>
+                        <button className="btn_primary_standard btn_sizeL alignCenter" type="submit" disabled={isSubmitting}>
                             Add to Cart
                         </button>
                         {errors.qty && <p>{errors.qty.message}</p>}
@@ -172,7 +172,7 @@ const AddToCart = ({id}) => {
                 )}
                 </div>
             ) : (
-                <button className={styles.add_to_cart_button} type="button"><Link href={'/login'}>Log in to buy</Link></button>  
+                <button className="btn_primary_standard btn_sizeL alignCenter" type="button"><Link href={'/login'}>Log in to buy</Link></button>  
             )}
             </>
         );

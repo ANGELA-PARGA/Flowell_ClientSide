@@ -16,7 +16,7 @@ const MyModalAdd = ({resourceType}) => {
 
     return (
         <div>
-            <button className={styles.modalEditButton} onClick={openModal}>Add</button>
+            <button className='btn_primary_standard btn_sizeS' onClick={openModal}>Add</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

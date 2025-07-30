@@ -94,7 +94,7 @@ const UpdateCartItems = ({data, id}) => {
             </div>                                             
         </div>
         <div>
-            <p className={styles.subtotal_paragraph}>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
+            <p className='flex-row-gap-xs'>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
         </div>
         </>
     )

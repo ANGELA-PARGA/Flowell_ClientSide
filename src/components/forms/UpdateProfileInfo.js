@@ -46,9 +46,9 @@ export default function UpdateProfileInfo({ resourceType, resourceId, name, hand
 
     return (
         <main>
-            <div className={styles.update_info_container}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.update_form}>
-                    <div className={styles.update_form_input_container}>
+            <div className={`${styles.update_info_container} flex-col-gap-sm`}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('first_name')}
                             type="text"
@@ -64,7 +64,7 @@ export default function UpdateProfileInfo({ resourceType, resourceId, name, hand
                             <p className={styles.error_updating_info}>{errors.first_name?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.update_form_input_container}>
+                    <div className={`${styles.update_form_input_container} flex-col-gap-sm`}>
                         <input
                             {...register('last_name')}
                             type="text"
@@ -80,11 +80,11 @@ export default function UpdateProfileInfo({ resourceType, resourceId, name, hand
                             <p className={styles.error_updating_info}>{errors.last_name?.message}</p>
                         </div>
                     </div>
-                    <div className={styles.buttons_profile_container}>
-                        <button type="submit" className={styles.update_button} disabled={isSubmitting}>
+                    <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                        <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>
                             Update
                         </button>
-                        <button type="button" onClick={(e) => onCancel(e)} className={styles.cancel_update_button}>
+                        <button type="button" onClick={(e) => onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">
                             Cancel
                         </button>
                     </div>

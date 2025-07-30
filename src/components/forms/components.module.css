@@ -1,11 +1,7 @@
-.update_info_container, 
 .update_form, 
 .update_form_input_container{
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     width: var(--container-width-full);
-    gap: var(--spacing-sm);
 }
 
 .update_info_container h2{
@@ -62,70 +58,6 @@
     opacity: 0.5; 
 }
 
-.update_button, 
-.cancel_update_button, 
-.pay_button, 
-.add_to_cart_button, 
-.signup_submit_button,
-.login_submit_button{
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius-md);    
-    cursor: pointer;
-    color: var(--background-white);
-    font-weight: var(--font-weight-medium);
-    transition: var(--transition-base);
-}
-
-.update_button, 
-.cancel_update_button, 
-.pay_button{
-    width: var(--button-width-md);
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-xs);
-}
-
-.add_to_cart_button{
-    align-self: center;
-    width: var(--container-width-half);
-    height: var(--button-height-md);
-    font-size: var(--font-size-lg);
-}
-
-.signup_submit_button, 
-.login_submit_button{
-    width: var(--container-width-full);
-    height: var(--button-height-md);
-    font-size: var(--font-size-lg);
-}
-
-.cancel_update_button{
-    background-color: var(--cancel-color);
-}
-
-.cancel_update_button:hover{
-    background-color: var(--cancel-hover-color);
-    color: var(--cancel-text-hover-color);
-}
-
-.update_button:hover, 
-.pay_button:hover, 
-.add_to_cart_button:hover, 
-.signup_submit_button:hover, 
-.login_submit_button:hover{
-    background-color: var(--primary-transparent);
-    color: var(--text-hover-color);
-}
-
-.login_submit_button:disabled, .signup_submit_button:disabled {
-    background: linear-gradient(90deg, var(--transition-color) 25%, var(--focus-color) 50%, var(--transition-color) 75%);
-    background-size: 400% 100%;
-    animation: loading-animation 1.5s infinite;
-    color: var(--background-white); 
-    cursor: not-allowed;
-    border: none;
-}
-
 /* Keyframes for the loading animation */
 @keyframes loading-animation {
     0% {
@@ -134,10 +66,6 @@
     100% {
         background-position: 100% 0%;
     }
-}
-
-.pay_button{
-    align-self: center;
 }
 
 .update_cart_items_button{
@@ -157,17 +85,13 @@
 }
 
 .buttons_profile_container{
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-base);
+    justify-content: center;    
     width: var(--container-width-full);
 }
 
 .add_to_cart_form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--spacing-base);
+    justify-content: center;    
+    align-items: center;    
 }
 
 .add_to_cart_form select{
@@ -176,11 +100,6 @@
     border-radius: var(--border-radius-sm);
     color: var(--primary-color);
     font-weight: var(--font-weight-bold);
-}
-
-.subtotal_paragraph{
-    display: flex;
-    gap: var(--spacing-xs);
 }
 
 .product_cart_buttons_container, 
@@ -219,9 +138,6 @@
 .checkoutForm, 
 .checkoutInfo, 
 .checkoutBoxes{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-base);
     padding: var(--spacing-sm);
 }
 
@@ -265,8 +181,7 @@
 }
 
 .signup_inside_login_container, 
-.login_inside_signup_container, 
-.recover_modal_form, 
+.login_inside_signup_container,  
 .signup_main_container, 
 .login_main_container{
     display: flex;
@@ -301,12 +216,14 @@
     font-weight: var(--font-weight-bold);
 }
 
-
-.login_form_container, 
 .login_form, 
 .signup_form {
-    display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: var(--container-width-full);
+}
+
+.login_form_container {
     justify-content: space-between;
     align-items: flex-start;
     width: var(--container-width-full);
@@ -317,26 +234,9 @@
     width: var(--container-width-full);
 }
 
-.login_form_container{
-    gap: var(--spacing-xl);
-}
-
-.login_form, 
-.signup_form {
-    gap: var(--spacing-base);
-}
-
-.signup_after_update_container,
-.filterForm, 
-.filterButtonsContainer,
-.filterMenu{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-base);
-}
-
 .filterForm{
     width: var(--filters-container-width);
+    margin-top: var(--spacing-base);
 }
 
 .filterMenu{
@@ -376,32 +276,17 @@
     justify-items: start;
 }
 
-.filterButtons, .filterTag{
+.filterTag{
     border-radius: var(--border-radius-md);
-    background-color: var(--background-white);
     border: var(--border-light);
+    text-align: center;
+    background-color: var(--background-white);
     cursor: pointer;
     color: var(--text-lighter);
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-sm);
-}
-
-.filterButtons{
-    width: var(--button-width-md);
-    text-align: center;
-    height: var(--icon-size-sm);
-    line-height: var(--spacing-base);
-}
-
-.filterTag{
     width: fit-content;
     padding: var(--spacing-sm);
-    text-align: center; 
-}
-
-.appliedFilters{
-    display: flex;
-    gap: var(--spacing-base);
 }
 
 .removeFilterButton{
@@ -412,7 +297,7 @@
     font-size: var(--font-size-sm);      
 }
 
-.filterButtons:hover, .removeFilterButton:hover{
+.removeFilterButton:hover{
     color: var(--accent-blue);
 }
 

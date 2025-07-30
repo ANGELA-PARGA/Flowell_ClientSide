@@ -2,7 +2,7 @@ import styles from './components.module.css'
 
 const LoadingCheckout = () => {
     return (
-        <div className={styles.skeletonCheckoutContainer}>
+        <div className={`${styles.skeletonCheckoutContainer} flex-row-gap`}>
             <div className={styles.loadingCartInfo}>
                 <div className={styles.loadingProductCheckout}>
                     <div></div>

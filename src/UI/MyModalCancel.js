@@ -15,7 +15,7 @@ const MyModalCancelOrder = ({id}) => {
 
     return (
         <div>
-            <button className={styles.modalDeleteButton} onClick={openModal}>Cancel Order</button>
+            <button className='btn_primary_standard btn_sizeM btn-destructive' onClick={openModal}>Cancel Order</button>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -25,9 +25,9 @@ const MyModalCancelOrder = ({id}) => {
                 className={styles.content}                                          
             >
                 <h2 className={styles.modalText}>Are you sure you want to cancel this order? This cannot be undone</h2>
-                <div className={styles.modalButtons}>
+                <div className='flex-row-gap'>
                     <ButtonCancelOrder id={id} handleClose={()=> closeModal()}/>
-                    <button className={styles.cancelModalButton} onClick={closeModal}>Keep order</button>
+                    <button className='btn_primary_standard btn_sizeS' onClick={closeModal}>Keep order</button>
                 </div>                
             </Modal>
         </div>

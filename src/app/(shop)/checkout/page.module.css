@@ -1,8 +1,5 @@
 .cartContainer{
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-base);
   margin: var(--navbar-offset) auto 0 auto;
   padding: var(--spacing-base);    
 }

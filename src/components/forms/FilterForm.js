@@ -86,7 +86,7 @@ const FilterForm = ({ type, handleClose }) => {
     return (
         <div className={styles.filterMenu} ref={filterRef}>
             <h4>Choose a {type}</h4>
-            <form onSubmit={handleApply} className={styles.filterForm}>
+            <form onSubmit={handleApply} className={`${styles.filterForm} flex-col-gap`}>
                 {type === 'color' && (
                     <div className={styles.filterBoxes} >
                         { colors.map((color, index) =>{
@@ -112,12 +112,12 @@ const FilterForm = ({ type, handleClose }) => {
                         })}
                     </div>
                 )}
-                <div className={styles.filterButtonsContainer}>
-                    <button type="submit" className={styles.filterButtons}>Apply</button>
-                    <button type="button" className={styles.filterButtons} onClick={handleClose}>Cancel</button>
+                <div className={`${styles.filterButtonsContainer} flex-col-gap`}>
+                    <button type="submit" className='btn-sort-filter'>Apply</button>
+                    <button type="button" className='btn-sort-filter' onClick={handleClose}>Cancel</button>
                 </div>
             </form>
-            <div className={styles.appliedFilters}>
+            <div className='flex-row-gap'>
                 {appliedFilters.map((filter, index) => (
                     <div key={index} className={styles.filterTag}>
                         {filter} <button className={styles.removeFilterButton} onClick={() => handleRemoveFilter(filter)}> x </button>

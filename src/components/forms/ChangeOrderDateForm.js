@@ -62,9 +62,9 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
     };
 
     return (
-        <form className={styles.checkoutForm} onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.checkoutInfo}>
-                <div className={styles.checkoutBoxes}>
+        <form className={`${styles.checkoutForm} flex-col-gap`} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`${styles.checkoutInfo} flex-col-gap`}>
+                <div className={`${styles.checkoutBoxes} flex-col-gap`}>
                     <h4>Select Shipping Date</h4>
                     <ReactDatePicker
                         showIcon
@@ -83,9 +83,9 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
                     {errors.delivery_date && <p className={styles.error_updating_info}>{errors.delivery_date.message}</p>}
                 </div>
             </div>  
-            <div className={styles.buttons_profile_container}>
-                <button type='submit' disabled={isSubmitting} className={styles.pay_button}>Update</button>
-                <button type='button' className={styles.cancel_update_button} onClick={(e) => handleOnCancel(e)}>Cancel</button>
+            <div className={`${styles.buttons_profile_container} flex-row-gap`}>
+                <button type='submit' disabled={isSubmitting} className="btn_primary_standard btn_sizeS alignCenter">Update</button>
+                <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={(e) => handleOnCancel(e)}>Cancel</button>
             </div>         
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

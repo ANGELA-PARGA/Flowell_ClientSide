@@ -7,7 +7,7 @@ const DropdownAuthUser = ({linkActive, handleClose}) => {
 
     if(linkActive === 'sign_in'){
         return (
-            <div className={styles.dropdown_menu_authenticated}>
+            <div className={`${styles.dropdown_menu_authenticated} flex-col-gap-xl`}>
                 <MenuAuthAccount handleClose={handleClose}/>
                 <ButtonLogOut/>          
             </div>

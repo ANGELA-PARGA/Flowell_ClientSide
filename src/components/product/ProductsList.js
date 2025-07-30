@@ -29,7 +29,7 @@ export default async function ProductsList(props) {
                 <ProductCard key={product.id} data={product} />                       
             ))}                    
         </section>                
-        <div className={styles.paginationContainer}>
+        <div className='pagination-container'>
             {Array.from({ length: pages }, (_, index) => (
                 <PaginationButton key={index + 1} number={index + 1} />
             ))}                    

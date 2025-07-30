@@ -13,7 +13,7 @@ const PaginationButton = ({ number }) => {
 
     return (
         <Link href={`?${newParams.toString()}`}>
-            <button className={styles.paginationButton}>{number}</button>
+            <button className='pagination-button'>{number}</button>
         </Link>
     );
 };
