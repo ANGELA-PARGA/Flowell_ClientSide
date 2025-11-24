@@ -236,7 +236,7 @@
 
 .filterForm{
     width: var(--filters-container-width);
-    margin-top: var(--spacing-base);
+    margin: var(--spacing-base) 0;
 }
 
 .filterMenu{

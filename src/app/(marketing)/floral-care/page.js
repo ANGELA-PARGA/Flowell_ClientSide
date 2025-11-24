@@ -19,26 +19,31 @@ export default function FloralHandling() {
             <ol>
                 <div className={styles.instructions_card}>
                     <li><span>1. Inspect and Unpack</span></li>
-                    <p>Carefully remove the flowers from their packaging. Check for any visible signs of damage to ensure that all products are intact before proceeding.</p>
+                    <p>Carefully remove the flowers from their packaging. Inspect your roses and remove any bruised, brown, or damaged petals. 
+                        These outer, bruised petals are <span className={styles.blog_instructions_text}>"guard petals"</span> that protect the inner blooms during shipping. You can gently remove them 
+                        by pulling them from the base of the rose head and moving in the direction of the stem.</p>
                 </div>
                 <br />
                 <div className={styles.instructions_card}>
                     <li><span>2. Rehydration Setup</span></li>
                     <p>As the flowers have been transported in a closed, dry state, the next crucial step is <span className={styles.blog_instructions_text}>rehydration</span>. 
-                    Fill a clean container with room-temperature water and add an appropriate floral preservative according to the manufacturer’s instructions. 
-                    This step is essential for triggering the natural opening of the buds.</p>
+                    . Fill a container three-fourths with cold water and stir in the flower food packet provided. These floral packets contain essential ingredients to help extend 
+                    the life of your roses. This step is essential for triggering the natural opening of the buds.</p>
                 </div>
                 <br />
                 <div className={styles.instructions_card}>
                     <li><span>3. Hydration Process</span></li>
-                    <p>Submerge the stems in the prepared water. Allow the flowers to absorb water slowly. 
-                      Depending on the variety, the petals should begin to unfurl within <span className={styles.blog_instructions_text}>12 to 24 hours</span>, and be fully open within 24 to 48 hours. For optimal results, 
-                      keep the container in a <span className={styles.blog_instructions_text}>well-ventilated area away from direct sunlight</span>.</p>
+                    <p>Cut 1 inch off each stem at a 45-degree angle using sharp, clean clippers. This will allow your roses to absorb more water. Submerge the stems in the prepared water. 
+                        Allow the flowers to absorb water slowly. 
+                        Depending on the variety, the petals should begin to unfurl within <span className={styles.blog_instructions_text}>12 to 24 hours</span>, and be fully open within 24 to 48 hours. For optimal results, 
+                        keep the container in a <span className={styles.blog_instructions_text}>well-ventilated area away from direct sunlight</span>.</p>
                 </div>
                 <br />
                 <div className={styles.instructions_card}>
                     <li><span>4. Final Adjustments</span></li>
-                    <p>After the initial hydration period, inspect the flowers again. If needed, change the water and add fresh preservative to maintain a clean, nutrient-rich environment that promotes healthy blooming.</p>
+                    <p>After the initial hydration period, inspect the flowers again. If needed, change the water and add fresh preservative to maintain a clean, nutrient-rich environment that promotes healthy blooming.
+                        <span className={styles.blog_instructions_text}> Recut stems every few days, removing 1-2 inches. Change the water every 2-4 days, or sooner if cloudy. Keep flowers in a cool, dark place (65°F–72°F) for longer freshness.</span>
+                    </p>
                 </div>
             </ol>
             <br />

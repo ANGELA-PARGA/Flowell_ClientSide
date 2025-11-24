@@ -112,3 +112,27 @@ export async function fetchCategories(){
     }
 }
 
+export async function sendChatMessage(message) {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/message`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message }),
+        });
+
+        if (!response.ok) {        
+            const errorResponse = await response.json();
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError?.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Chat API error:', error);
+        throw error;
+    }
+}
+

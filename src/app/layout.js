@@ -6,6 +6,7 @@ import SessionAuthProvider from "@/context/SessionAuthProvider";
 import StoreProvider from "@/provider";
 import { ToastContainer } from "react-toastify";
 import styles from './page.module.css'
+import { ChatInterface } from "@/components/chat";
 
 const monserrat = Montserrat({ subsets: ["latin"]});
 
@@ -35,7 +36,8 @@ export default function RootLayout({ children }) {
           autoClose={2000}
           hideProgressBar={true}
           theme="light"
-        />       
+        />
+        <ChatInterface />       
       </body>
     </html>
   );

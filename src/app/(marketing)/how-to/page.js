@@ -6,8 +6,7 @@ export default function HowToBuy() {
     <section className={styles.section_blog_containers}>
       <h1><span>A guide to buy your flowers:</span> How to purchase flowers for your business</h1>
       <br/>
-      <p>At Flowell, we’ve streamlined the process of ordering premium wholesale Colombian flowers so t
-        hat your experience is both seamless and efficient. Follow these simple steps to place your 
+      <p>At Flowell, we’ve streamlined the process of ordering premium wholesale Colombian flowers so that your experience is both seamless and efficient. Follow these simple steps to place your 
         order and ensure you receive the freshest blooms for your business.</p>
       <br/>
       <div className={styles.instructions_card}>
@@ -28,13 +27,14 @@ export default function HowToBuy() {
         <h2>Step 3: Schedule Your Delivery</h2>
         <span>- Add to Cart and Set Your Shipping Date:</span>
         <p>Once you’ve chosen your product and quantity, head to your shopping cart to select your 
-          preferred shipping date.</p>
+          preferred shipping date. Remember this product is dry packed, you'll need to order the product to be delivered at least 3 days before the event. 
+          This ensures that the flowers have enough time to properly hydrate and open up before they reach your customers.</p>
           <br/>
         <span>- Delivery Schedule:</span>
         <p>Our shipments are exclusively delivered via FedEx from <span className={styles.blog_instructions_text}>Tuesday to Friday</span>. 
           The shipping calendar is available starting <span className={styles.blog_instructions_text}>7 days after your order is placed</span>. 
-          This period allows us to source the best harvest, ensuring your flowers travel the <span className={styles.blog_instructions_text}>4-day journey</span> 
-          from Colombia to your business in peak condition.
+          This period allows us to source the best harvest, ensuring your flowers travel the <span className={styles.blog_instructions_text}>4-day journey</span> from 
+          Colombia to your business in peak condition.
         </p>
       </div>
       <br/>
