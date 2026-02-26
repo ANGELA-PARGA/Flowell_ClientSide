@@ -1,10 +1,11 @@
 import { cookieFetchVerification } from "./cookieVerification";
+import { createSessionExpiredResponse, isUnauthorizedStatus } from "./authResponses";
 
 export async function fetchAllUserInfo(){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -14,8 +15,8 @@ export async function fetchAllUserInfo(){
         })
 
         if (!response.ok) { 
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }      
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -37,7 +38,7 @@ export async function fetchAllOrdersByUser(){
 
     if (expired) {
         console.log('Session expired on the backend. Triggering logout.');
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -48,8 +49,8 @@ export async function fetchAllOrdersByUser(){
         })
         
         if (!response.ok) { 
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }       
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -70,7 +71,7 @@ export async function fetchOrdersById(id){
 
     if (expired) {
         console.log('Session expired on the backend. Triggering logout.');
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -81,8 +82,8 @@ export async function fetchOrdersById(id){
 
         
         if (!response.ok) {       
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             } 
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);

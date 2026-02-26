@@ -1,24 +1,47 @@
 'use server'
 
 import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { createSessionExpiredResponse } from "@/lib/authResponses";
 
 export async function cookieVerification(){
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return createSessionExpiredResponse('No active NextAuth session');
+    }
+
     const allCookies = await cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
     if(connectSidCookie.length === 0){
-        return { data: null, expired: true };
+        return createSessionExpiredResponse('Backend session cookie is missing');
     }
-    return { data: 'cookie is active', expired: false}
+
+    return {
+        data: 'cookie is active',
+        session,
+        expired: false,
+    };
 }
 
 export async function cookieFetchVerification() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return createSessionExpiredResponse('No active NextAuth session');
+    }
+
     const allCookies = await cookies();
     const connectSidCookie = allCookies.getAll('connect.sid');
 
     if (connectSidCookie.length === 0) {
-        return { expired: true }; // Indicate session expiration
+        return createSessionExpiredResponse('Backend session cookie is missing');
     }
 
     const cookieForServer = `${connectSidCookie[0].name}=${connectSidCookie[0].value}`;
-    return { cookieForServer, expired: false }; // Valid cookie
+
+    return {
+        cookieForServer,
+        session,
+        expired: false,
+    };
 }

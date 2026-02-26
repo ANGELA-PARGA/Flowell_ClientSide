@@ -6,7 +6,8 @@ import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { addNewPersonalInfo } from '@/actions/userRequests';
+import { useDispatch } from 'react-redux';
+import { addUserInfo } from '@/store/user/thunks';
 import { forceLogOut } from '@/lib/forceLogout';
 
 const schema = yup.object({
@@ -19,6 +20,7 @@ const schema = yup.object({
 })
 
 export default function AddAddressForm({resourceType, handleClose}) {
+    const dispatch = useDispatch();
     const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, formState: { errors, isSubmitting}, reset, trigger} =useForm({
@@ -26,21 +28,33 @@ export default function AddAddressForm({resourceType, handleClose}) {
     });
 
     const onSubmit = async (data) => {
+        console.log('[AddAddressForm] onSubmit - Entry:', data);
         await schema.validate(data);
+        
+        // Close modal and reset form immediately for better UX
+        handleClose();
+        reset();
+        
         try {
-            const response = await addNewPersonalInfo(data, resourceType);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                await forceLogOut(handleClose);
-            } else {
-                handleClose()
-                toast.success(`Address information added succesfully`);
-                reset();       
-            }  
+            // Dispatch thunk - handles optimistic add internally
+            await dispatch(addUserInfo({
+                data,
+                resourceType
+            })).unwrap();
+            
+            console.log('[AddAddressForm] onSubmit - Success');
+            toast.success(`Address information added successfully`);
         } catch (error) {
-            console.log(error)
+            console.error('[AddAddressForm] onSubmit - Error:', error)
             setupdateError(error.message)
-            toast.error('Failed to add address information')
+            
+            if (error === 'Session expired') {
+                console.log('[AddAddressForm] onSubmit - Session expired, forcing logout');
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to add address information');
+            }
         }             
     };
 

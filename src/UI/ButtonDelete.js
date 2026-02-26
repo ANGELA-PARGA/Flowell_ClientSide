@@ -1,21 +1,30 @@
 'use client'
 
-import { deletePersonalInfo } from "@/actions/userRequests";
+import { useDispatch } from 'react-redux';
+import { deleteUserInfo } from '@/store/user/thunks';
 import { toast } from 'react-toastify';
 import styles from './components.module.css'
 
 
 const ButtonDelete = ({type, resourceId, resourceType, handleClose}) => {
+    const dispatch = useDispatch();
 
     const handleOnClick = async (e) =>{
         e.preventDefault();
+        console.log('[ButtonDelete] Delete clicked:', { resourceType, resourceId });
+        
         try {
-            await deletePersonalInfo(resourceType, resourceId);
+            await dispatch(deleteUserInfo({ resourceType, resourceId })).unwrap();
+            console.log('[ButtonDelete] Delete successful');
             handleClose()
-            toast.success(`${type} information deleted succesfully`)            
+            toast.success(`${type} information deleted successfully`)            
         } catch (error) {
-            console.log(error)
-            toast.error(`Failed to delete ${type} information`)
+            console.log('[ButtonDelete] Delete failed:', error);
+            if (error === 'Session expired') {
+                toast.error('Session expired, please login again');
+            } else {
+                toast.error(`Failed to delete ${type} information`);
+            }
         }        
     }
 

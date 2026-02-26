@@ -1,17 +1,19 @@
 'use client'
 
 import styles from './components.module.css'
-import handleLogOut from '@/actions/logout'
-import { signOut } from "next-auth/react";
+import { executeLogout } from '@/lib/clientLogout';
 
 
 export default function ButtonLogOutModal({ handleClose }) {
 
     const onClickLogOut = async () => {        
         try {
-            await signOut();
-            await handleLogOut();
-            handleClose();
+            await executeLogout({
+                callbackUrl: '/login',
+                onBeforeSignOut: () => {
+                    handleClose();
+                },
+            });
         } catch (error) {
             console.error('Logout failed:', error);
         }

@@ -1,15 +1,16 @@
-import { getSessionUser } from "@/lib/getSessionUser";
 import OrderInfo from "@/components/orders/OrderInfo";
 import { Suspense } from "react";
 import LoadingOrders from "@/UI/LoadingOrders";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 
 export default async function OrderById(props) {
   const params = await props.params;
-  /* @next-codemod-ignore */
-  const session = await getSessionUser();
+  const session = await getServerSession(authOptions);
     if (!session) {
-        return <MyModalLogin />;
+        redirect('/login');
     }
 
   return (

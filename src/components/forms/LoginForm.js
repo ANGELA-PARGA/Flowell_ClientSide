@@ -8,8 +8,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useContext } from "react";
-import { StoreContext } from "@/context";
+import { useState } from "react";
 import { toast } from 'react-toastify';
 
 const MyModalRecoverPassword = dynamic(() => import("@/UI/MyModalRecoverPassword"), {ssr: false})
@@ -22,7 +21,6 @@ const schema = yup.object({
 export default function LoginForm() {
     const [loginError, setLoginError] = useState();
     const router = useRouter();
-    const { populateCartData } = useContext(StoreContext);
 
     const { register, handleSubmit, formState: { errors, isSubmitting}, trigger} = useForm({
         resolver: yupResolver(schema)
@@ -41,7 +39,6 @@ export default function LoginForm() {
                 throw new Error(responseNextAuth.error)
             }
             router.push("/");
-            await populateCartData();  
             toast.success(`Login succesfull!`)   
         } catch (error) {
             console.error(error)

@@ -10,10 +10,9 @@ import addDays from "date-fns/addDays";
 import addBusinessDays from "date-fns/addBusinessDays";
 import getDay from "date-fns/getDay";
 import { createNewOrder } from '@/actions/ordersRequest';
-import { signOut } from 'next-auth/react';
-import handleLogOut from '@/actions/logout';
 import { toast } from 'react-toastify';
 import styles from './components.module.css';
+import { executeDelayedLogout } from '@/lib/clientLogout';
 
 const schema = yup.object().shape({
     phone: yup.string().required('Please select a phone number'),
@@ -43,10 +42,10 @@ const CheckoutForm = ({data}) => {
             const stripeCheckoutUrl = await createNewOrder(shipping_info);
             if(stripeCheckoutUrl.expired){
                 toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await handleLogOut();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
+                await executeDelayedLogout({
+                    delayMs: 2000,
+                    callbackUrl: '/login',
+                });
             } else {
                 window.location.href = stripeCheckoutUrl; 
             } 

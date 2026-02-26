@@ -1,35 +1,22 @@
-import { getSessionUser } from "@/lib/getSessionUser";
-import ProfilePersonalInfo from "@/components/profile/ProfilePersonalInfo";
-import ProfileAddressInfo from "@/components/profile/ProfileAddressInfo";
-import ProfilePhoneInfo from "@/components/profile/ProfilePhoneInfo";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { fetchAllUserInfo } from "@/lib/fetchingUserInfo";
-import styles from '../page.module.css'
-import dynamic from 'next/dynamic'
-
-const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
-
+import ProfilePageClient from './ProfilePageClient';
+import { redirect } from "next/navigation";
 
 export default async function Profile() {
-    /* @next-codemod-ignore */
-    const session = await getSessionUser();
+    const session = await getServerSession(authOptions);
     if (!session) {
-        return <MyModalLogin />;
+        redirect('/login');
     }
     
     const {data, expired} = await fetchAllUserInfo();
 
     if (expired) {
-        return <MyModalLogin />;
+        redirect('/login');
     }
     
-    
-    return (
-        <section className='flex-col-gap'>
-            <ProfilePersonalInfo userData={data.user}/>
-            <ProfileAddressInfo userData={data.user.addresses}/>
-            <ProfilePhoneInfo userData={data.user.phones}/> 
-        </section>        
-    )
-    
+
+    return <ProfilePageClient initialUserData={data.user} />;
 }
 

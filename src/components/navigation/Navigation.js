@@ -13,7 +13,9 @@ import { LeafIconNavBar, UserIconNavBar, CloseIcon } from '../../../public/svgIc
 import NavigationPhone from './NavigationPhone';
 import { Suspense } from 'react';
 
+
 const Navigation = () => {
+
     const [active, setActive] = useState('');
     const [showingMenu, setShowingMenu] = useState('');
     const { data: session } = useSession();

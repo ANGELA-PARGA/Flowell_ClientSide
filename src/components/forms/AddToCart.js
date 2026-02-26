@@ -1,22 +1,20 @@
 'use client'
 
-import { useState, useContext, useEffect } from 'react';
-import { StoreContext } from '@/context';
+
 import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { selectProductQtyInCart } from '@/store/cart/selectors';
+import { useAddProductToCartMutation } from '@/store/cart/cartApi';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addProductToCart } from '@/actions/productRequests';
-import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
-import handleLogOut from '@/actions/logout';
-import { cookieVerification } from '@/lib/cookieVerification';
-import debounce from "lodash.debounce";
 import Link from 'next/link';
 import styles from './components.module.css';
 import { TrashIcon } from '../../../public/svgIcons';
 import { toast } from 'react-toastify';
 import Spinner from '@/UI/Spinner';
+import { useOptimisticCartItem } from '@/hooks/useOptimisticCartItem';
+import { executeDelayedLogout } from '@/lib/clientLogout';
 
 
 const schema = yup.object().shape({
@@ -24,22 +22,45 @@ const schema = yup.object().shape({
 });
 
 const AddToCart = ({id}) => {
-    const { data: session, status} = useSession();
-    const productId = parseInt(id);
-
-    const [itemQty, setItemQty] = useState(false);
-    const { cartData, populateCartData, getProductQtyInCart, updateProductQtyInCart } = useContext(StoreContext);
+    const { status} = useSession();
+    const productId = parseInt(id, 10);
+    const [addProductToCart, { isLoading: isAdding }] = useAddProductToCartMutation();
     
+    const itemQty = useSelector((state) => selectProductQtyInCart(state, productId));
 
-    useEffect(() => {
-        if (session?.user?.email) {
-            const savedCartData = localStorage.getItem('cartData');
-            const parsedCartData = savedCartData ? JSON.parse(savedCartData) : null;
-            if (parsedCartData) {
-                setItemQty(getProductQtyInCart(parsedCartData, productId));
-            }
+    const handleSessionExpired = async () => {
+        toast.error('Your session has expired, please login again');
+        await executeDelayedLogout({
+            delayMs: 2000,
+            callbackUrl: '/login',
+        });
+    };
+
+    const handleRequestError = (_error, type, message) => {
+        if (type === 'delete') {
+            toast.error(message ?? 'Failed to delete product in cart');
+            return;
         }
-    }, [session, productId, cartData]);
+
+        toast.error(message ?? 'Failed to update item in cart');
+    };
+
+    const {
+        optimisticQty,
+        isPending,
+        incrementQty,
+        decrementQty,
+        deleteItem,
+    } = useOptimisticCartItem({
+        item: {
+            qty: itemQty,
+            price_per_case: 0,
+        },
+        productId,
+        onSessionExpired: handleSessionExpired,
+        onRequestError: handleRequestError,
+    });
+
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(schema)
@@ -48,83 +69,44 @@ const AddToCart = ({id}) => {
     const onSubmit = async (data) => {
         await schema.validate(data)
         const productToAdd = {
-            ...data,
-            product_id:productId,
+            qty: Number(data.qty),
+            product_id: productId,
         }
+
         try {
-            const response = await addProductToCart(productToAdd);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await handleLogOut();
-                    await signOut({ callbackUrl: '/login' });
-                }, 3000);
-                return 
+            await addProductToCart(productToAdd).unwrap();
+            toast.success(`Added ${productToAdd.qty} cases to the cart`)
+        } catch (error) {
+            const statusCode = error?.status ?? error?.originalStatus;
+            const errorCode = error?.data?.code;
+            const errorMessage = error?.data?.message;
+            if (statusCode === 401 || statusCode === 403 || errorCode === 'SESSION_EXPIRED') {
+                await handleSessionExpired();
             } else {
-                await populateCartData()
-                toast.success(`Added ${productToAdd.qty} cases to the cart`)
+                toast.error(errorMessage ?? 'Failed to add to cart')
             }
-        } catch (error) {
-            console.log(error)
-            toast.error('Failed to add to cart')
         }
     };
 
-    const handleUpdate = async (dataToUpdate, e) => {
+    const handleDecrease = async (e) => {
         e.preventDefault();
-        const response = await cookieVerification()
-        if(response.expired){
-            toast.error('Your session has expired, please login again')
-            setTimeout(async () => {
-                await handleLogOut();
-                await signOut({ callbackUrl: '/login' });
-            }, 2000);
-        } else {      
-            debouncedUpdate({
-                ...dataToUpdate,
-                product_id: productId,
-            });     
-        }        
+        e.stopPropagation();
+        decrementQty();
     };
 
-    const debouncedUpdate = debounce(async (productToUpdate) => {
-        try {
-            const response = await updateCartItem(productToUpdate);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await handleLogOut();
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
-                return
-            }    
-        } catch (error) {
-            console.error('Failed to update item in cart:', error);
-            toast.error('Failed to update item in cart');
-            return
-        }
-        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
-    }, 300);
+    const handleIncrease = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        incrementQty();
+    };
 
     const handleDelete = async (e) => {
         e.preventDefault() 
-        e.stopPropagation()    
-        try {
-            const response = await deleteCartItem(productId);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
-            } else {
-                await populateCartData()
-                toast.success(`Deleted product from the cart`) 
-            }            
-        } catch (error) {
-            console.log(error)
-            toast.error(`Failed to delete product in cart`)
+        e.stopPropagation()
+        const wasDeleted = await deleteItem();
+        if (wasDeleted) {
+            toast.success(`Deleted product from the cart`);
         }
-        
     };
 
     return (
@@ -142,7 +124,7 @@ const AddToCart = ({id}) => {
                             </option>
                             ))}
                         </select>
-                        <button className="btn_primary_standard btn_sizeL alignCenter" type="submit" disabled={isSubmitting}>
+                        <button className="btn_primary_standard btn_sizeL alignCenter" type="submit" disabled={isSubmitting || isAdding}>
                             Add to Cart
                         </button>
                         {errors.qty && <p>{errors.qty.message}</p>}
@@ -150,21 +132,21 @@ const AddToCart = ({id}) => {
                 ) : (
                     <form className={styles.product_cart_buttons_container}>
                         <div className={styles.product_cart_button_minicontainer}>
-                            {itemQty > 1 ? (
-                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
+                            {optimisticQty > 1 ? (
+                            <button type="button" className={styles.update_cart_items_button} onClick={handleDecrease}>
                                 -
                             </button>
                             ) : (
-                            <button type="submit" disabled className={styles.update_cart_items_button} onClick={(e) => handleUpdate({ qty: itemQty - 1 }, e)}>
+                            <button type="button" disabled className={styles.update_cart_items_button} onClick={handleDecrease}>
                                 -
                             </button>
                             
                             )}
-                            <p>{itemQty}</p>
-                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleUpdate({ qty: itemQty + 1 }, e)}>
+                            <p>{optimisticQty}</p>
+                            <button type="button" className={styles.update_cart_items_button} onClick={handleIncrease}>
                             +
                             </button>
-                            <button type="submit" className={styles.update_cart_items_button} disabled={isSubmitting} onClick={(e) => handleDelete(e)}>
+                            <button type="button" className={styles.update_cart_items_button} disabled={isPending} onClick={handleDelete}>
                                 <TrashIcon width={16} height={16} weight={2} />
                             </button>
                         </div>

@@ -2,12 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { cookieFetchVerification } from "@/lib/cookieVerification";
+import { createSessionExpiredResponse, isUnauthorizedStatus } from "@/lib/authResponses";
 
 export async function addProductToCart({product_id, qty}){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
     
     try {
@@ -24,8 +25,8 @@ export async function addProductToCart({product_id, qty}){
         })
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }       
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);

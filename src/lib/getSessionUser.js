@@ -3,7 +3,5 @@ import { authOptions } from "@/lib/auth";
 
 
 export async function getSessionUser() {
-    /* @next-codemod-ignore */
-    const session = await getServerSession(authOptions);
-    return session;
+    return getServerSession(authOptions);
 }

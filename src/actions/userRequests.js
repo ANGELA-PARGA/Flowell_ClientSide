@@ -2,12 +2,13 @@
 
 import { revalidatePath } from 'next/cache';
 import { cookieFetchVerification } from '@/lib/cookieVerification';
+import { createSessionExpiredResponse, isUnauthorizedStatus } from '@/lib/authResponses';
 
 export async function updatePersonalInfo(data, resourceType, resourceId){   
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -23,8 +24,8 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
         })
 
         if (!response.ok) { 
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }      
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -44,7 +45,7 @@ export async function updatePassword(password){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
     
     try {
@@ -60,8 +61,8 @@ export async function updatePassword(password){
         })
 
         if (!response.ok) {  
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }     
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -82,7 +83,7 @@ export async function addNewPersonalInfo(newdata, resourceType){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -98,8 +99,8 @@ export async function addNewPersonalInfo(newdata, resourceType){
         })
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }       
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -116,11 +117,11 @@ export async function addNewPersonalInfo(newdata, resourceType){
 }
 
 
-export async function deletePersonalInfo(resourceType,resourceId){
+export async function deletePersonalInfo(resourceType, resourceId){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -132,8 +133,8 @@ export async function deletePersonalInfo(resourceType,resourceId){
         })
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }     
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -201,3 +202,38 @@ export async function recoverPassword(data){
         throw error;        
     } 
 }
+
+export async function sendChatMessage(message) {
+    const { cookieForServer, expired } = await cookieFetchVerification();
+
+    if (expired) {
+        console.log('Session expired on the backend. Triggering logout.');
+        return createSessionExpiredResponse();
+    }
+
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chatbot/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                cookie: cookieForServer
+            },
+            body: JSON.stringify({ message }),
+        });
+
+        if (!response.ok) {        
+            const errorResponse = await response.json();
+            throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError?.status}`);
+        }
+
+        const data = await response.json();
+
+        return data;
+
+    } catch (error) {
+        console.error('Chat API error:', error);
+        throw error;
+    }
+}
+
+

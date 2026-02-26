@@ -2,12 +2,13 @@
 
 import { revalidatePath } from 'next/cache';
 import { cookieFetchVerification } from '@/lib/cookieVerification';
+import { createSessionExpiredResponse, isUnauthorizedStatus } from '@/lib/authResponses';
 
 export async function fetchCartInfoByUser(){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {
@@ -16,15 +17,16 @@ export async function fetchCartInfoByUser(){
         })
 
         if (!response.ok) { 
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }      
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 
         const responseObject = await response.json()
-        return responseObject;
+
+        return { data: responseObject, expired: false };
         
     } catch (error) {
         console.error('NETWORK ERROR ON FETCH CART INFO:', error);
@@ -37,7 +39,7 @@ export async function updateCartItem({product_id, qty}){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart`, {
@@ -49,12 +51,12 @@ export async function updateCartItem({product_id, qty}){
             headers : {
                 "Content-Type": "application/json",
                 cookie: cookieForServer
-            }
+            },
         })
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }       
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -62,7 +64,8 @@ export async function updateCartItem({product_id, qty}){
 
         const responseObject = await response.json()
         revalidatePath(`/account/cart`)
-        return responseObject; 
+        
+        return { data: responseObject, expired: false };
 
     } catch (error) {
         console.error('NETWORK ERROR ON UPDATE CART ITEM:', error);
@@ -74,7 +77,7 @@ export async function deleteCartItem(id){
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
     
     try {
@@ -82,12 +85,12 @@ export async function deleteCartItem(id){
             method: 'DELETE',
             headers : {
                 cookie: cookieForServer
-            }
+            },
         })
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }       
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
@@ -95,7 +98,7 @@ export async function deleteCartItem(id){
 
         const responseObject = await response.json()
         revalidatePath(`/account/cart`)
-        return responseObject; 
+        return { data: responseObject, expired: false };
 
     } catch (error) {
         console.error('NETWORK ERROR ON DELETE CART ITEM:', error);

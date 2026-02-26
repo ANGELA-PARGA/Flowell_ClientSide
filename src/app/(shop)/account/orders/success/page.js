@@ -1,24 +1,22 @@
 'use client' 
 
-import { StoreContext } from '@/context'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { cartApi } from '@/store/cart/cartApi';
 import { useSearchParams } from 'next/navigation';
 import SuccessfullUI from '@/components/orders/SuccessfullUI';
 
 
 export default function Success() {
-  const { populateCartData } = useContext(StoreContext);
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const session_id = searchParams.get('session_id');
 
   useEffect(()=>{
-    const fetchUpdatedCartData = async () => {
-      if (session_id) {
-        await populateCartData();
-      }
-    };
-    fetchUpdatedCartData();
-  }, [session_id, populateCartData])
+    if (session_id) {
+      dispatch(cartApi.util.invalidateTags(['Cart']));
+    }
+  }, [session_id, dispatch])
 
   if(!session_id){
     return null

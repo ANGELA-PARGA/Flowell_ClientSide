@@ -1,16 +1,21 @@
 'use client'
 
 import styles from '../components/navigation/components.module.css'
-import handleLogOut from '@/actions/logout'
-import { signOut } from "next-auth/react";
+import { useDispatch } from 'react-redux';
+import { clearCart } from '@/store/cart/slice';
+import { executeLogout } from '@/lib/clientLogout';
 
 
 export default function ButtonLogOut(){
+    const dispatch = useDispatch();
 
     const onClickLogOut = async () => {
-        localStorage.removeItem('cartData');
-        await signOut();
-        await handleLogOut();        
+        await executeLogout({
+            callbackUrl: '/login',
+            onBeforeSignOut: () => {
+                dispatch(clearCart());
+            },
+        });
     }
 
     return (

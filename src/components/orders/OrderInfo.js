@@ -3,17 +3,16 @@ import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import dynamic from 'next/dynamic'
 import { fetchOrdersById } from "@/lib/fetchingUserInfo";
+import { redirect } from 'next/navigation';
 
 
 const MyModalUpdateOrder = dynamic(() => import('@/UI/MyModalUpdateOrder'))
-const MyModalLogin = dynamic(() => import("@/UI/MyModalLogin"))
 
 export default async function OrderInfo({id}) {
     const {data, expired} =  await fetchOrdersById(id)
     
     if (expired) {
-        console.log('data is expired on ORDER BY ID server component')
-        return <MyModalLogin />;
+        redirect('/login');
     }   
 
     const order = data.orders[0];

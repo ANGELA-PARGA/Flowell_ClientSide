@@ -2,99 +2,80 @@
 
 import styles from './components.module.css'
 import { toast } from 'react-toastify';
-import { useContext,useState } from 'react';
-import { StoreContext } from '@/context';
-import { updateCartItem, deleteCartItem } from '@/actions/cartRequests';
-import { signOut } from 'next-auth/react';
-import handleLogOut from '@/actions/logout';
-import { cookieVerification } from '@/lib/cookieVerification';
 import { TrashIcon } from '../../../public/svgIcons';
-import debounce from "lodash.debounce";
+import { useOptimisticCartItem } from '@/hooks/useOptimisticCartItem';
+import { executeDelayedLogout } from '@/lib/clientLogout';
 
 const UpdateCartItems = ({data, id}) => {
-    const [isLoading, setIsLoading] = useState(false); 
-    const { updateProductQtyInCart, populateCartData } = useContext(StoreContext);
-    const productId = parseInt(id);    
+    const productId = parseInt(id, 10);
 
-    const handleUpdate = async (dataToUpdate, e) => {
-        e.preventDefault();
-        e.stopPropagation(); 
-        const response = await cookieVerification()
-        if(response.expired){
-            toast.error('Your session has expired, please login again')
-            setTimeout(async () => {
-                await handleLogOut()
-                await signOut({ callbackUrl: '/login' });
-            }, 2000);
-        } else {                    
-            debouncedUpdate({
-                ...dataToUpdate,
-                product_id: productId,
-            });
-        }        
+    const handleSessionExpired = async () => {
+        toast.error('Your session has expired, please login again');
+        await executeDelayedLogout({
+            delayMs: 2000,
+            callbackUrl: '/login',
+        });
     };
 
-    /*using optimistics updates */
-    const debouncedUpdate = debounce(async (productToUpdate) => {
-        const previousQty = data.qty;
-        updateProductQtyInCart(productToUpdate.qty, productToUpdate.product_id);
-        setIsLoading(true);
-        try {
-            const response = await updateCartItem(productToUpdate);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await handleLogOut()
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
-                return 
-            }            
-        } catch (error) {
-            console.error('Failed to update item in cart:', error);
-            toast.error('Failed to update item in cart');
-            updateProductQtyInCart(previousQty, productToUpdate.product_id); // Rollback            
-        } finally {
-            setIsLoading(false); 
+    const handleRequestError = (_error, type, message) => {
+        if (type === 'delete') {
+            toast.error(message ?? 'Failed to delete product in cart');
+            return;
         }
-    }, 300);
+
+        toast.error(message ?? 'Failed to update item in cart');
+    };
+
+    const {
+        optimisticQty,
+        subtotal,
+        isPending,
+        incrementQty,
+        decrementQty,
+        deleteItem,
+    } = useOptimisticCartItem({
+        item: data,
+        productId,
+        onSessionExpired: handleSessionExpired,
+        onRequestError: handleRequestError,
+    });
+
+    const handleDecrease = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        decrementQty();
+    };
+
+    const handleIncrease = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        incrementQty();
+    };
 
     const handleDelete = async (e) => {
-        e.preventDefault() 
-        e.stopPropagation()    
-        try {
-            const response = await deleteCartItem(productId);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                setTimeout(async () => {
-                    await handleLogOut()
-                    await signOut({ callbackUrl: '/login' });
-                }, 2000);
-            } else {
-                await populateCartData()
-                toast.success(`Deleted product from the cart`) 
-            }            
-        } catch (error) {
-            console.log(error)
-            toast.error(`Failed to delete product in cart`)
+        e.preventDefault();
+        e.stopPropagation();
+        const wasDeleted = await deleteItem();
+        if (wasDeleted) {
+            toast.success('Deleted product from the cart');
         }
-        
     };
 
     return (
         <>
         <div className={styles.product_cart_buttons_container}>
             <div className={styles.product_cart_button_minicontainer}>
-                {data.qty > 1 ? (
-                    <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)} disabled={isLoading}> - </button> 
+                {optimisticQty > 1 ? (
+                    <button className={styles.update_cart_items_button} onClick={handleDecrease}> - </button> 
                 )
-                : <button disabled className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty-1}, e)}> - </button> }
-                <p className={styles.dataQty}>{data.qty}</p>
-                <button className={styles.update_cart_items_button} onClick={(e)=> handleUpdate({qty : data.qty+1}, e)} disabled={isLoading}> + </button>
-                <button className={styles.update_cart_items_button} onClick={(e)=> handleDelete(e)} disabled={isLoading}><TrashIcon width={14} height={14} weight={2}/></button>
+                : <button disabled className={styles.update_cart_items_button} onClick={handleDecrease}> - </button> }
+                <p className={styles.dataQty}>{optimisticQty}</p>
+                <button className={styles.update_cart_items_button} onClick={handleIncrease}> + </button>
+                <button className={styles.update_cart_items_button} onClick={handleDelete} disabled={isPending}><TrashIcon width={14} height={14} weight={2}/></button>
             </div>                                             
         </div>
         <div>
-            <p className='flex-row-gap-xs'>Subtotal: <span>${(data.qty * data.price_per_case.toFixed(2)).toFixed(2)}</span></p>                              
+            <p className='flex-row-gap-xs'>Subtotal: <span>${subtotal.toFixed(2)}</span></p>                              
         </div>
         </>
     )

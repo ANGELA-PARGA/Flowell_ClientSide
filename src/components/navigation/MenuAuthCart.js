@@ -2,22 +2,23 @@
 
 import Link from 'next/link';
 import styles from './components.module.css'
-import { StoreContext } from '@/context';
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { selectCartItems, selectCartTotal } from '@/store/cart/selectors';
 import ProductCartMenu from '../product/ProductCartMenu';
 
 const MenuAuthCart = ({handleClose}) => {
-    const {cartData} = useContext(StoreContext);
+    const cartItems = useSelector(selectCartItems);
+    const cartTotal = useSelector(selectCartTotal);
 
     return (
-        cartData.total ? 
+        cartTotal ? 
                 <div className={`${styles.dropdown_menu_authenticated} flex-col-gap-xl ${styles.dropdown_menu_authenticated_cart}`}>                
             {
                 <>                    
-                {cartData.items.map((item) => (
+                {cartItems.map((item) => (
                     <ProductCartMenu data={item} id={item.product_id} key={item.product_id} />          
                 ))}                    
-                <h3 className={styles.dropdown_total_cart}>Total: ${cartData.total.toFixed(2)}</h3>
+                <h3 className={styles.dropdown_total_cart}>Total: ${cartTotal.toFixed(2)}</h3>
                 <div>
                     <Link href='/account/cart' onClick={()=> handleClose()}><button className='btn_primary_standard btn_sizeS'>View</button></Link>
                 </div>

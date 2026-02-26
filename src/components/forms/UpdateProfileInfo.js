@@ -5,37 +5,52 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { updatePersonalInfo } from '@/actions/userRequests';
+import { useDispatch } from 'react-redux';
+import { updateUserInfo } from '@/store/user/thunks';
 import { toast } from 'react-toastify';
 import { forceLogOut } from '@/lib/forceLogout';
 
-export default function UpdateProfileInfo({ resourceType, resourceId, name, handleClose }) {
-    const [updateError, setupdateError] = useState();
+const schema = yup.object({
+    first_name: yup.string().required('The first name is required'),
+    last_name: yup.string().required('The last name is required'),
+});
 
-    const schema = yup.object({
-        first_name: yup.string().required('The first name is required'),
-        last_name: yup.string().required('The last name is required'),
-    });
+export default function UpdateProfileInfo({ resourceType, resourceId, name, handleClose }) {
+    const dispatch = useDispatch();
+    const [updateError, setupdateError] = useState();    
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, trigger } = useForm({
         resolver: yupResolver(schema)
     });
 
     const onSubmit = async (data) => {
+        console.log('[UpdateProfileInfo] onSubmit - Entry:', data);
         await schema.validate(data);
+        
+        // Close modal immediately for better UX (optimistic update already dispatched in thunk)
+        handleClose();
+        
         try {
-            const response = await updatePersonalInfo(data, resourceType, resourceId);
-            if (response.expired) {
-                toast.error('Your session has expired, please login again');
-                await forceLogOut(handleClose);
-            } else {
-                handleClose();
-                toast.success(`Personal information updated successfully`);
-            }
+            // Dispatch thunk - handles optimistic update internally
+            await dispatch(updateUserInfo({
+                data,
+                resourceType,
+                resourceId
+            })).unwrap();
+            
+            console.log('[UpdateProfileInfo] onSubmit - Success');
+            toast.success(`Personal information updated successfully`);
         } catch (error) {
-            console.log(error);
+            console.error('[UpdateProfileInfo] onSubmit - Error:', error);
             setupdateError(error.message);
-            toast.error('Failed to update personal information');
+            
+            if (error === 'Session expired') {
+                console.log('[UpdateProfileInfo] onSubmit - Session expired, forcing logout');
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to update personal information');
+            }
         }
     };
 

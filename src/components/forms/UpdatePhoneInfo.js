@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { updatePersonalInfo } from '@/actions/userRequests';
+import { useDispatch } from 'react-redux';
+import { updateUserInfo } from '@/store/user/thunks';
 import { toast } from 'react-toastify';
 import { forceLogOut } from '@/lib/forceLogout';
 
@@ -25,6 +26,7 @@ const schema = yup.object({
 });
 
 export default function UpdatePhoneInfo({ resourceType, resourceId, phone, handleClose }) {
+    const dispatch = useDispatch();
     const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger } = useForm({
@@ -32,20 +34,33 @@ export default function UpdatePhoneInfo({ resourceType, resourceId, phone, handl
     });
 
     const onSubmit = async (data) => {
+        console.log('[UpdatePhoneInfo] onSubmit - Entry:', data);
         await schema.validate(data);
+        
+        // Close modal immediately for better UX
+        handleClose();
+        
         try {
-            const response = await updatePersonalInfo(data, resourceType, resourceId);
-            if (response.expired) {
-                toast.error('Your session has expired, please login again');
-                await forceLogOut(handleClose);
-            } else {
-                handleClose();
-                toast.success(`Contact information updated successfully`);
-            }
+            // Dispatch thunk - handles optimistic update internally
+            await dispatch(updateUserInfo({
+                data,
+                resourceType,
+                resourceId
+            })).unwrap();
+            
+            console.log('[UpdatePhoneInfo] onSubmit - Success');
+            toast.success(`Contact information updated successfully`);
         } catch (error) {
-            console.log(error);
+            console.error('[UpdatePhoneInfo] onSubmit - Error:', error);
             setupdateError(error.message);
-            toast.error('Failed to update contact information');
+            
+            if (error === 'Session expired') {
+                console.log('[UpdatePhoneInfo] onSubmit - Session expired, forcing logout');
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to update contact information');
+            }
         }
     };
 

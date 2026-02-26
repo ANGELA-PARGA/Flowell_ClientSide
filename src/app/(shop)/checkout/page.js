@@ -1,24 +1,22 @@
-import { getSessionUser } from "@/lib/getSessionUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { fetchAllUserInfo } from "@/lib/fetchingUserInfo";
 import CheckoutDashboard from "@/components/checkout/CheckoutDashboard";
 import styles from './page.module.css'
-import dynamic from 'next/dynamic'
 import { Suspense } from "react";
 import LoadingCheckout from "@/UI/LoadingCheckout";
-
-const MyModalLogin = dynamic(()=> import("@/UI/MyModalLogin"))
+import { redirect } from "next/navigation";
 
 export default async function Checkout() { 
-  /* @next-codemod-ignore */
-  const session = await getSessionUser();
+  const session = await getServerSession(authOptions);
   if (!session) {
-      return <MyModalLogin />;
+      redirect('/login');
   }
 
   const {data, expired} = await fetchAllUserInfo();
 
     if (expired) {
-        return <MyModalLogin />;
+        redirect('/login');
     }
 
   return (

@@ -2,6 +2,26 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const getConnectSidFromHeaders = (response) => {
+    if (typeof response.headers?.getSetCookie === 'function') {
+        const cookiesFromHeader = response.headers.getSetCookie();
+        const connectSidCookie = cookiesFromHeader.find((cookie) => cookie.startsWith('connect.sid='));
+        if (connectSidCookie) {
+            return connectSidCookie.split(';')[0].split('=')[1];
+        }
+    }
+
+    const rawSetCookie = response.headers?.get('set-cookie');
+    if (!rawSetCookie) {
+        return null;
+    }
+
+    const connectSidMatch = rawSetCookie.match(/connect\.sid=([^;]+)/i);
+    return connectSidMatch?.[1] ?? null;
+};
+
 
 export const authOptions = {
     providers: [
@@ -18,8 +38,8 @@ export const authOptions = {
                         {
                             method: "POST",
                             body: JSON.stringify({
-                            email: credentials?.email,
-                            password: credentials?.password,
+                                email: credentials?.email,
+                                password: credentials?.password,
                             }),
                             headers: { "Content-Type": "application/json" },
                             credentials: "include",
@@ -32,28 +52,21 @@ export const authOptions = {
                     }
                     if(response.ok){
                         const userRetrieved = await response.json();
-                        
-                        /*setting the cookie manually to the browser*/                        
-                        const apiCookies = (await response.headers).get('Set-Cookie');
-                        const cookieParts = apiCookies.split(';');
-                        const cookieObject = {};
-                        cookieParts.forEach(part => {
-                            const [key, value] = part.trim().split('=');
-                            const name = key.split('.')[0];
-                            if (name && value) {
-                                cookieObject[name.trim()] = value.trim();
-                            }
-                        });
-                        /* on production set cookie to secure:true*/
+
+                        const connectSidValue = getConnectSidFromHeaders(response);
+                        if (!connectSidValue) {
+                            throw new Error('Authentication cookie was not provided by the backend');
+                        }
+
                         const allCookies = await cookies();
                         allCookies.set({
                             name: 'connect.sid',
-                            value: cookieObject['connect'],
+                            value: connectSidValue,
                             httpOnly: true,
                             maxAge: 24 * 60 * 60,
-                            path: cookieObject['Path'],
-                            expires: new Date(cookieObject['Expires']),
-                            secure: true,
+                            path: '/',
+                            sameSite: 'lax',
+                            secure: isProduction,
                         });
                         
                         /*returning the user for the session information*/
@@ -68,7 +81,7 @@ export const authOptions = {
                     }                            
                 } catch (error) {
                     console.error('Authorization error:', error);
-                    throw new Error(error);                        
+                    throw (error instanceof Error ? error : new Error(String(error)));                        
                 }
             },
         }),
@@ -77,12 +90,14 @@ export const authOptions = {
         signIn: "/login",
     },
     session: {
-        jwt: true,
+        strategy: "jwt",
         maxAge: 24 * 60 * 60,
     },
     jwt:{
         maxAge: 24 * 60 * 60,
     },
+    // these callbacks are used to include the user information in the token and session, 
+    // so we can access it across the app without needing to fetch it again
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
@@ -90,6 +105,7 @@ export const authOptions = {
                 token.email = user.email;
                 token.username = user.username;
                 token.cart_id = user.cart_id;
+                token.role = user.role;
             }
             return token;
         },
@@ -98,6 +114,7 @@ export const authOptions = {
             session.user.email = token.email;
             session.user.username = token.username;
             session.user.cart_id = token.cart_id;
+            session.user.role = token.role;
             return session;
         }
     },

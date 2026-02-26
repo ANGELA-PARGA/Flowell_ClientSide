@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { sendChatMessage } from '@/lib/fetchingRequests';
+import { sendChatMessage } from '@/actions/userRequests'
 import styles from './components.module.css';
 
 const STORAGE_KEY = 'flowell_chat_messages';
@@ -94,7 +94,7 @@ const ChatInterface = () => {
             
             const botMessage = {
                 id: Date.now() + 1,
-                text: response.message || response.reply || 'I received your message!',
+                text: response.response || response.message || 'I received your message!',
                 sender: 'bot',
                 timestamp: new Date().toLocaleTimeString('en-US', { 
                     hour: '2-digit', 

@@ -5,17 +5,19 @@ import { NextResponse } from 'next/server';
 export async function middleware(req) {
     const token = await getToken({ req });
     const { pathname } = req.nextUrl;
+    const isProtectedRoute = pathname.startsWith('/account') || pathname.startsWith('/checkout');
+    const isAuthPage = pathname === '/login' || pathname === '/register';
+    const isRecoverPasswordPage = pathname.startsWith('/recover_password');
 
-        // Protege rutas de la cuenta
-        if (!token && (pathname.startsWith('/account') || 
-            !token && pathname.startsWith('/checkout'))){
-            return NextResponse.redirect(new URL('/login', req.url));
-        }
+    if (!token && isProtectedRoute) {
+        return NextResponse.redirect(new URL('/login', req.url));
+    }
 
-        // Redirige si el usuario está autenticado y trata de acceder a /login o /register
-        if (token && (pathname === '/login' || pathname === '/register') || pathname.startsWith('/recover_password')) {
-            return NextResponse.redirect(new URL('/', req.url));
-        }
+    if (token && (isAuthPage || isRecoverPasswordPage)) {
+        return NextResponse.redirect(new URL('/', req.url));
+    }
+
+    return NextResponse.next();
 }
 
 export const config = {

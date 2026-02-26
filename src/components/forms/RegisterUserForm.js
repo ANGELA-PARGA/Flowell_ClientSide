@@ -3,8 +3,7 @@
 import Link from "next/link";
 import styles from './components.module.css'
 import {useForm} from 'react-hook-form'
-import { useState, useContext } from "react";
-import { StoreContext } from "@/context";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,7 +24,6 @@ const schema = yup.object({
 export default function RegisterUserForm() {  
     const [loginError, setLoginError] = useState();
     const router = useRouter();
-    const { populateCartData } = useContext(StoreContext);
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger } = useForm({
         resolver: yupResolver(schema)
@@ -45,7 +43,6 @@ export default function RegisterUserForm() {
                 throw new Error(responseNextAuth.error)
             }   
             reset()
-            await populateCartData();
             router.push("/"); 
             toast.success(`Account succesfully created!`)     
         } catch (error) {

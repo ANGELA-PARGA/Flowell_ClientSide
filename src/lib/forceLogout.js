@@ -1,10 +1,20 @@
-import { signOut } from 'next-auth/react';
-import handleLogOut from '@/actions/logout';
+import { executeDelayedLogout } from '@/lib/clientLogout';
 
+/**
+ * Force logout utility
+ * Handles session cleanup when session expires
+ * 
+ * Note: Redux state (cart/user) is automatically cleared by useCartSync/useUserSync hooks
+ * when NextAuth session becomes unauthenticated. No need to manually dispatch here.
+ */
 export async function forceLogOut(handleClose) {
-    setTimeout(async () => {
-        handleClose();
-        await handleLogOut();
-        await signOut({ callbackUrl: '/login' });
-    }, 3000);
+    await executeDelayedLogout({
+        delayMs: 2000,
+        callbackUrl: '/login',
+        onBeforeSignOut: () => {
+            if (handleClose) {
+                handleClose();
+            }
+        },
+    });
 }

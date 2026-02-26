@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
 
@@ -5,21 +7,25 @@ const MyModalDelete = dynamic(() => import('@/UI/MyModalDelete'))
 const MyModalAdd = dynamic(() => import('@/UI/MyModalAdd'))
 const MyModalEdit = dynamic(() => import('@/UI/MyModalUpdate'))
 
-export default function ProfilePhoneInfo({userData}) {
+/**
+ * Profile Phone Information Component
+ * Receives phones from Redux via props from parent
+ */
+export default function ProfilePhoneInfo({ phones }) {
     return (
         <>
         <section className={styles.profile_info_container}>
             <div className='flex-col-gap'>
                 <h3>Phone numbers</h3>
                 <div>
-                    {userData && userData.length > 0 ? (
+                    {phones && phones.length > 0 ? (
                     <ul className={styles.subcontainer_info_details}>
-                        {userData.map((phone) => (
-                        <li key={phone.phoneID} className={`${styles.profile_info_details_container} flex-col-gap`}>
+                        {phones.map((phone) => (
+                        <li key={phone.id || phone.tempId} className={`${styles.profile_info_details_container} flex-col-gap`}>
                             <p>{phone.phone}</p>
                             <div className={styles.profile_info_edition_buttons}>
-                                <MyModalEdit resourceId={phone.phoneID} resourceType={'contact_inf'} resource={phone}/>
-                                <MyModalDelete type={'Contact'} resourceId={phone.phoneID} resourceType={'contact_inf'}/>     
+                                <MyModalEdit resourceId={phone.id || phone.tempId} resourceType={'contact_inf'} resource={phone}/>
+                                <MyModalDelete type={'Contact'} resourceId={phone.id || phone.tempId} resourceType={'contact_inf'}/>     
                             </div>
                         </li>
                         ))}
@@ -33,7 +39,7 @@ export default function ProfilePhoneInfo({userData}) {
                 </div>
                 <div>
                     {
-                        userData && userData.length < 2 
+                        phones && phones.length < 2 
                         ? <MyModalAdd resourceType={'contact_inf'}/> 
                         : null
                     }

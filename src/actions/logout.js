@@ -1,12 +1,13 @@
 'use server'
 import { cookies } from "next/headers";
 import { cookieFetchVerification } from "@/lib/cookieVerification";
+import { createSessionExpiredResponse, isUnauthorizedStatus } from "@/lib/authResponses";
 
 export default async function handleLogOut() {
     const { cookieForServer, expired } = await cookieFetchVerification();
 
     if (expired) {
-        return { expired: true };
+        return createSessionExpiredResponse();
     }
 
     try {        
@@ -18,14 +19,17 @@ export default async function handleLogOut() {
         });
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { expired: true };
+            if (isUnauthorizedStatus(response.status)) {
+                return createSessionExpiredResponse();
             }      
             const errorResponse = await response.json();
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
-        } 
-        (await cookies()).delete('connect.sid')
-        await response.json()
+        }
+        
+        (await cookies()).delete('connect.sid');
+        
+        await response.json();
+        return { expired: false };
         
     } catch (error) {
         console.error('NETWORK ERROR LOGGING OUT:', error);

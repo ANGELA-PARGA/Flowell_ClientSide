@@ -5,7 +5,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { updatePersonalInfo } from '@/actions/userRequests';
+import { useDispatch } from 'react-redux';
+import { updateUserInfo } from '@/store/user/thunks';
+import { updateUserInfoLocally } from '@/store/user/slice';
 import { forceLogOut } from '@/lib/forceLogout';
 import { toast } from 'react-toastify';
 
@@ -19,6 +21,7 @@ const schema = yup.object({
 });
 
 export default function UpdateAddressInfo({ resourceType, resourceId, address, handleClose }) {
+    const dispatch = useDispatch();
     const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, trigger } = useForm({
@@ -27,19 +30,37 @@ export default function UpdateAddressInfo({ resourceType, resourceId, address, h
 
     const onSubmit = async (data) => {
         await schema.validate(data);
+        
+        // 1. Optimistic update - immediate UI feedback
+        dispatch(updateUserInfoLocally({
+            resourceId,
+            resourceType,
+            data
+        }));
+        
+        // 2. Close modal immediately for better UX
+        handleClose();
+        
         try {
-            const response = await updatePersonalInfo(data, resourceType, resourceId);
-            if (response.expired) {
-                toast.error('Your session has expired, please login again');
-                await forceLogOut(handleClose);
-            } else {
-                handleClose();
-                toast.success(`Address information updated successfully`);
-            }
+            // 3. Sync with server in background
+            await dispatch(updateUserInfo({
+                data,
+                resourceType,
+                resourceId
+            })).unwrap();
+            
+            toast.success(`Address information updated successfully`);
         } catch (error) {
             console.log(error);
             setupdateError(error.message);
-            toast.error('Failed to update address information');
+            
+            if (error === 'Session expired') {
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to update address information');
+                // Server revalidation will sync the correct data on next visit
+            }
         }
     };
 
