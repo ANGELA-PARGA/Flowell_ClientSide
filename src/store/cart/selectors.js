@@ -17,11 +17,6 @@ export const selectCartTotalItems = createSelector(
     (cart) => cart.total_items
 );
 
-export const selectCartIsLoading = createSelector(
-    [selectCart],
-    (cart) => cart.isLoading
-);
-
 export const selectProductQtyInCart = (state, productId) => {
     const item = state.cart.items.find(item => item.product_id === productId);
     return item ? item.qty : 0;

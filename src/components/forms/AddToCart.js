@@ -1,6 +1,6 @@
 'use client'
 
-
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { selectProductQtyInCart } from '@/store/cart/selectors';
@@ -22,7 +22,11 @@ const schema = yup.object().shape({
 });
 
 const AddToCart = ({id}) => {
+    const [hasMounted, setHasMounted] = useState(false);
     const { status} = useSession();
+
+    useEffect(() => { setHasMounted(true); }, []);
+    
     const productId = parseInt(id, 10);
     const [addProductToCart, { isLoading: isAdding }] = useAddProductToCartMutation();
     
@@ -115,7 +119,7 @@ const AddToCart = ({id}) => {
                 <Spinner />
             ) : status === 'authenticated' ? (
                 <div className={styles.add_to_cart_container}>
-                {!itemQty ? (
+                {!hasMounted || !itemQty ? (
                     <form className={`${styles.add_to_cart_form} flex-row-gap`} onSubmit={handleSubmit(onSubmit)}>
                         <select {...register("qty")}>
                             {[...Array(15)].map((_, index) => (

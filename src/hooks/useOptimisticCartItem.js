@@ -1,161 +1,131 @@
 'use client';
 
-import { startTransition, useCallback, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
 import { useDeleteCartItemMutation, useUpdateCartItemMutation } from '@/store/cart/cartApi';
+import {
+    optimisticUpdateItemQty,
+    optimisticRemoveItem,
+    rollbackRemoveItem,
+} from '@/store/cart/slice';
 
 const getErrorStatus = (error) => error?.status ?? error?.originalStatus ?? null;
 const getErrorCode = (error) => error?.data?.code ?? null;
 const getErrorMessage = (error) => error?.data?.message ?? null;
-const isDev = process.env.NODE_ENV !== 'production';
 
 export function useOptimisticCartItem({ item, productId, onSessionExpired, onRequestError }) {
-    const initialQty = item?.qty ?? 0;
-    const [displayQty, setDisplayQty] = useState(initialQty);
-
-    const [optimisticQty, setOptimisticQty] = useOptimistic(
-        initialQty,
-        (_currentQty, newQty) => newQty
-    );
-
+    const dispatch = useDispatch();
+    const [localQty, setLocalQty] = useState(item?.qty ?? 0);
     const [updateCartItem, { isLoading: isUpdating }] = useUpdateCartItemMutation();
     const [deleteCartItem, { isLoading: isDeleting }] = useDeleteCartItemMutation();
 
-    const pendingQtyRef = useRef(initialQty);
-    const committedQtyRef = useRef(initialQty);
-    const isFlushingRef = useRef(false);
+    const qtyRef = useRef(item?.qty ?? 0);
+    const lastConfirmedQty = useRef(item?.qty ?? 0);
+    const isInteracting = useRef(false);
+    const callbacksRef = useRef({ onSessionExpired, onRequestError });
 
     useEffect(() => {
+        callbacksRef.current = { onSessionExpired, onRequestError };
+    });
+
+    // Sync local state when server data changes, but only if user isn't clicking
+    useEffect(() => {
         const serverQty = item?.qty ?? 0;
-        committedQtyRef.current = serverQty;
-
-        if (!isFlushingRef.current) {
-            pendingQtyRef.current = serverQty;
-            setDisplayQty(serverQty);
-            startTransition(() => {
-                setOptimisticQty(serverQty);
-            });
+        lastConfirmedQty.current = serverQty;
+        if (!isInteracting.current) {
+            qtyRef.current = serverQty;
+            setLocalQty(serverQty);
         }
-    }, [item?.qty, setOptimisticQty]);
+    }, [item?.qty]);
 
-    const isPending = isUpdating || isDeleting;
+    // Debounced server sync — stable across renders (only recreates if productId changes)
+    // Uses refs for callbacks so it always calls the latest version
+    const debouncedSync = useMemo(
+        () => debounce(async (newQty) => {
+            try {
+                await updateCartItem({ product_id: productId, qty: newQty }).unwrap();
+                lastConfirmedQty.current = newQty;
+            } catch (error) {
+                // Rollback local qty AND Redux slice totals to last confirmed state
+                const rollbackQty = lastConfirmedQty.current;
+                qtyRef.current = rollbackQty;
+                setLocalQty(rollbackQty);
+                dispatch(optimisticUpdateItemQty({ productId, newQty: rollbackQty }));
 
-    const subtotal = useMemo(
-        () => displayQty * (item?.price_per_case ?? 0),
-        [displayQty, item?.price_per_case]
-    );
+                const statusCode = getErrorStatus(error);
+                const errorCode = getErrorCode(error);
 
-    const flushQtyUpdates = useCallback(async () => {
-        if (isFlushingRef.current) {
-            return;
-        }
-
-        isFlushingRef.current = true;
-
-        try {
-            while (pendingQtyRef.current !== committedQtyRef.current) {
-                const targetQty = pendingQtyRef.current;
-
-                if (isDev) {
-                    console.log('[useOptimisticCartItem] flush start', {
-                        productId,
-                        committedQty: committedQtyRef.current,
-                        targetQty,
-                    });
-                }
-
-                try {
-                    await updateCartItem({ product_id: productId, qty: targetQty }).unwrap();
-                    committedQtyRef.current = targetQty;
-
-                    if (isDev) {
-                        console.log('[useOptimisticCartItem] flush success', {
-                            productId,
-                            committedQty: committedQtyRef.current,
-                            pendingQty: pendingQtyRef.current,
-                        });
-                    }
-                } catch (error) {
-                    pendingQtyRef.current = committedQtyRef.current;
-                    setDisplayQty(committedQtyRef.current);
-                    startTransition(() => {
-                        setOptimisticQty(committedQtyRef.current);
-                    });
-
-                    const statusCode = getErrorStatus(error);
-                    const errorCode = getErrorCode(error);
-
-                    if (statusCode === 401 || statusCode === 403 || errorCode === 'SESSION_EXPIRED') {
-                        onSessionExpired?.();
-                        return;
-                    }
-
-                    onRequestError?.(error, 'update', getErrorMessage(error));
+                if (statusCode === 401 || statusCode === 403 || errorCode === 'SESSION_EXPIRED') {
+                    callbacksRef.current.onSessionExpired?.();
                     return;
                 }
+
+                callbacksRef.current.onRequestError?.(error, 'update', getErrorMessage(error));
+            } finally {
+                isInteracting.current = false;
             }
-        } finally {
-            isFlushingRef.current = false;
-        }
-    }, [onRequestError, onSessionExpired, productId, setOptimisticQty, updateCartItem]);
+        }, 500),
+        [productId, updateCartItem]
+    );
 
-    const applyQty = useCallback(async (newQty) => {
-        const safeQty = Math.max(1, newQty);
+    // Cancel pending debounce on unmount
+    useEffect(() => () => debouncedSync.cancel(), [debouncedSync]);
 
-        if (isDev) {
-            console.log('[useOptimisticCartItem] queue qty', {
-                productId,
-                currentPendingQty: pendingQtyRef.current,
-                requestedQty: safeQty,
-            });
-        }
-
-        pendingQtyRef.current = safeQty;
-        setDisplayQty(safeQty);
-        startTransition(() => {
-            setOptimisticQty(safeQty);
-        });
-
-        await flushQtyUpdates();
-    }, [flushQtyUpdates, setOptimisticQty]);
-
+    // qtyRef is our synchronous source of truth so dispatch always sees
+    // the correct value — React's functional updater runs lazily during render,
+    // which would leave a let variable undefined at dispatch time.
     const incrementQty = useCallback(() => {
-        const nextQty = pendingQtyRef.current + 1;
-        void applyQty(nextQty);
-    }, [applyQty]);
+        const next = qtyRef.current + 1;
+        qtyRef.current = next;
+        isInteracting.current = true;
+        setLocalQty(next);
+        dispatch(optimisticUpdateItemQty({ productId, newQty: next }));
+        debouncedSync(next);
+    }, [debouncedSync, dispatch, productId]);
 
     const decrementQty = useCallback(() => {
-        const nextQty = Math.max(1, pendingQtyRef.current - 1);
-        void applyQty(nextQty);
-    }, [applyQty]);
+        const next = Math.max(1, qtyRef.current - 1);
+        qtyRef.current = next;
+        isInteracting.current = true;
+        setLocalQty(next);
+        dispatch(optimisticUpdateItemQty({ productId, newQty: next }));
+        debouncedSync(next);
+    }, [debouncedSync, dispatch, productId]);
 
     const deleteItem = useCallback(async () => {
-        if (isFlushingRef.current) {
-            return false;
-        }
+        // Stash the full item before removing so we can rollback on failure
+        const stashedItem = item ? { ...item } : null;
+
+        // Optimistically remove from Redux immediately so UI updates fast
+        dispatch(optimisticRemoveItem({ productId }));
 
         try {
             await deleteCartItem(productId).unwrap();
             return true;
         } catch (error) {
+            // Restore the item in Redux (no network needed)
+            if (stashedItem) {
+                dispatch(rollbackRemoveItem({ item: stashedItem }));
+            }
+
             const statusCode = getErrorStatus(error);
             const errorCode = getErrorCode(error);
 
             if (statusCode === 401 || statusCode === 403 || errorCode === 'SESSION_EXPIRED') {
-                onSessionExpired?.();
+                callbacksRef.current.onSessionExpired?.();
                 return false;
             }
 
-            onRequestError?.(error, 'delete', getErrorMessage(error));
+            callbacksRef.current.onRequestError?.(error, 'delete', getErrorMessage(error));
             return false;
         }
-    }, [deleteCartItem, onRequestError, onSessionExpired, productId]);
+    }, [deleteCartItem, dispatch, item, productId]);
 
     return {
-        optimisticQty: displayQty,
-        reconciledQty: optimisticQty,
-        subtotal,
-        isPending,
-        updateQty: applyQty,
+        optimisticQty: localQty,
+        subtotal: localQty * (item?.price_per_case ?? 0),
+        isPending: isUpdating || isDeleting,
         incrementQty,
         decrementQty,
         deleteItem,
