@@ -4,6 +4,7 @@ import parseISO from "date-fns/parseISO";
 import dynamic from 'next/dynamic'
 import { fetchOrdersById } from "@/lib/fetchingUserInfo";
 import { redirect } from 'next/navigation';
+import { ADDRESS_RESOURCE, DATE_RESOURCE } from '@/const';
 
 
 const MyModalUpdateOrder = dynamic(() => import('@/UI/MyModalUpdateOrder'))
@@ -30,7 +31,7 @@ export default async function OrderInfo({id}) {
                 {
                     order.status !== 'PAID' ?
                     <button type='button' className='btn_primary_standard btn_sizeM disabled-state'>Edit</button>: 
-                    <MyModalUpdateOrder id={order.id} resourceType={'date'}/>                          
+                    <MyModalUpdateOrder id={order.id} resourceType={DATE_RESOURCE}/>                          
                 }           
             </div>
             <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
@@ -61,7 +62,7 @@ export default async function OrderInfo({id}) {
                 {
                     order.status !== 'PAID' ?
                     <button className='btn_primary_standard btn_sizeM disabled-state'>Edit</button>:
-                    <MyModalUpdateOrder data={order} resourceType={'address'}/>
+                    <MyModalUpdateOrder data={order} resourceType={ADDRESS_RESOURCE}/>
                 }
                 
             </div>

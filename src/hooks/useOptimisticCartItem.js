@@ -3,7 +3,10 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { useDeleteCartItemMutation, useUpdateCartItemMutation } from '@/store/cart/cartApi';
+import { 
+    useDeleteCartItemMutation, 
+    useUpdateCartItemMutation 
+} from '@/store/cart/cartApi';
 import {
     optimisticUpdateItemQty,
     optimisticRemoveItem,

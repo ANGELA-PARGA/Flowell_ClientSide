@@ -28,6 +28,7 @@ export async function updatePersonalInfo(data, resourceType, resourceId){
                 return createSessionExpiredResponse();
             }      
             const errorResponse = await response.json();
+            console.error('Error response from server:', errorResponse);
             throw new Error(`Error: ${errorResponse.status}, ${errorResponse.error}, statusCode: ${errorResponse?.customError.status}`);
         } 
 

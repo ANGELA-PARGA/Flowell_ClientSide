@@ -2,10 +2,11 @@
 
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
+import { ADDRESS_RESOURCE } from '@/const';
 
 const MyModalDelete = dynamic(() => import('@/UI/MyModalDelete'))
 const MyModalAdd = dynamic(() => import('@/UI/MyModalAdd'))
-const MyModalEdit = dynamic(() => import('@/UI/MyModalUpdate'))
+const MyModalEdit = dynamic(() => import('@/UI/MyModalEdit'))
 
 /**
  * Profile Address Information Component
@@ -29,10 +30,20 @@ export default function ProfileAddressInfo({ addresses }) {
                                 <p>{address.zip_code}</p>
                             </div>
                             <div className={styles.profile_info_edition_buttons}>
-                                <MyModalEdit resourceId={address.id} resourceType={'address_inf'} resource={address}/>
-                                <MyModalDelete type={'Address'} 
+                                <MyModalEdit resourceId={address.id} 
+                                            resourceType={ADDRESS_RESOURCE} 
+                                            resource={
+                                                { 
+                                                    address: address.address, 
+                                                    city: address.city, 
+                                                    state: address.state, 
+                                                    zip_code: address.zip_code 
+                                                }
+                                            }
+                                />
+                                <MyModalDelete type={ADDRESS_RESOURCE} 
                                                 resourceId={address.id} 
-                                                resourceType={'address_inf'} 
+                                                resourceType={ADDRESS_RESOURCE} 
                                 />
                             </div>
                         </li>))}
@@ -40,13 +51,13 @@ export default function ProfileAddressInfo({ addresses }) {
                     ) : (
                         <>
                         <p className={styles.notUserInfoMessage}>You don't have any addresses, please add an address</p>
-                        <MyModalAdd resourceType={'address_inf'}/> 
+                        <MyModalAdd resourceType={ADDRESS_RESOURCE}/> 
                         </>
                     )}
                     <div>
                         {
                             addresses && addresses.length < 2 ?
-                            <MyModalAdd resourceType={'address_inf'}/> 
+                            <MyModalAdd resourceType={ADDRESS_RESOURCE}/> 
                             : null
                         }
                     </div>                  

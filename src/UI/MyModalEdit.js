@@ -2,11 +2,11 @@
 import {useState} from 'react'
 import dynamic from 'next/dynamic'
 import styles from './components.module.css'
+import { UPDATE_FORM } from '@/const'
+import { updateUserInfo } from '@/store/user/thunks';
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
-const UpdateAddressInfo = dynamic(() => import('@/components/forms/UpdateAddressInfo'))
-const UpdateProfileInfo = dynamic(() => import('@/components/forms/UpdateProfileInfo'))
-const UpdatePhoneInfo = dynamic(() => import('@/components/forms/UpdatePhoneInfo'))
+const Form = dynamic(() => import('@/components/forms/Form'))
 
 const MyModalEdit = ({resourceId, resourceType, resource}) => {
     const [modalIsOpen, setIsOpen] = useState(false)   
@@ -26,18 +26,14 @@ const MyModalEdit = ({resourceId, resourceType, resource}) => {
                 className={styles.content} 
                 shouldCloseOnOverlayClick={false}                                         
             >
-                {
-                    resourceType === 'address_inf' && 
-                    <UpdateAddressInfo resourceId={resourceId} resourceType={resourceType} address={resource} handleClose={()=> closeModal()}/>
-                }
-                {
-                    resourceType === 'contact_inf' && 
-                    <UpdatePhoneInfo resourceId={resourceId} resourceType={resourceType} phone={resource} handleClose={()=> closeModal()}/>
-                }
-                {
-                    resourceType === 'personal_inf' &&
-                    <UpdateProfileInfo resourceId={resourceId} resourceType={resourceType} name={resource} handleClose={()=> closeModal()}/>
-                }
+                <Form
+                    formType={UPDATE_FORM}
+                    resourceType={resourceType}
+                    handleClose={closeModal}
+                    action={updateUserInfo}
+                    resourceId={resourceId}
+                    resource={resource}
+                />
             </Modal>
         </div>
     )

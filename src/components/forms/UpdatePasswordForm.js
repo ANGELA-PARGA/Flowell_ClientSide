@@ -2,31 +2,22 @@
 
 import styles from './components.module.css'
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { updatePassword } from '@/actions/userRequests';
+import { passwordSchema } from './validations';
 import { toast } from 'react-toastify';
 import { forceLogOut } from '@/lib/forceLogout';
-
-const schema = yup.object({
-    password: yup.string().required('The password is required')
-        .matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/,
-            'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
-    confirmationPassword: yup.string()
-        .oneOf([yup.ref('password')], 'Passwords must match')
-        .required('Please re-type your password')
-});
 
 export default function UpdatePassword({ handleClose, closeModal }) {
     const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, trigger } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(passwordSchema)
     });
 
     const onSubmit = async (data) => {
-        await schema.validate(data);
+        await passwordSchema.validate(data);
         try {
             const response = await updatePassword(data.password);
             if (response.expired) {
@@ -41,11 +32,6 @@ export default function UpdatePassword({ handleClose, closeModal }) {
             setupdateError(error.message);
             toast.error('Failed to update password information');
         }
-    };
-
-    const onCancel = async (e) => {
-        e.preventDefault();
-        closeModal();
     };
 
     return (
@@ -88,7 +74,7 @@ export default function UpdatePassword({ handleClose, closeModal }) {
                         <button type="submit" className="btn_primary_standard btn_sizeS" disabled={isSubmitting}>
                             Update
                         </button>
-                        <button type="button" onClick={(e) => onCancel(e)} className="btn_primary_standard btn_sizeS btn-destructive">
+                        <button type="button" onClick={closeModal} className="btn_primary_standard btn_sizeS btn-destructive">
                             Cancel
                         </button>
                     </div>

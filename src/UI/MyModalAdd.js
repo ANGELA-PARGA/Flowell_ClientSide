@@ -2,10 +2,11 @@
 import {useState} from 'react'
 import dynamic from 'next/dynamic'
 import styles from './components.module.css'
+import { addUserInfo } from '@/store/user/thunks';
+import { ADD_FORM } from '@/const'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
-const AddAddressForm = dynamic(() => import('@/components/forms/AddAddressForm'))
-const AddPhoneForm = dynamic(() => import('@/components/forms/AddPhoneForm'))
+const Form = dynamic(() => import('@/components/forms/Form'))
 
 
 const MyModalAdd = ({resourceType}) => {
@@ -26,12 +27,12 @@ const MyModalAdd = ({resourceType}) => {
                 className={styles.content} 
                 shouldCloseOnOverlayClick={false}                                         
             >
-                {
-                    resourceType === 'address_inf' && <AddAddressForm resourceType={resourceType} handleClose={()=> closeModal()}/>
-                }
-                {
-                    resourceType === 'contact_inf' && <AddPhoneForm resourceType={resourceType} handleClose={()=> closeModal()}/>
-                }                    
+                <Form
+                    formType={ADD_FORM}
+                    resourceType={resourceType}
+                    handleClose={closeModal}
+                    action={addUserInfo}
+                />                   
             </Modal>
         </div>
     )

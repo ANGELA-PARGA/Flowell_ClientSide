@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { clearCart, hydrateCart } from '@/store/cart/slice';
@@ -28,10 +28,11 @@ export function useCartSync() {
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
 
-    const userId = useMemo(() => session?.user?.id, [session?.user?.id]);
+    const userId = session?.user?.id;
 
     const { data: cartData, error } = useGetCartQuery(undefined, {
         skip: status !== 'authenticated' || !userId,
+        refetchOnReconnect: true,
     });
 
     useEffect(() => {

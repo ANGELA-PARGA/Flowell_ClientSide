@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 import { selectUserId, selectUserFirstName, selectUserLastName, selectUserEmail } from '@/store/user/selectors';
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
+import { NAME_RESOURCE } from '@/const';
 
-const MyModalEdit = dynamic(() => import('@/UI/MyModalUpdate'))
+const MyModalEdit = dynamic(() => import('@/UI/MyModalEdit'))
 const MyModalChangePassword = dynamic(() => import('@/UI/MyModalChangePassword'))
 
 /**
@@ -28,10 +29,13 @@ export default function ProfilePersonalInfo() {
                         <p>First name:<span> {firstName}</span></p>
                         <p>Last name:<span> {lastName}</span></p>
                     </div>
-                    <MyModalEdit resourceId={userId} resourceType={'personal_inf'} resource={{
-                            firstName: firstName,
-                            lastName: lastName
-                    }}/>        
+                    <MyModalEdit resourceId={userId} 
+                                resourceType={NAME_RESOURCE} 
+                                resource={{
+                                    first_name: firstName,
+                                    last_name: lastName
+                                }}
+                    />        
                 </div>
                 <div className={`${styles.profile_info_details_container} flex-col-gap`}>
                     <p>Email:<span> {email}</span></p>

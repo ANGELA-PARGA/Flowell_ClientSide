@@ -38,7 +38,7 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
                 await forceLogOut(handleClose);
             } else {
                 handleClose()
-                toast.success(`Delivery date updated succesfully`)  
+                toast.success(`Delivery date updated successfully`)  
             }   
         } catch (error) {
             console.log(error)
@@ -78,7 +78,7 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
                         className={styles.customDatePicker}
                         placeholderText="Select a date"
                     >
-                        <p className={styles.error_updating_info}>We recomend select the delivery day 3 days before the event</p> 
+                        <p className={styles.error_updating_info}>We recommend select the delivery day 3 days before the event</p> 
                     </ReactDatePicker>
                     {errors.delivery_date && <p className={styles.error_updating_info}>{errors.delivery_date.message}</p>}
                 </div>

@@ -2,6 +2,7 @@
 import {useState} from 'react'
 import dynamic from 'next/dynamic'
 import styles from './components.module.css'
+import { ADDRESS_RESOURCE, DATE_RESOURCE } from '@/const'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
 const ChangeOrderDateForm = dynamic(() => import('@/components/forms/ChangeOrderDateForm'))
@@ -26,11 +27,11 @@ const MyModalUpdateOrder = ({data, id, resourceType}) => {
                 shouldCloseOnOverlayClick={false}                                         
             >
                 {
-                    resourceType === 'date' && 
+                    resourceType === DATE_RESOURCE && 
                     <ChangeOrderDateForm id={id} handleClose={()=> closeModal()}/>
                 }
                 {
-                    resourceType === 'address' && 
+                    resourceType === ADDRESS_RESOURCE && 
                     <ChangeOrderShippingForm  data={data} handleClose={()=> closeModal()}/>
                 }
             </Modal>

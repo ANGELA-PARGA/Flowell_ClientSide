@@ -4,17 +4,10 @@ import styles from './components.module.css'
 import {useForm} from 'react-hook-form'
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import * as yup from "yup";
+import { passwordSchema } from './validations';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { recoverPassword } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
-
-const schema = yup.object({
-    password: yup.string().required('The password is required').
-        matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/, 
-        'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
-    confirmationPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Please re-type your password')
-})
 
 export default function SetNewPasswordForm() {  
     const [loginError, setLoginError] = useState();
@@ -24,11 +17,11 @@ export default function SetNewPasswordForm() {
     const status = searchParams.get('status')
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, trigger } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(passwordSchema)
     });
 
     const onSubmit = async (data) => {
-        await schema.validate(data);
+        await passwordSchema.validate(data);
         try {      
             await recoverPassword({...data, status}) 
             setChange(true); 
@@ -42,7 +35,6 @@ export default function SetNewPasswordForm() {
             reset({password: '', confirmationPassword: ''});      
         }
     };
-
 
     return (
         <main className={`${styles.signup_main_container} flex-col-gap-xl`}>
