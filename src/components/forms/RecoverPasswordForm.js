@@ -3,24 +3,19 @@
 import styles from './components.module.css'
 import {useForm} from 'react-hook-form'
 import { useState } from "react";
-import * as yup from "yup";
+import { emailSchema } from './validations';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { sentResetEmail } from '@/actions/userRequests';
 import { toast } from 'react-toastify';
-
-const schema = yup.object({
-    email: yup.string().email('Email format is not valid').required('The email is required')
-})
 
 export default function RecoverPasswordForm({handleClose, setMessage, closeModal}) {  
     const [recoveryError, setRecoveryError] = useState('');
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, trigger } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(emailSchema)
     });
 
     const onSubmit = async (data) => {
-        await schema.validate(data);
         try {
             const response = await sentResetEmail(data);
             setMessage(response.message)
@@ -28,7 +23,7 @@ export default function RecoverPasswordForm({handleClose, setMessage, closeModal
         } catch (error) {
             console.error(error);
             setRecoveryError(error.message)
-            toast.error('Failed to update address information')
+            toast.error('Failed to send reset email')
         }
     }
 

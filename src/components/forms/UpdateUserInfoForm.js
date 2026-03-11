@@ -5,35 +5,35 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaOptions } from './validations';
 import { schemaFields} from './configFormFields';
-import { useFormSubmit } from '@/hooks/useFormSubmit';
-import { UPDATE_FORM, ADD_FORM } from '@/const'
+import { useUpdateFormAction } from '@/hooks/useUpdateFormAction';
+import { UPDATE_FORM, ADD_FORM } from '@/components/forms/const'
 
 
-export default function Form({ 
+export default function UpdateUserInfoForm({ 
     formType,
     resourceType, 
     handleClose, 
     action = null, 
-    resourceId = null, 
     resource = null
 }) {
     const schema = schemaOptions[resourceType]
     const fields = schemaFields[resourceType]
 
-    const { onSubmit, formError } = useFormSubmit(
+    const { onSubmit, formError } = useUpdateFormAction(
         action,
         resourceType,        
-        resourceId,
         handleClose
     );
     
-
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting, isDirty, dirtyFields }, trigger } = useForm({
         resolver: yupResolver(schema),
         defaultValues: (formType === UPDATE_FORM && resource) || {}
     });
 
     const onFormSubmit = async (data) => {
+        console.log('Form data before processing:', data);
+        console.log('Dirty fields:', dirtyFields);
+        console.log('Is form dirty?', isDirty);
         if(formType === UPDATE_FORM && !isDirty) {
             handleClose();
             return;

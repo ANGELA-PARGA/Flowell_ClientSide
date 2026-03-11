@@ -1,18 +1,32 @@
 'use client'
 import {useState} from 'react'
 import dynamic from 'next/dynamic'
-import styles from './components.module.css'
-import { UPDATE_FORM } from '@/const'
 import { updateUserInfo } from '@/store/user/thunks';
+import { useDispatch } from 'react-redux';
+import { UPDATE_FORM } from '@/components/forms/const';
+import styles from './components.module.css'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
-const Form = dynamic(() => import('@/components/forms/Form'))
+const UpdateUserInfoForm = dynamic(() => import('@/components/forms/UpdateUserInfoForm'))
 
-const MyModalEdit = ({resourceId, resourceType, resource}) => {
-    const [modalIsOpen, setIsOpen] = useState(false)   
+const ModalUpdateUserInfo = ({resourceId, resourceType, resource}) => {
+    const [modalIsOpen, setIsOpen] = useState(false)  
+    const dispatch = useDispatch() 
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
+
+    const asyncOperation = async (data) => {
+        return await dispatch(updateUserInfo({
+                data,
+                resourceType,
+                resourceId
+            })).unwrap();
+    }
 
     return (
         <div>
@@ -26,12 +40,11 @@ const MyModalEdit = ({resourceId, resourceType, resource}) => {
                 className={styles.content} 
                 shouldCloseOnOverlayClick={false}                                         
             >
-                <Form
+                <UpdateUserInfoForm
                     formType={UPDATE_FORM}
                     resourceType={resourceType}
                     handleClose={closeModal}
-                    action={updateUserInfo}
-                    resourceId={resourceId}
+                    action={asyncOperation}
                     resource={resource}
                 />
             </Modal>
@@ -39,4 +52,4 @@ const MyModalEdit = ({resourceId, resourceType, resource}) => {
     )
 }
 
-export default MyModalEdit
+export default ModalUpdateUserInfo

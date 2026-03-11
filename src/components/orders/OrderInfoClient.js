@@ -8,9 +8,9 @@ import styles from './components.module.css';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import dynamic from 'next/dynamic';
-import { ADDRESS_RESOURCE, DATE_RESOURCE } from '@/const';
+import { ORDER_SHIPPING_INFO_RESOURCE, DATE_RESOURCE } from '@/components/forms/const';
 
-const MyModalUpdateOrder = dynamic(() => import('@/UI/MyModalUpdateOrder'));
+const ModalUpdateOrder = dynamic(() => import('@/components/modals/ModalUpdateOrder'));
 
 /**
  * Order detail page using hybrid Next.js + Redux pattern
@@ -50,7 +50,7 @@ export default function OrderInfoClient({ initialOrder }) {
                 {
                     order.status !== 'PAID' ?
                     <button type='button' className='btn_primary_standard btn_sizeM disabled-state'>Edit</button> :
-                    <MyModalUpdateOrder id={order.id} resourceType={DATE_RESOURCE} />
+                    <ModalUpdateOrder id={order.id} resourceType={DATE_RESOURCE} />
                 }
             </div>
             <div className={`${styles.orderInfo_subcontainer} flex-col-gap-sm`}>
@@ -79,7 +79,7 @@ export default function OrderInfoClient({ initialOrder }) {
                 {
                     order.status !== 'PAID' ?
                     <button className='btn_primary_standard btn_sizeM disabled-state'>Edit</button> :
-                    <MyModalUpdateOrder data={order} resourceType={ADDRESS_RESOURCE} />
+                    <ModalUpdateOrder data={order.shipping_info} id={order.id} resourceType={ORDER_SHIPPING_INFO_RESOURCE} />
                 }
             </div>
         </section>

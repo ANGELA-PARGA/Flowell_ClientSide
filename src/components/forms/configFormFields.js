@@ -61,6 +61,16 @@ const nameFields = [
     }
 ]
 
+const emailFields = [
+    {
+        key: 'email',
+        label: 'Enter email',
+        type: 'email',
+        placeholder: 'Enter email',
+        onChange: null
+    }
+]
+
 const passwordFields = [
     {
         key: 'password',
@@ -73,6 +83,23 @@ const passwordFields = [
         label: 'Confirm password',
         type: 'password',
         placeholder: 'Confirm password',
+        onChange: null
+    }
+]
+
+const registerFields = [
+    ...nameFields,
+    ...emailFields,
+    ...passwordFields
+]
+
+const loginFields = [
+    ...emailFields,
+    {
+        key: 'password',
+        label: 'Enter password',
+        type: 'password',
+        placeholder: 'Enter password',
         onChange: null
     }
 ]
@@ -124,6 +151,9 @@ export const schemaFields = {
     name: nameFields,
     phone: phoneFields,
     address: addressFields,
+    email: emailFields,
     password: passwordFields,
+    register: registerFields,
+    login: loginFields,
     order: orderFields
 }

@@ -2,11 +2,11 @@
 
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
-import { PHONE_RESOURCE } from '@/const'
+import { PHONE_RESOURCE } from '@/components/forms/const'
 
-const MyModalDelete = dynamic(() => import('@/UI/MyModalDelete'))
-const MyModalAdd = dynamic(() => import('@/UI/MyModalAdd'))
-const MyModalEdit = dynamic(() => import('@/UI/MyModalEdit'))
+const ModalDelete = dynamic(() => import('@/components/modals/ModalDelete'))
+const ModalAdd = dynamic(() => import('@/components/modals/ModalAdd'))
+const ModalUpdateUserInfo = dynamic(() => import('@/components/modals/ModalUpdateUserInfo'))
 
 /**
  * Profile Phone Information Component
@@ -25,13 +25,15 @@ export default function ProfilePhoneInfo({ phones }) {
                         <li key={phone.id || phone.tempId} className={`${styles.profile_info_details_container} flex-col-gap`}>
                             <p>{phone.phone}</p>
                             <div className={styles.profile_info_edition_buttons}>
-                                <MyModalEdit resourceId={phone.id || phone.tempId} 
-                                            resourceType={PHONE_RESOURCE} 
-                                            resource={{ phone: phone.phone }} 
+                                <ModalUpdateUserInfo 
+                                    resourceId={phone.id || phone.tempId} 
+                                    resourceType={PHONE_RESOURCE} 
+                                    resource={{ phone: phone.phone }} 
                                 />
-                                <MyModalDelete type={'Contact'} 
-                                            resourceId={phone.id || phone.tempId} 
-                                            resourceType={PHONE_RESOURCE}
+                                <ModalDelete 
+                                    type={PHONE_RESOURCE} 
+                                    resourceId={phone.id || phone.tempId} 
+                                    resourceType={PHONE_RESOURCE}
                                 />     
                             </div>
                         </li>
@@ -40,14 +42,14 @@ export default function ProfilePhoneInfo({ phones }) {
                     ) : (
                         <>
                         <p className={styles.notUserInfoMessage}>You don't have any phone numbers, please add a phone number</p>
-                        <MyModalAdd resourceType={PHONE_RESOURCE}/> 
+                        <ModalAdd resourceType={PHONE_RESOURCE}/> 
                         </>
                     )}
                 </div>
                 <div>
                     {
                         phones && phones.length < 2 
-                        ? <MyModalAdd resourceType={PHONE_RESOURCE}/> 
+                        ? <ModalAdd resourceType={PHONE_RESOURCE}/> 
                         : null
                     }
                 </div>

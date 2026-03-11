@@ -1,16 +1,30 @@
 'use client'
-import {useState} from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import ButtonDelete from './ButtonDelete'
+import { useDispatch } from 'react-redux';
+import { deleteUserInfo } from '@/store/user/thunks';
+import ButtonDelete from '../../UI/ButtonDelete'
 import styles from './components.module.css'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
 
-const MyModalDelete = ({type, resourceId, resourceType}) => {
-    const [modalIsOpen, setIsOpen] = useState(false) 
+const ModalDelete = ({type, resourceId, resourceType}) => {
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const dispatch = useDispatch()  
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
+
+    const asyncOperation = async () => {
+        return await dispatch(deleteUserInfo({
+                resourceType,
+                resourceId
+            })).unwrap();
+    }
 
     return (
         <div>
@@ -25,7 +39,12 @@ const MyModalDelete = ({type, resourceId, resourceType}) => {
             >
                 <h2>Are you sure you want to delete this information?</h2>
                 <div className='flex-row-gap'>
-                    <ButtonDelete type={type} resourceId={resourceId} resourceType={resourceType} handleClose={()=> closeModal()}/>
+                    <ButtonDelete 
+                        type={type} 
+                        action={asyncOperation} 
+                        resourceType={resourceType} 
+                        handleClose={closeModal}
+                    />
                     <button className='btn_primary_standard btn_sizeS' onClick={closeModal}>Cancel</button>
                 </div>
             </Modal>            
@@ -33,4 +52,4 @@ const MyModalDelete = ({type, resourceId, resourceType}) => {
     )
 }
 
-export default MyModalDelete
+export default ModalDelete

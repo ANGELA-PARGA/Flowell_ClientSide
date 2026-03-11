@@ -2,11 +2,11 @@
 import {useState} from 'react'
 import dynamic from 'next/dynamic'
 import styles from './components.module.css'
-import ButtonLogOutModal from './ButtonLogOutModal'
+import ButtonLogOutModal from '../../UI/ButtonLogOutModal'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
 
-const MyModalLogin = () => {
+const ModalLogin = () => {
     const [modalIsOpen, setIsOpen] = useState(true);        
 
     const closeModal = () => {
@@ -24,10 +24,10 @@ const MyModalLogin = () => {
                 shouldCloseOnOverlayClick={false}
             >
                 <p>Your session expired. Please login again</p>
-                <ButtonLogOutModal handleClose={()=> closeModal()}  />            
+                <ButtonLogOutModal handleClose={closeModal}  />            
             </Modal>
     )
 }
 
-export default MyModalLogin;
+export default ModalLogin;
 

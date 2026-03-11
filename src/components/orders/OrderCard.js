@@ -3,8 +3,9 @@ import styles from './components.module.css'
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import dynamic from "next/dynamic";
+import { ORDER_RESOURCE } from "@/components/forms/const";
 
-const MyModalCancelOrder = dynamic(() => import("@/UI/MyModalCancel"))
+const ModalCancelOrder = dynamic(() => import("@/components/modals/ModalCancel"))
 
 export default function OrderCard({order}) {
     return (
@@ -19,7 +20,7 @@ export default function OrderCard({order}) {
                 <Link href={`/account/orders/${order.id}`}><button className='btn_primary_standard btn_sizeM'>View Order</button></Link>
             </div>
             {
-                (order.status === 'PENDING' || order.status === 'PAID') && <MyModalCancelOrder id={order.id} />
+                (order.status === 'PENDING' || order.status === 'PAID') && <ModalCancelOrder id={order.id} resourceType={ORDER_RESOURCE}/>
             }            
         </li>
     );

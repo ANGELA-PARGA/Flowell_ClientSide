@@ -1,30 +1,19 @@
 'use client'
 
-import { useDispatch } from 'react-redux';
-import { cancelOrderThunk } from '@/store/orders/thunks';
-import { forceLogOut } from '@/lib/forceLogout';
-import { toast } from 'react-toastify';
+import { useUpdateFormAction } from '@/hooks/useUpdateFormAction';
 import styles from './components.module.css'
 
 
-const ButtonCancelOrder = ({id, handleClose}) => {
-    const dispatch = useDispatch();
+const ButtonCancelOrder = ({action, resourceType, handleClose}) => {
+    const { onSubmit } = useUpdateFormAction(
+        action,
+        resourceType,        
+        handleClose
+    );
 
     const handleOnClick = async (e) =>{
         e.preventDefault();
-        handleClose();
-
-        try {
-            await dispatch(cancelOrderThunk({ orderId: id })).unwrap();
-            toast.success('Order cancelled successfully');
-        } catch (error) {
-            if (error === 'Session expired') {
-                toast.error('Your session has expired, please login again');
-                await forceLogOut(handleClose);
-            } else {
-                toast.error('Failed to cancel order');
-            }
-        }        
+        await onSubmit();        
     }
 
     return (

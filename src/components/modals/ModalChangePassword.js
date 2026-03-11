@@ -1,21 +1,25 @@
 'use client'
-import {useState} from 'react'
-import styles from './components.module.css'
+import { useState } from 'react'
+import { updatePassword } from '@/actions/userRequests';
 import dynamic from 'next/dynamic'
+import { UPDATE_FORM } from '@/components/forms/const'
+import styles from './components.module.css'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
-const UpdatePassword = dynamic(() => import('@/components/forms/UpdatePasswordForm'))
+const UpdateUserInfoForm = dynamic(() => import('@/components/forms/UpdateUserInfoForm'))
 
-const MyModalChangePassword = () => {
+const ModalChangePassword = ({resourceType}) => {
     const [modalIsOpen, setIsOpen] = useState(false);    
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false); 
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
 
-    const handleClose = () => {
-        setTimeout(() => {
-            setIsOpen(false);
-        }, 2000);
+    const asyncOperation = async (data) => {
+        return await updatePassword(data.password);
     }
 
     return (                   
@@ -31,10 +35,15 @@ const MyModalChangePassword = () => {
                 shouldCloseOnOverlayClick={true}
             >
                 <h2 className={styles.recover_modalText}>Write and confirm your new password...remember to make it secure</h2>
-                <UpdatePassword handleClose={handleClose} closeModal={closeModal}/>
+                <UpdateUserInfoForm  
+                    formType={UPDATE_FORM} 
+                    resourceType={resourceType} 
+                    handleClose={closeModal} 
+                    action={asyncOperation} 
+                />
             </Modal>
         </div>
     )
 }
 
-export default MyModalChangePassword;
+export default ModalChangePassword;

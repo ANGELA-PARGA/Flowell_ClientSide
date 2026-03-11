@@ -1,0 +1,15 @@
+export const NAME_RESOURCE = 'name';
+export const EMAIL_RESOURCE = 'email';
+export const PHONE_RESOURCE = 'phone';
+export const ADDRESS_RESOURCE = 'address';
+export const DATE_RESOURCE = 'date';
+export const PASSWORD_RESOURCE = 'password';
+export const ORDER_SHIPPING_INFO_RESOURCE = 'order';
+export const ORDER_RESOURCE = 'order';
+export const CHECKOUT_RESOURCE = 'checkout';
+export const ORDER_DELIVERY_DATE_RESOURCE = 'deliveryDate';
+export const UPDATE_FORM = 'update';
+export const ADD_FORM = 'add';
+export const DELETE_FORM = 'delete';
+export const REGISTER_FORM = 'register';
+export const LOGIN_FORM = 'login';

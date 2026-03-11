@@ -2,11 +2,11 @@
 
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
-import { ADDRESS_RESOURCE } from '@/const';
+import { ADDRESS_RESOURCE } from '@/components/forms/const';
 
-const MyModalDelete = dynamic(() => import('@/UI/MyModalDelete'))
-const MyModalAdd = dynamic(() => import('@/UI/MyModalAdd'))
-const MyModalEdit = dynamic(() => import('@/UI/MyModalEdit'))
+const ModalDelete = dynamic(() => import('@/components/modals/ModalDelete'))
+const ModalAdd = dynamic(() => import('@/components/modals/ModalAdd'))
+const ModalUpdateUserInfo = dynamic(() => import('@/components/modals/ModalUpdateUserInfo'))
 
 /**
  * Profile Address Information Component
@@ -30,20 +30,22 @@ export default function ProfileAddressInfo({ addresses }) {
                                 <p>{address.zip_code}</p>
                             </div>
                             <div className={styles.profile_info_edition_buttons}>
-                                <MyModalEdit resourceId={address.id} 
-                                            resourceType={ADDRESS_RESOURCE} 
-                                            resource={
-                                                { 
-                                                    address: address.address, 
-                                                    city: address.city, 
-                                                    state: address.state, 
-                                                    zip_code: address.zip_code 
-                                                }
-                                            }
+                                <ModalUpdateUserInfo 
+                                    resourceId={address.id} 
+                                    resourceType={ADDRESS_RESOURCE} 
+                                    resource={
+                                        { 
+                                            address: address.address, 
+                                            city: address.city, 
+                                            state: address.state, 
+                                            zip_code: address.zip_code 
+                                        }
+                                    }
                                 />
-                                <MyModalDelete type={ADDRESS_RESOURCE} 
-                                                resourceId={address.id} 
-                                                resourceType={ADDRESS_RESOURCE} 
+                                <ModalDelete 
+                                    type={ADDRESS_RESOURCE} 
+                                    resourceId={address.id} 
+                                    resourceType={ADDRESS_RESOURCE} 
                                 />
                             </div>
                         </li>))}
@@ -51,13 +53,13 @@ export default function ProfileAddressInfo({ addresses }) {
                     ) : (
                         <>
                         <p className={styles.notUserInfoMessage}>You don't have any addresses, please add an address</p>
-                        <MyModalAdd resourceType={ADDRESS_RESOURCE}/> 
+                        <ModalAdd resourceType={ADDRESS_RESOURCE}/> 
                         </>
                     )}
                     <div>
                         {
                             addresses && addresses.length < 2 ?
-                            <MyModalAdd resourceType={ADDRESS_RESOURCE}/> 
+                            <ModalAdd resourceType={ADDRESS_RESOURCE}/> 
                             : null
                         }
                     </div>                  

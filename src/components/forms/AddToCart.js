@@ -23,7 +23,7 @@ const schema = yup.object().shape({
 
 const AddToCart = ({id}) => {
     const [hasMounted, setHasMounted] = useState(false);
-    const { status} = useSession();
+    const { status } = useSession();
 
     useEffect(() => { setHasMounted(true); }, []);
     

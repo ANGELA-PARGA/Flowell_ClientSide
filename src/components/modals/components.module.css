@@ -1,0 +1,155 @@
+.spinner {
+    border: var(--border-width-lg) solid var(--background-blue-light); /* Light blue border */
+    border-top: var(--border-width-lg) solid var(--primary-color); /* Blue color */
+    border-radius: var(--border-radius-full);
+    width: var(--spinner-size);
+    height: var(--spinner-size);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay-modal);
+  z-index: var(--z-index-overlay);
+}
+
+.content{
+  position: fixed;
+  top: 25%;
+  left: 15%;
+  right: 15%;
+  width: 70%;
+  padding: var(--spacing-base);
+  border: var(--border-gray);
+  background: var(--background-white);
+  overflow: 'auto';
+  border-radius: var(--border-radius-xs);
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  z-index: var(--z-index-modal);
+}
+
+.button_sign_in_modal{
+  pointer-events: auto;
+}
+
+.delete_button, .change_password_button{
+  width: fit-content;
+}
+
+.recover_modalText{
+  color: var(--text-color);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+}
+
+/*skeleton for loading a product*/
+.skeletonProductContainer, .skeletonCheckoutContainer{
+  width: var(--container-width-full);
+  height: var(--container-height-lg);
+  margin: 0 auto;
+}
+
+.skeletonProductsListContainer{
+  margin-top: var(--margin-top-xl);
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--container-width-lg);
+  display: grid;
+  grid-template-columns: var(--grid-columns-auto-lg);
+  gap: var(--spacing-base);
+}
+
+.loadingProduct{
+  height: var(--image-size-xxl);
+}
+
+.skeletonCheckoutContainer{
+  height: var(--container-height-full);
+}
+
+.skeletonOrderContainer, .loadingPersonalInfo, .loadingCartInfo{
+  width: var(--container-width-full);
+  height: var(--container-height-full);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--button-width-lg);
+  gap: var(--spacing-base)
+}
+
+.loadingPersonalInfo, .loadingCartInfo{
+  width: var(--container-width-half);
+}
+
+.loadingProductImage{
+  width: 40%; 
+}
+
+.loadingProductInformation{
+  width: var(--container-width-sm);
+}
+
+.loadingProductCheckout{
+  display: flex;
+  width: var(--container-width-full);
+  gap: var(--spacing-base);
+}
+
+.loadingProductImage, .loadingProduct, .loadingProductInformation, .loadingOrderNumber, .loadingPersonalInfo, .loadingProductCheckout{
+  background-color: var(--skeleton-bg);
+  border-radius: var(--border-radius-lg);  
+}
+
+/*recover password button*/
+.recover_password_link{
+  border: none;
+  background: none;
+  background-color: none;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+.recover_password_link:hover{
+  text-decoration: underline;
+}
+
+.sent_email_confirmation{
+  color: var(--error-color);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+@media screen and (max-width: 468px) {
+  .content{
+    width: 90%;   
+    left: 5%;
+    right: 5%;
+  }   
+  .skeletonCheckoutContainer{
+    flex-direction: column;
+  } 
+  .loadingCartInfo, .loadingPersonalInfo{
+    width: var(--container-width-full);
+  }
+}
+
+@media (max-width: 430px) {
+  .skeletonProductsListContainer{   
+      grid-template-columns: var(--grid-columns-auto-sm);
+  }
+}

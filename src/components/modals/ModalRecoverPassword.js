@@ -1,23 +1,32 @@
 'use client'
-import {useState} from 'react'
+import { useState } from 'react'
+import { sentResetEmail } from '@/actions/userRequests'
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
 const RecoverPasswordForm = dynamic(() => import('@/components/forms/RecoverPasswordForm'))
 
-const MyModalRecoverPassword = () => {
+const ModalRecoverPassword = () => {
     const [modalIsOpen, setIsOpen] = useState(false); 
-    const [message, setMessage] = useState('');     
+    const [message, setMessage] = useState('')
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false); 
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
 
     const handleClose = () => {
         setTimeout(() => {
-            setIsOpen(false);
+            modalIsOpen && setIsOpen(false);
             setMessage('')
         }, 5000);
+    }
+
+    const asyncOperation = async (data) => {
+        return await sentResetEmail(data.password);
     }
 
     return (                   
@@ -40,5 +49,5 @@ const MyModalRecoverPassword = () => {
     )
 }
 
-export default MyModalRecoverPassword;
+export default ModalRecoverPassword;
 

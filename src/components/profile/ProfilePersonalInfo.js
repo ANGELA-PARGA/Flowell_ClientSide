@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import { selectUserId, selectUserFirstName, selectUserLastName, selectUserEmail } from '@/store/user/selectors';
 import styles from './components.module.css'
 import dynamic from 'next/dynamic'
-import { NAME_RESOURCE } from '@/const';
+import { NAME_RESOURCE, PASSWORD_RESOURCE } from '@/components/forms/const';
 
-const MyModalEdit = dynamic(() => import('@/UI/MyModalEdit'))
-const MyModalChangePassword = dynamic(() => import('@/UI/MyModalChangePassword'))
+const ModalUpdateUserInfo = dynamic(() => import('@/components/modals/ModalUpdateUserInfo'))
+const ModalChangePassword = dynamic(() => import('@/components/modals/ModalChangePassword'))
 
 /**
  * Profile Personal Information Component
@@ -29,17 +29,20 @@ export default function ProfilePersonalInfo() {
                         <p>First name:<span> {firstName}</span></p>
                         <p>Last name:<span> {lastName}</span></p>
                     </div>
-                    <MyModalEdit resourceId={userId} 
-                                resourceType={NAME_RESOURCE} 
-                                resource={{
-                                    first_name: firstName,
-                                    last_name: lastName
-                                }}
+                    <ModalUpdateUserInfo 
+                        resourceId={userId} 
+                        resourceType={NAME_RESOURCE} 
+                        resource={{
+                            first_name: firstName,
+                            last_name: lastName
+                        }}
                     />        
                 </div>
                 <div className={`${styles.profile_info_details_container} flex-col-gap`}>
                     <p>Email:<span> {email}</span></p>
-                    <MyModalChangePassword/>
+                    <ModalChangePassword
+                        resourceType={PASSWORD_RESOURCE} 
+                    />
                 </div>
             </div>
         </section>

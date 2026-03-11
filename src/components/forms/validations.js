@@ -5,6 +5,27 @@ export const nameSchema = yup.object({
     last_name: yup.string().required('The last name is required'),
 });
 
+export const emailSchema = yup.object({
+    email: yup.string().email('Email format is not valid').required('The email is required')
+});
+
+export const passwordSchema = yup.object({
+    password: yup.string().required('The password is required')
+        .matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/,
+            'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
+    confirmationPassword: yup.string()
+        .oneOf([yup.ref('password')], 'Passwords must match')
+        .required('Please re-type your password')
+});
+
+export const registerSchema = nameSchema.concat(emailSchema).concat(passwordSchema);
+
+export const loginSchema = emailSchema.concat(
+    yup.object({
+        password: yup.string().required('The password is required')
+    })
+);
+
 export const phoneSchema = yup.object({
     phone: yup
         .string()
@@ -29,15 +50,6 @@ export const addressSchema = yup.object({
     }),
 });
 
-export const passwordSchema = yup.object({
-    password: yup.string().required('The password is required')
-        .matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*\s).{8,30}$/,
-            'The password must contain: 1 number, 1 uppercase letter, 1 lowercase letter, 1 special character, minimum of 8 characters, maximum of 30 characters'),
-    confirmationPassword: yup.string()
-        .oneOf([yup.ref('password')], 'Passwords must match')
-        .required('Please re-type your password')
-});
-
 export const checkoutSchema = yup.object().shape({
     phone: yup.string().required('Please select a phone number'),
     address_info: yup.string().required('Please select a shipping address'),
@@ -49,6 +61,12 @@ export const checkoutSchema = yup.object().shape({
 });
 
 export const orderSchema = yup.object().shape({
+    address: yup.string().required('The address is required'),
+    city: yup.string().required('The city is required'),
+    state: yup.string().required('The state is required'),
+    zip_code: yup.string().required('The zip code is required').test('valid_zip_code', 'The zip code must be valid', (value) => {
+        return /^[0-9]{5}$/.test(value); 
+    }),  
     phone: yup.string().required('The phone is required and must be valid')
         .transform((value) => {
             const cleaned = ('' + value).replace(/\D/g, '');
@@ -57,13 +75,7 @@ export const orderSchema = yup.object().shape({
                 return '(' + match[1] + ') ' + match[2] + '-' + match[3];
             }
             return value;
-        }).matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'The phone number must be valid'),
-    address: yup.string().required('The address is required'),
-    city: yup.string().required('The city is required'),
-    state: yup.string().required('The state is required'),
-    zip_code: yup.string().required('The zip code is required').test('valid_zip_code', 'The zip code must be valid', (value) => {
-        return /^[0-9]{5}$/.test(value); 
-    }),  
+        }).matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'The phone number must be valid')
 });
 
 export const deliveryDateSchema = yup.object().shape({   
@@ -74,7 +86,10 @@ export const schemaOptions = {
     name: nameSchema,
     phone: phoneSchema,
     address: addressSchema,
+    email: emailSchema,
     password: passwordSchema,
+    register: registerSchema,
+    login: loginSchema,
     deliveryDate: deliveryDateSchema,
     checkout: checkoutSchema,
     order: orderSchema

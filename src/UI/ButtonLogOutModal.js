@@ -20,7 +20,10 @@ export default function ButtonLogOutModal({ handleClose }) {
     };
 
     return (
-        <button className={`${styles.button_sign_in_modal} btn_primary_standard btn_sizeS`} onClick={() => onClickLogOut()}>
+        <button 
+            className={`${styles.button_sign_in_modal} btn_primary_standard btn_sizeS`} 
+            onClick={onClickLogOut}
+        >
             Login
         </button>
     );

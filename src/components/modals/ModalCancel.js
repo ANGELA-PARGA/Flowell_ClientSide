@@ -1,17 +1,29 @@
 'use client'
-import {useState} from 'react'
-import ButtonCancelOrder from './ButtonCancelOrder'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { cancelOrderThunk } from '@/store/orders/thunks';
+import ButtonCancelOrder from '../../UI/ButtonCancelOrder'
 import dynamic from 'next/dynamic'
 import styles from './components.module.css'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
 
-const MyModalCancelOrder = ({id}) => {
+const ModalCancelOrder = ({id, resourceType}) => {
     const [modalIsOpen, setIsOpen] = useState(false) 
+    const dispatch = useDispatch() 
     
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const asyncOperation = async () => {
+        return await dispatch(cancelOrderThunk({
+                orderId: id
+            })).unwrap();
+    }
 
     return (
         <div>
@@ -26,7 +38,11 @@ const MyModalCancelOrder = ({id}) => {
             >
                 <h2 className={styles.modalText}>Are you sure you want to cancel this order? This cannot be undone</h2>
                 <div className='flex-row-gap'>
-                    <ButtonCancelOrder id={id} handleClose={()=> closeModal()}/>
+                    <ButtonCancelOrder 
+                        action={asyncOperation}
+                        resourceType={resourceType}
+                        handleClose={closeModal}
+                    />
                     <button className='btn_primary_standard btn_sizeS' onClick={closeModal}>Keep order</button>
                 </div>                
             </Modal>
@@ -34,4 +50,4 @@ const MyModalCancelOrder = ({id}) => {
     )
 }
 
-export default MyModalCancelOrder
+export default ModalCancelOrder;

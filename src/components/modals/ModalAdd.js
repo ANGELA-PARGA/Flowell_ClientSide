@@ -1,19 +1,32 @@
 'use client'
-import {useState} from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import styles from './components.module.css'
+import { useDispatch } from 'react-redux';
 import { addUserInfo } from '@/store/user/thunks';
-import { ADD_FORM } from '@/const'
+import { ADD_FORM } from '@/components/forms/const'
+import styles from './components.module.css'
 
 const Modal = dynamic(() => import('react-modal'), {ssr:false})
-const Form = dynamic(() => import('@/components/forms/Form'))
+const UpdateUserInfoForm = dynamic(() => import('@/components/forms/UpdateUserInfoForm'))
 
 
-const MyModalAdd = ({resourceType}) => {
+const ModalAdd = ({resourceType}) => {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch() 
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = () => {
+        !modalIsOpen && setIsOpen(true);
+    }
+    const closeModal = () => {
+        modalIsOpen && setIsOpen(false);
+    }
+
+    const asyncOperation = async (data) => {
+        return await dispatch(addUserInfo({
+                data,
+                resourceType,
+            })).unwrap();
+    }
 
     return (
         <div>
@@ -21,21 +34,21 @@ const MyModalAdd = ({resourceType}) => {
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                contentLabel="Confirm update resource information"
+                contentLabel="Confirm add resource information"
                 ariaHideApp={false}
                 overlayClassName={styles.overlay}
                 className={styles.content} 
                 shouldCloseOnOverlayClick={false}                                         
             >
-                <Form
+                <UpdateUserInfoForm
                     formType={ADD_FORM}
                     resourceType={resourceType}
                     handleClose={closeModal}
-                    action={addUserInfo}
+                    action={asyncOperation}
                 />                   
             </Modal>
         </div>
     )
 }
 
-export default MyModalAdd
+export default ModalAdd

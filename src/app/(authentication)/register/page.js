@@ -1,8 +1,9 @@
-import RegisterUserForm from "@/components/forms/RegisterUserForm";
+import { registerUser } from "@/actions/registerUser";
+import AuthForm from "@/components/forms/AuthForm";
+import { REGISTER_FORM } from "@/components/forms/const";
 
-export default function Singup() {  
-
+export default function Register() {  
   return (
-    <RegisterUserForm/>
+    <AuthForm action={registerUser} authType={REGISTER_FORM}/>
   );
 }

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import userInitialState from '@/store/user/state';
 import { fetchUserInfo, updateUserInfo, addUserInfo, deleteUserInfo } from '@/store/user/thunks';
-import { NAME_RESOURCE, PHONE_RESOURCE, ADDRESS_RESOURCE } from '@/const';
+import { NAME_RESOURCE, PHONE_RESOURCE, ADDRESS_RESOURCE } from '@/components/forms/const';
 
 const userSlice = createSlice({ 
     name: 'user',
