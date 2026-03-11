@@ -48,7 +48,7 @@ export const checkoutSchema = yup.object().shape({
     delivery_date: yup.date().required('Please select a delivery date').nullable(),
 });
 
-export const newOrderSchema = yup.object().shape({
+export const orderSchema = yup.object().shape({
     phone: yup.string().required('The phone is required and must be valid')
         .transform((value) => {
             const cleaned = ('' + value).replace(/\D/g, '');
@@ -77,5 +77,5 @@ export const schemaOptions = {
     password: passwordSchema,
     deliveryDate: deliveryDateSchema,
     checkout: checkoutSchema,
-    order: newOrderSchema
+    order: orderSchema
 };

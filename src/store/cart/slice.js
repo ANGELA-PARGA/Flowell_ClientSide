@@ -10,7 +10,13 @@ const cartSlice = createSlice({
         },
 
         hydrateCart: (state, action) => {
-            return { ...state, ...action.payload, isLoading: false };
+            state.id = action.payload.id;
+            state.items = action.payload.items || [];
+            state.total = action.payload.total || 0;
+            state.total_items = action.payload.total_items || 0;
+            state.isLoading = false;
+            state.error = null;
+            state.lastUpdated = Date.now();
         },
 
         /**

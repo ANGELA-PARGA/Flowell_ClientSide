@@ -1,38 +1,22 @@
 'use client'
 
-import { updateOrderShippingInfo } from '@/actions/ordersRequest';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
+import { orderSchema } from './validations';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from 'react-toastify';
 import { forceLogOut } from '@/lib/forceLogout';
+import { updateOrderShipping } from '@/store/orders/thunks';
 import styles from './components.module.css';
 
-const schema = yup.object().shape({
-    phone: yup.string().required('The phone is required and must be valid')
-        .transform((value) => {
-            const cleaned = ('' + value).replace(/\D/g, '');
-            const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-            if (match) {
-                return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-            }
-            return value;
-        }).matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'The phone number must be valid'),
-    address: yup.string().required('The address is required'),
-    city: yup.string().required('The city is required'),
-    state: yup.string().required('The state is required'),
-    zip_code: yup.string().required('The zip code is required').test('valid_zip_code', 'The zip code must be valid', (value) => {
-        return /^[0-9]{5}$/.test(value); 
-    }),  
-});
-
-const ChangeOrderShippingForm = ({ data, handleClose }) => {
+const ChangeOrderShippingForm = ({ data, id, handleClose }) => {
+    const dispatch = useDispatch();
     const [updateError, setupdateError] = useState();
 
     const { register, handleSubmit, formState: { errors, isSubmitting, isDirty, dirtyFields }, trigger, setValue } = useForm({
-        resolver: yupResolver(schema),
-        defaultValues: data.shipping_info
+        resolver: yupResolver(orderSchema),
+        defaultValues: data
     });
 
     const onSubmit = async (formData) => {
@@ -46,26 +30,25 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
             return;
         }
 
-        await schema.validate(formData);         
-        try {
-            const response = await updateOrderShippingInfo(updatedData, data.id);
-            if (response.expired) {
-                toast.error('Your session has expired, please login again');
-                await forceLogOut(handleClose);
-            } else {
-                handleClose();
-                toast.success(`Shipping information updated successfully`);                  
-            } 
-        } catch (error) {
-            console.log(error);
-            setupdateError(error.message);
-            toast.error('Failed to update the order shipping information, try again');  
-        }        
-    };
-
-    const handleOnCancel = (e) => {
-        e.preventDefault();
+        await orderSchema.validate(formData);
         handleClose();
+
+        try {
+            await dispatch(updateOrderShipping({ 
+                orderId: id, 
+                data: updatedData 
+            })).unwrap();
+            
+            toast.success('Shipping information updated successfully');
+        } catch (error) {
+            if (error === 'Session expired') {
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to update the order shipping information, try again');
+            }
+            setupdateError(error);
+        }        
     };
     
     const handlePhoneChange = (e) => {
@@ -129,7 +112,7 @@ const ChangeOrderShippingForm = ({ data, handleClose }) => {
                 </div>
                 <div className={`${styles.buttons_profile_container} flex-row-gap`}>
                     <button type="submit" className="btn_primary_standard btn_sizeS alignCenter" disabled={isSubmitting}>Update</button>
-                    <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={(e) => handleOnCancel(e)}>Cancel</button>
+                    <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={handleClose}>Cancel</button>
                 </div>
                 <div>
                     <p className={styles.error_updating_info}>{updateError}</p>

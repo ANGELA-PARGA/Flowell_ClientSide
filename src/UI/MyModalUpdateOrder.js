@@ -28,11 +28,11 @@ const MyModalUpdateOrder = ({data, id, resourceType}) => {
             >
                 {
                     resourceType === DATE_RESOURCE && 
-                    <ChangeOrderDateForm id={id} handleClose={()=> closeModal()}/>
+                    <ChangeOrderDateForm id={id} handleClose={closeModal}/>
                 }
                 {
                     resourceType === ADDRESS_RESOURCE && 
-                    <ChangeOrderShippingForm  data={data} handleClose={()=> closeModal()}/>
+                    <ChangeOrderShippingForm  data={data.shipping_info} id={data.id} handleClose={closeModal}/>
                 }
             </Modal>
         </div>

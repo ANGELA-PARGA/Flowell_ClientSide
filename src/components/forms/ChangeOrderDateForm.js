@@ -1,57 +1,49 @@
 'use client'
 
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
+import { deliveryDateSchema } from './validations';
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
 import addDays from "date-fns/addDays";
 import addBusinessDays from "date-fns/addBusinessDays";
 import getDay from "date-fns/getDay";
-import { updateOrderDeliverydateInfo } from '@/actions/ordersRequest';
 import { forceLogOut } from '@/lib/forceLogout';
+import { updateOrderDeliveryDate } from '@/store/orders/thunks';
 import { toast } from 'react-toastify';
 import styles from './components.module.css';
 
-const schema = yup.object().shape({   
-    delivery_date: yup.date().required('Please select a delivery date').nullable(),
-});
-
 const ChangeOrderDateForm = ({id, handleClose}) => {
+    const dispatch = useDispatch();
     const [updateError, setupdateError] = useState();
 
     const { handleSubmit, formState: { errors, isSubmitting }, setValue, watch} = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(deliveryDateSchema)
     });
 
     const onSubmit = async (formData) => {
-        await schema.validate(formData)
-        const delivery_info = {
-            ...formData,
-        }
+        handleClose();
 
         try {
-            const response = await updateOrderDeliverydateInfo(delivery_info, id);
-            if(response.expired){
-                toast.error('Your session has expired, please login again')
-                await forceLogOut(handleClose);
-            } else {
-                handleClose()
-                toast.success(`Delivery date updated successfully`)  
-            }   
+            await dispatch(updateOrderDeliveryDate({ 
+                orderId: id, 
+                data: formData 
+            })).unwrap();
+            
+            toast.success('Delivery date updated successfully');
         } catch (error) {
-            console.log(error)
-            setupdateError(error.message)
-            toast.error('Failed to update the delivery date, try again') 
+            if (error === 'Session expired') {
+                toast.error('Your session has expired, please login again');
+                await forceLogOut();
+            } else {
+                toast.error('Failed to update the delivery date, try again');
+            }
+            setupdateError(error);
         }        
     }
-
-    const handleOnCancel = (e) =>{
-        e.preventDefault();
-        handleClose();
-    }
-    
+   
     const handleDateChange = (date) => {
         setValue('delivery_date', date, { shouldValidate: true }); 
     };
@@ -85,7 +77,7 @@ const ChangeOrderDateForm = ({id, handleClose}) => {
             </div>  
             <div className={`${styles.buttons_profile_container} flex-row-gap`}>
                 <button type='submit' disabled={isSubmitting} className="btn_primary_standard btn_sizeS alignCenter">Update</button>
-                <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={(e) => handleOnCancel(e)}>Cancel</button>
+                <button type='button' className="btn_primary_standard btn_sizeS btn-destructive" onClick={handleClose}>Cancel</button>
             </div>         
             <div>
                 <p className={styles.error_updating_info}>{updateError}</p>

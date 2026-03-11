@@ -12,18 +12,13 @@ const userSlice = createSlice({
             state.first_name = action.payload.first_name;
             state.last_name = action.payload.last_name;
             state.email = action.payload.email;
-            state.phone = action.payload.phones;
-            state.address = action.payload.addresses;
+            state.phone = action.payload.phones || [];
+            state.address = action.payload.addresses || [];
             state.lastUpdated = Date.now(); 
         },
         clearUser: (state) => {
             console.log('[userSlice] clearUser - Clearing user (session expired)');
-            state.id = null;
-            state.first_name = null;
-            state.last_name = null;
-            state.email = null;
-            state.phone = null;
-            state.address = null;
+            return userInitialState;
         },
         restoreUserSnapshot: (state, action) => {
             console.log('[userSlice] restoreUserSnapshot - Restoring state from snapshot');
@@ -32,8 +27,8 @@ const userSlice = createSlice({
             state.first_name = snapshot.first_name;
             state.last_name = snapshot.last_name;
             state.email = snapshot.email;
-            state.phone = snapshot.phone;
-            state.address = snapshot.address;
+            state.phone = snapshot.phone || [];
+            state.address = snapshot.address || [];
             state.lastUpdated = Date.now();
         },
         updateUserInfoLocally: (state, action) => {
@@ -66,15 +61,9 @@ const userSlice = createSlice({
             console.log('[userSlice] addUserInfoLocally:', { resourceType, data });
             
             if (resourceType === PHONE_RESOURCE) {
-                if(!state.phone){
-                    state.phone = [];
-                }
                 state.phone.push(data);
                 console.log('[userSlice] addUserInfoLocally - Phone added, tempId:');
             } else if (resourceType === ADDRESS_RESOURCE) {
-                if(!state.address){
-                    state.address = [];
-                }
                 state.address.push(data);
                 console.log('[userSlice] addUserInfoLocally - Address added, tempId:');
             }
@@ -108,8 +97,8 @@ const userSlice = createSlice({
             state.first_name = action.payload.first_name;
             state.last_name = action.payload.last_name;
             state.email = action.payload.email;
-            state.phone = action.payload.phones;
-            state.address = action.payload.addresses;
+            state.phone = action.payload.phones || [];
+            state.address = action.payload.addresses || [];
             state.isLoading = false;
             state.lastUpdated = Date.now();
         })
@@ -202,7 +191,6 @@ export const {
     setUser,
     clearUser,
     restoreUserSnapshot,
-    hydrateUser,
     updateUserInfoLocally,
     addUserInfoLocally,
     deleteUserInfoLocally,

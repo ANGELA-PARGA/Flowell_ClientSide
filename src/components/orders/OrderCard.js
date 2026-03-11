@@ -19,7 +19,7 @@ export default function OrderCard({order}) {
                 <Link href={`/account/orders/${order.id}`}><button className='btn_primary_standard btn_sizeM'>View Order</button></Link>
             </div>
             {
-                order.status === 'PENDING' || order.status === 'PAID' && <MyModalCancelOrder id={order.id} />
+                (order.status === 'PENDING' || order.status === 'PAID') && <MyModalCancelOrder id={order.id} />
             }            
         </li>
     );

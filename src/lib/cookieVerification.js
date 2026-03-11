@@ -1,12 +1,11 @@
 'use server'
 
 import { cookies } from "next/headers";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { getSessionUser } from "./getSessionUser";
 import { createSessionExpiredResponse } from "@/lib/authResponses";
 
 export async function cookieVerification(){
-    const session = await getServerSession(authOptions);
+    const session = await getSessionUser();
     if (!session) {
         return createSessionExpiredResponse('No active NextAuth session');
     }
@@ -25,7 +24,7 @@ export async function cookieVerification(){
 }
 
 export async function cookieFetchVerification() {
-    const session = await getServerSession(authOptions);
+    const session = await getSessionUser();
     if (!session) {
         return createSessionExpiredResponse('No active NextAuth session');
     }

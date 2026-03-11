@@ -21,7 +21,6 @@ export default function Form({
     const fields = schemaFields[resourceType]
 
     const { onSubmit, formError } = useFormSubmit(
-        schema,
         action,
         resourceType,        
         resourceId,
@@ -29,15 +28,34 @@ export default function Form({
     );
     
 
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, trigger } = useForm({
-        resolver: yupResolver(schema)
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting, isDirty, dirtyFields }, trigger } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: (formType === UPDATE_FORM && resource) || {}
     });
+
+    const onFormSubmit = async (data) => {
+        if(formType === UPDATE_FORM && !isDirty) {
+            handleClose();
+            return;
+        }
+
+        const updatedData = Object.keys(dirtyFields).reduce((acc, key) => {
+            acc[key] = data[key];
+            return acc;            
+        }, {});
+
+        if(formType === ADD_FORM) {
+            await onSubmit(data);
+            return;
+        }
+        await onSubmit(updatedData);
+    }
 
 
     return (
         <section>
             <div className={`${styles.update_info_container} flex-col-gap-sm`}>
-                <form onSubmit={handleSubmit(onSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>
+                <form onSubmit={handleSubmit(onFormSubmit)} className={`${styles.update_form} flex-col-gap-sm`}>
                     {
                         fields.map(({ key: keyField, label, type, placeholder, onChange }) => (
                             <div key={keyField} className={`${styles.update_form_input_container} flex-col-gap-sm`}>
@@ -46,7 +64,6 @@ export default function Form({
                                     type={type}
                                     name={keyField}
                                     id={keyField}
-                                    {...(formType === UPDATE_FORM && { defaultValue: resource ? resource[keyField] : '' })}
                                     {...(formType === ADD_FORM && { placeholder: placeholder })}
                                     onBlur={() => {
                                         trigger(keyField);

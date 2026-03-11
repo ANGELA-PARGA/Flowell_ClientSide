@@ -1,12 +1,10 @@
-import OrderCard from "@/components/orders/OrderCard";
 import { fetchAllOrdersByUser } from "@/lib/fetchingUserInfo"; 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import styles from '../page.module.css'
+import { getSessionUser } from "@/lib/getSessionUser";
 import { redirect } from "next/navigation";
+import OrdersPageClient from './OrdersPageClient';
 
 export default async function Orders() {
-  const session = await getServerSession(authOptions);
+  const session = await getSessionUser();
   if (!session) {
     redirect('/login');
   }
@@ -17,16 +15,5 @@ export default async function Orders() {
     redirect('/login');
   }
 
-  return (
-    <section className='flex-col-gap'>
-      <h3>My Orders</h3>
-      {orders.orders.length > 0 ? (
-        <ul className={styles.ordersListContainer}>
-        {orders.orders.map((order) => (
-          <OrderCard order={order} key={order.id}/>
-        ))}
-        </ul>
-        ):(<h4 className={styles.notUserOrdersMessage}>You don't have any orders. Go ahead and place one!</h4>)}         
-    </section>
-  )
+  return <OrdersPageClient initialOrders={orders.orders} />;
 }

@@ -26,7 +26,6 @@ export default function ProfilePageClient({ initialUserData }) {
     const addresses = useSelector(selectUserAddresses);
     const phones = useSelector(selectUserPhones);
 
-    // Create stable dependency key that detects deep changes in server data
     const userDataKey = useMemo(
         () => JSON.stringify(initialUserData),
         [initialUserData]
@@ -37,8 +36,6 @@ export default function ProfilePageClient({ initialUserData }) {
     useEffect(() => {
         if (!initialUserData) return;
 
-        // Always hydrate on mount (no userId in Redux yet)
-        // OR when server data represents a different user
         const shouldHydrate = !userId || userId !== initialUserData.id;
 
         if (shouldHydrate) {

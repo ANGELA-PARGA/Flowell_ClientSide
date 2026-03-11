@@ -37,7 +37,6 @@ export const fetchUserInfo = createAsyncThunk(
 
 /**
  * Updates personal information of the user
- * Supports automatic cancellation via AbortController
  * Implements optimistic updates for instant UI feedback
  */
 export const updateUserInfo = createAsyncThunk(
@@ -76,7 +75,6 @@ export const updateUserInfo = createAsyncThunk(
 
 /**
  * Adds new personal information for the user
- * Supports automatic cancellation via AbortController
  * Implements optimistic updates for instant UI feedback
  */
 export const addUserInfo = createAsyncThunk(
@@ -118,7 +116,6 @@ export const addUserInfo = createAsyncThunk(
 
 /**
  * Deletes personal information of the user
- * Supports automatic cancellation via AbortController
  * Implements optimistic updates for instant UI feedback
  */
 export const deleteUserInfo = createAsyncThunk(

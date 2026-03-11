@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { makeStore } from './index';
 import { useCartSync } from '@/hooks/useCartSync';
 import { useUserSync } from '@/hooks/useUserSync';
+import { useOrdersSync } from '@/hooks/useOrdersSync';
 
 /**
  * Internal component to run sync hooks
@@ -13,6 +14,7 @@ import { useUserSync } from '@/hooks/useUserSync';
 function SyncProvider({ children }) {
     useCartSync(); 
     useUserSync(); 
+    useOrdersSync();
     
     return <>{children}</>;
 }

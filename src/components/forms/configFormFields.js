@@ -77,9 +77,53 @@ const passwordFields = [
     }
 ]
 
+const orderFields = [
+    {
+        key: 'address',
+        label: 'Enter the address',
+        type: 'text',
+        placeholder: 'Enter your address',
+        onChange: null
+    },{
+        key: 'city',
+        label: 'Enter the city',
+        type: 'text',
+        placeholder: 'Enter the city',
+        onChange: null
+    },{
+        key: 'state',
+        label: 'Enter the state',
+        type: 'text',
+        placeholder: 'Enter the state',
+        onChange: null
+    },{
+        key: 'zip_code',
+        label: 'Enter the zip code',    
+        type: 'text',
+        placeholder: 'Enter the zip code',
+        onChange: null
+    },{
+        key: 'phone',
+        label: 'Enter phone number',
+        type: 'text',
+        placeholder: 'Enter phone number',
+        onChange: (e, setValue) => {
+            const cleaned = ('' + e.target.value).replace(/\D/g, '');
+            const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+            if (match) {
+                const formattedPhone = '(' + match[1] + ') ' + match[2] + '-' + match[3];
+                setValue('phone', formattedPhone, { shouldValidate: true });
+            } else {
+                setValue('phone', e.target.value, { shouldValidate: true });
+            }
+        }
+    }
+]
+
 export const schemaFields = {
     name: nameFields,
     phone: phoneFields,
     address: addressFields,
-    password: passwordFields
+    password: passwordFields,
+    order: orderFields
 }

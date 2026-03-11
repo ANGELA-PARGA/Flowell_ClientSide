@@ -3,13 +3,12 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import { forceLogOut } from '@/lib/forceLogout';
 
-export function useFormSubmit(schema, action, resourceType, resourceId, handleClose) {
+export function useFormSubmit(action, resourceType, resourceId, handleClose) {
     const [formError, setFormError] = useState();
     const dispatch = useDispatch() 
 
     const onSubmit = async (data) => {
-        console.log(`[Update ${resourceType}] onSubmit - Entry:`, data);
-        await schema.validate(data);        
+        console.log(`[Update ${resourceType}] onSubmit - Entry:`, data);      
         handleClose();        
         try {
             await dispatch(action({

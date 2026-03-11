@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
+import { checkoutSchema } from './validations';
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
@@ -14,29 +14,19 @@ import { toast } from 'react-toastify';
 import styles from './components.module.css';
 import { executeDelayedLogout } from '@/lib/clientLogout';
 
-const schema = yup.object().shape({
-    phone: yup.string().required('Please select a phone number'),
-    address_info: yup.string().required('Please select a shipping address'),
-    address: yup.string().required(), 
-    city: yup.string().required(),
-    state: yup.string().required(),
-    zip_code: yup.string().required(),   
-    delivery_date: yup.date().required('Please select a delivery date').nullable(),
-});
-
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = ({data}) => {
     const [updateError, setupdateError] = useState();    
     const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, watch} = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(checkoutSchema)
     });
 
     const onSubmit = async (formData) => {
         const shipping_info = {
             ...formData,
         }
-        await schema.validate(shipping_info)
+        await checkoutSchema.validate(shipping_info)
 
         try {            
             const stripeCheckoutUrl = await createNewOrder(shipping_info);
